@@ -1,0 +1,54 @@
+﻿@model ScopoERP.Production.ViewModel.MachineViewModel
+@{
+    ViewBag.Title = "Update Machine";
+}
+
+<div class="col-sm-offset-3 col-sm-6">
+    <section class="panel">
+        <header class="panel-heading">
+            Update Machine
+        </header>
+        <div class="panel-body">
+
+            @using (Html.BeginForm("Edit", "Machine", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary(true)
+                @Html.HiddenFor(model => model.MachineID)
+
+                <div class="form-group">
+                    <label class="col-lg-4 col-sm-4 control-label">Machine Category</label>
+                    <div class="col-lg-8">
+                        @Html.DropDownListFor(model => model.MachineCategoryID, ViewBag.MachineCategory as SelectList, "", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.MachineCategoryID)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-4 col-sm-4 control-label">Machine Code</label>
+                    <div class="col-lg-8">
+                        @Html.TextBoxFor(model => model.MachineCode, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.MachineCode)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-4 col-sm-4 control-label">Machine Description</label>
+                    <div class="col-lg-8">
+                        @Html.TextBoxFor(model => model.MachineDescription, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.MachineDescription)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-offset-4 col-lg-4">
+                        @Html.ActionLink("Cancel", "Index", "Machine", null, new { @class = "btn btn-block btn-default" })
+                    </div>
+                    <div class="col-lg-4">
+                        <input type="submit" class="btn btn-block btn-primary" value="Save" />
+                    </div>
+                </div>
+            }
+
+        </div>
+    </section>
+</div>

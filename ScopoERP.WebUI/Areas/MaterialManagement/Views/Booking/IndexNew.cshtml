@@ -1,0 +1,230 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<style>
+    .table-scroll {
+        overflow-x: scroll;
+        height: 315px;
+    }
+
+        .table-scroll table {
+            overflow-y: scroll;
+        }
+
+            .table-scroll table thead tr th,
+            .table-sc-scroll table thead tr th {
+                background-color: #eaeaea;
+                color: #6e6e6e;
+            }
+
+            .table-scroll table tbody tr td,
+            .table-sc-scroll table tbody tr td {
+                padding: 0px;
+            }
+
+                .table-scroll table tbody tr td select,
+                .table-scroll table tbody tr td input,
+                .table-sc-scroll table tbody tr td select,
+                .table-sc-scroll table tbody tr td input {
+                    margin: 0px;
+                    border: none;
+                }
+
+                    .table-scroll table tbody tr td input[readonly] {
+                        /*border: 1px solid #EEEEEE;*/
+                    }
+
+                .table-scroll table tbody tr td .form-control {
+                    padding: 0;
+                    text-align: center;
+                    width: 150px;
+                }
+
+            .table-scroll table thead tr th {
+                text-align: center;
+            }
+
+    .select2-container, .select2-drop, .select2-search, .select2-search input {
+        box-sizing: border-box;
+        width: 100%;
+    }
+</style>
+<div class="col-sm-12" ng-app="booking.controllers.new" ng-controller="bookingControllerNew" ng-init="init()">
+    <toaster-container toaster-options="{ 'close-button':true}"></toaster-container>
+    <section class="panel">
+        <header class="panel-heading"> Search Booking </header>
+        <div class="panel-body">
+            <div>
+                <form class="form-inline" role="form">
+                    <div class="form-group">
+                        <label class="control-label" for="cboStyle">Reference No</label>
+                        <select ui-select2="refernceNoOptions" data-placeholder="Select Reference No" ng-model="searchBooking.piID" ng-change="refernceNoDropDownChange()" style="width:300px;">
+                            <option value="">Select Reference No</option>
+                            <option ng-repeat="c in searchCriteria.piDropDown" value="{{ c.Value }}">{{ c.Text }}</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section class="panel">
+        <header class="panel-heading"> Search Criteria </header>
+        <div class="panel-body">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="cboStyle">Style</label>
+                    <div class="col-md-10">
+                        <select ui-select2="styleOptions" multiple data-placeholder="Select Styles" ng-model="searchCriteria.multipleStyle" ng-change="styleDropDownChange()" class="" style="width:100%;">
+                            <option ng-repeat="c in searchCriteria.multipleStyleDropDown" value="{{ c.Value }}">{{ c.Text }}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">Purchase Order</label>
+                    <div class="col-md-10">
+                        <select ui-select2 multiple data-placeholder="Select Purchase Orders" ng-model="searchCriteria.multiplePO" ng-change="poDropDownChange()" class="" style="width:100%;">
+                            <option ng-repeat="c in searchCriteria.multiplePODropDown" value="{{ c.Value }}">{{ c.Text }}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">Item</label>
+                    <div class="col-md-10">
+                        <select ui-select2 ng-model="searchCriteria.item" class="" style="width:100%;">
+                            <option value="">Select Item</option>
+                            <option ng-repeat="c in searchCriteria.itemDropDown" value="{{ c.Value }}">{{ c.Text }}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-8 col-md-4">
+                    <input type="button" class="btn btn-block btn-primary" ng-click="searchBookingButtonClick()" value="Search Booking" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="panel" ng-show="isWorksheetShow">
+        <header class="panel-heading"> Worksheet Details </header>
+        <div class="panel-body">
+
+            <div class="form-group">
+                <div class="costsheetGrid">
+                    <div class="table-scroll">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Purchase Order No</th>
+                                    <th>Item Code</th>
+                                    <th>Item</th>
+                                    <th>Item Size</th>
+                                    <th>Item Color</th>
+                                    <th>Total Quantity</th>
+                                    <th>Consumption Unit</th>
+                                    <th>Unit Cost</th>
+                                    <th>Total Price</th>
+                                    <th>Reference No</th>
+                                </tr>
+                            </thead>
+                            <tbody ng-repeat="(key, value) in worksheetGridData | groupBy: 'ItemID'">
+                                <tr ng-repeat="c in value">
+                                    <td><input type="text" class="form-control" readonly="" value="{{c.PONo}}" /></td>
+                                    <td><input type="text" class="form-control" readonly="" value="{{c.ItemCode}}" /></td>
+                                    <td><input type="text" class="form-control" readonly="" value="{{c.ItemDescription}}" /></td>
+                                    <td><input type="text" class="form-control" readonly="" value="{{c.ItemSize}}" /></td>
+                                    <td><input type="text" class="form-control" readonly="" value="{{c.ItemColor}}" /></td>
+                                    <td><input type="text" class="form-control" value="{{c.TotalQuantity}}" /></td>
+                                    <td><input type="text" class="form-control" readonly="" value="{{c.ConsumptionUnitName}}" /></td>
+                                    <td><input type="text" class="form-control" readonly="" value="{{c.UnitPrice}}" /></td>
+                                    <td><input type="text" class="form-control" readonly="" value="{{c.TotalQuantity * c.UnitPrice}}" /></td>
+                                    <td><input type="text" class="form-control" readonly="" value="{{c.ReferenceNo}}" /></td>
+                                </tr>
+                                <tr><td></td><td></td><td></td><td></td><td></td>
+                                    <td><input type="text" class="form-control" value="" /></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-3">
+                    <h3 class="label label-info">Last Revised Number: {{ RevisionNo }}</h3>
+                </div>
+
+                <label class="control-label col-md-2">Total Quantity</label>
+                <div class="col-md-2">
+                    <input type="text" class="form-control" ng-model="grandTotalQuantityForRevise" ng-keyup="changeAllRowTotalQuantityForRevise()" />
+                </div>
+
+                <div class="col-md-offset-1 col-md-4">
+                    <input type="button" class="btn btn-block btn-primary" value="Revise" ng-click="reviseBooking()" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="panel" ng-show="isBookingShow">
+        <header class="panel-heading"> Summarized Booking </header>
+        <div class="panel-body">
+
+            <div class="form-group">
+                <div class="costsheetGrid">
+                    <div class="gridStyle" ng-grid="bookingGridOptions">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-md-4">
+                        <select ui-select2="refernceNoOptions" ng-options="c.Value as c.Text for c in referenceNoDropDown track by c.Value" ng-model="referenceNoDropDownVal" class="" style="width:100%;">
+                            <option value="">Select Reference No</option>
+                        </select>
+                    </div>
+                    <label class="control-label col-md-2">Total Quantity</label>
+                    <div class="col-md-2">
+                        <input type="text" class="form-control" ng-model="grandTotalQuantity" ng-keyup="changeAllRowTotalQuantity()" />
+                    </div>
+                    <div class="col-md-4">
+                        <input type="button" class="btn btn-block btn-primary" value="Create Booking" ng-click="createBooking()" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    @*<script type="text/ng-template" id="SupplierAndReferenceModal.html">
+            <div class="modal-header">
+                <h3 class="modal-title">Supplier and Reference No</h3>
+            </div>
+            <div class="modal-body">
+                <select ui-select2 ng-model="supplierDropDownVal" class="" style="width:100%;">
+                    <option value="">Select Supplier</option>
+                    <option ng-repeat="c in supplierDropDown" value="{{ c.Value }}">{{ c.Text }}</option>
+                </select>
+                <br /><br /><br />
+                <select ui-select2 ng-model="referenceNoDropDownVal" class="" style="width:100%;">
+                    <option value="">Select Reference No</option>
+                    <option ng-repeat="c in referenceNoDropDown" value="{{ c.Value }}">{{ c.Text }}</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-click="modalOkButton()">OK</button>
+                <button class="btn btn-warning" ng-click="modalCancelButton()">Cancel</button>
+            </div>
+        </script>*@
+</div>
+@Html.Partial("_angular")
+<script src="~/Scripts/app/services/booking.services.js"></script>
+<script src="~/Scripts/app/controllers/booking.controllers.new.js"></script>

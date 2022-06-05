@@ -1,0 +1,45 @@
+﻿@model ScopoERP.Reports.ViewModel.ReportFilteringViewModel
+
+@{
+    ViewBag.Title = "Monthly Financial Report";
+}
+
+<div class="col-sm-offset-2 col-sm-8">
+    <section class="panel">
+        <header class="panel-heading">
+            Search Criteria
+        </header>
+        <div class="panel-body">
+
+            @using (Html.BeginForm("MonthlyFinancialReport", "Report", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary(true)
+            
+                <div class="form-group">
+                    <label class="col-lg-3 col-sm-3 control-label">From Date</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.FromDate, new { @class = "form-control default-date-picker" })
+                    </div>
+
+                    <label class="col-lg-3 col-sm-3 control-label">To Date</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.ToDate, new { @class = "form-control default-date-picker" })
+                    </div>
+                </div>
+
+                <hr />
+                
+                <div class="form-group">
+                    <div class="col-lg-offset-6 col-lg-3">
+                        <input type="reset" class="btn btn-block btn-default" />
+                    </div>
+                    <div class="col-lg-3">
+                        <input type="submit" class="btn btn-block btn-primary" value="Preview" />
+                    </div>
+                </div>
+            }
+
+        </div>
+    </section>
+</div>
+

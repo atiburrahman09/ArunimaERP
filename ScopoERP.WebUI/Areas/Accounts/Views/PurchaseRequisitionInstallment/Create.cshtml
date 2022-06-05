@@ -1,0 +1,90 @@
+﻿@model ScopoERP.Accounts.ViewModel.PurchaseRequisitionInstallmentViewModel
+@{
+    ViewBag.Title = "Create";
+}
+
+<div class="col-sm-offset-1 col-sm-10">
+    <section class="panel">
+        <header class="panel-heading">
+            Add Purchase Requisition Installment
+        </header>
+        <div class="panel-body">
+
+            @using (Html.BeginForm("Create", "PurchaseRequisitionInstallment", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary(true)
+
+                <div class="form-group">
+                    <label class="col-xs-3 control-label">Rrequisition No</label>
+                    <div class="col-xs-3">
+                        @Html.DropDownListFor(model => model.PurchaseRequisitionID, ViewBag.requisitionList as SelectList, "", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.PurchaseRequisitionID)
+                    </div>
+                
+                    <label class="col-xs-3 control-label">Requisition Amount</label>
+                    <div class="col-xs-3">
+                        @Html.TextBox("TotalAmount", null, new { @class = "form-control", @readonly = true })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-3 control-label">Installment Amount</label>
+                    <div class="col-xs-3">
+                        @Html.TextBoxFor(model => model.Amount, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Amount)
+                    </div>
+               
+                    <label class="col-xs-3 control-label">Installment Date</label>
+                    <div class="col-xs-3">
+                        @Html.TextBoxFor(model => model.InstallmentDate, new { @class = "form-control default-date-picker" })
+                        @Html.ValidationMessageFor(model => model.InstallmentDate)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-3 control-label">Payable Amount</label>
+                    <div class="col-xs-3">
+                        @Html.TextBoxFor(model => model.PayableAmount, new { @class = "form-control", @readonly = true })
+                        @Html.ValidationMessageFor(model => model.PayableAmount)
+                    </div>
+               
+                    <label class="col-xs-3 control-label">Payable Date</label>
+                    <div class="col-xs-3">
+                        @Html.TextBoxFor(model => model.PayableDate, new { @class = "form-control default-date-picker" })
+                        @Html.ValidationMessageFor(model => model.PayableDate)
+                    </div>
+                </div>
+                
+                <hr />
+
+                <div class="form-group">
+                    <div class="col-lg-offset-4 col-lg-4">
+                        @Html.ActionLink("Cancel", "Index", "PurchaseRequisitionInstallment", null, new { @class = "btn btn-block btn-default" })
+                    </div>
+                    <div class="col-lg-4">
+                        <input type="submit" class="btn btn-block btn-primary" value="Save" />
+                    </div>
+                </div>
+            }
+
+        </div>
+    </section>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        
+        $('#PurchaseRequisitionID').on('change', function () {
+            $.getJSON('\GetTotalAmount', { purchaseRequisitionID: $(this).val() }, function (res) {
+                $('#TotalAmount').val('');
+                $('#TotalAmount').val(res);
+            });
+        });
+
+
+        $('#Amount').on('change', function () {
+            $('#PayableAmount').val($('#TotalAmount').val() - $(this).val());
+        });
+    })
+</script>

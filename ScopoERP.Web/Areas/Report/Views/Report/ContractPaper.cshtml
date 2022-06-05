@@ -1,0 +1,125 @@
+﻿@model ScopoERP.Reports.ViewModel.ReportFilteringViewModel
+
+@{
+    ViewBag.Title = "Contract Paper";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header no-border">
+                <h3>Contract Paper</h3>
+            </div>
+            <div class="card-body">
+                @using (Html.BeginForm("ContractPaper", "Report", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                    @Html.ValidationSummary(true)
+                    @Html.HiddenFor(model => model.ContractNo)
+                    
+
+                    <div class="form-group row">
+                        <label class="col-lg-4">Contract No</label>
+                        <div class="col-lg-8">
+                            @Html.DropDownListFor(model => model.JobID, ViewBag.Contract as SelectList, "", new { @class = "combo-box form-control select2" })
+                            @Html.ValidationMessageFor(model => model.JobID)
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-lg-4">Contract Date</label>
+                        <div class="col-lg-8">
+                            @Html.TextBoxFor(model => model.ContractDate, new { @class = "form-control datepicker", autocomplete="off" })
+                            @Html.ValidationMessageFor(model => model.ContractDate)
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-lg-4">Amendment No</label>
+                        <div class="col-lg-8">
+                            @Html.TextBoxFor(model => model.AmendmentNo, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.AmendmentNo)
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-lg-4">Amendment Date</label>
+                        <div class="col-lg-8">
+                            @Html.TextBoxFor(model => model.AmendmentDate, new { @class = "form-control datepicker",autocomplete="off" })
+                            @Html.ValidationMessageFor(model => model.AmendmentDate)
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-lg-4">Previous Quantity</label>
+                        <div class="col-lg-8">
+                            @Html.TextBoxFor(model => model.PreviousQuantity, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.PreviousQuantity)
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-lg-4">Previous Value</label>
+                        <div class="col-lg-8">
+                            @Html.TextBoxFor(model => model.PreviousValue, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.PreviousValue)
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-lg-4 ">Destination</label>
+                        <div class="col-lg-8">
+                            @Html.TextAreaFor(model => model.Destination, new { @class = "form-control", @Style = "height:100px!important" })
+                            @Html.ValidationMessageFor(model => model.Destination)
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-lg-4">Destination Changed Text</label>
+                        <div class="col-lg-8">
+                            @Html.TextAreaFor(model => model.DestinationChangedText, new { @class = "form-control", @Style = "height:50px!important" })
+                            @Html.ValidationMessageFor(model => model.DestinationChangedText)
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-lg-4">Template</label>
+                        <div class="col-lg-8">
+                            <select class="form-control select2" name="Decision">
+                                <option value="1">VF-DMC-ASWL</option>
+                                <option value="2">VF-DMC</option>
+                                <option value="3">GAP-DMC</option>
+                                <option value="4">GAP-DMC-ASWL</option>
+                                <option value="5">GAP-ASWL</option>
+                                <option value="6">Matalan-ASWL</option>
+                                <option value="7">Matalan-DMC</option>
+                                <option value="8">PGI-ASWL</option>                                
+                                <option value="9">PGI-DMC</option>
+                            </select>
+                        </div>
+                    </div>
+                    <hr />
+
+                    <div class="form-group row">
+                        <div class="col-lg-4">
+                            <input type="reset" class="btn btn-block btn-default" />
+                        </div>
+                        <div class="col-lg-4">
+                            <input type="submit" class="btn btn-block btn-primary" value="Preview" />
+                        </div>
+                    </div>
+            }
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#JobID').change(function () {
+
+            $('#ContractNo').val($('#JobID option:selected').text());
+        });
+    })
+</script>

@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "Realization";
+}
+
+<div class="col-sm-12">
+
+    <p>
+        @Html.ActionLink("Details", "Details", "Realization", null, new { @class = "btn btn-lg btn-primary" })
+    </p>
+
+    @using Telerik.Web.Mvc.UI
+
+    @( Html.Telerik().Grid<ScopoERP.Finance.ViewModel.RealizationViewModel>()
+        .Name("RealizationGrid")
+        .DataKeys(dataKeys => dataKeys.Add(k => k.RealizationID))
+                        .DataBinding(dataBinding => dataBinding.Ajax().Select("GetAllRealizations", "Realization"))
+        .Columns(columns =>
+        {
+            columns.Bound(c => c.BankForwardingNo).Width(200);
+            columns.Bound(c => c.FDBPNo).Width(200);
+            columns.Bound(c => c.RealizationDate).Format("{0:dd-MMM-yyyy}").Width(100);
+            columns.Bound(c => c.CurrencyRate).Width(100);
+            columns.Bound(c => c.TotalRealizedValue).Width(150);
+        })
+        .ColumnContextMenu()
+        .Resizable(r => r.Columns(true))
+        .Reorderable(r => r.Columns(true))
+        .KeyboardNavigation()
+        .Filterable()
+        .Pageable(p => p.PageSize(10))
+        .Selectable()
+        .Sortable()
+    )
+
+</div>

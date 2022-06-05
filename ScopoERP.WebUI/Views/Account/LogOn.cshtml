@@ -1,0 +1,30 @@
+﻿@model ScopoERP.Models.LogOnModel
+@{
+    ViewBag.Title = "Log On";
+    Layout = "~/Views/Shared/_LogInLayoutPage.cshtml";
+}
+
+@*<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>*@
+
+@using (Html.BeginForm("LogOn", "Account", FormMethod.Post, new { @class = "form-signin", @id = "login" }))
+{
+    <h2 class="form-signin-heading">sign in now</h2>
+
+    <div class="login-wrap">
+        <div class="user-login-info">
+            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @placeholder = "Username", @autofocus = "", @required = "" })
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password", @required = "" })
+        </div>
+
+        @Html.ValidationSummary(false)
+
+        <button class="btn btn-lg btn-login btn-block" type="submit">Sign in</button>
+        @*<div class="registration">
+            Don't have an account yet?
+            <a class="" href="register">
+                Create an account
+            </a>
+        </div>*@
+    </div>
+}

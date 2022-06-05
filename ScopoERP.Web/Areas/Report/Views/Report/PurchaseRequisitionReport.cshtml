@@ -1,0 +1,44 @@
+﻿@model ScopoERP.Reports.ViewModel.ReportFilteringViewModel
+
+@{
+    ViewBag.Title = "Purchase Requisition Report";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header no-border">
+                <h3 class="card-title"> Purchase requisition Report</h3>
+            </div>
+            <div class="card-body">
+
+                <div class="">
+
+                    @using (Html.BeginForm("PurchaseRequisitionReport", "Report", FormMethod.Post, new { @class = "form-horizontal" }))
+                    {
+                        @Html.ValidationSummary(true)
+
+                        <div class="form-group row">
+                            <label class="col-md-4">Requisition No</label>
+                            <div class="col-md-8">
+                                @Html.DropDownListFor(model => model.PurchaseRequisitionID, ViewBag.purchaseRequisitionList as SelectList, "Select a Requisition No", new { @class = "form-control select2" })
+                                @Html.ValidationMessageFor(model => model.PurchaseRequisitionID)
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="form-group row">
+                            <div class="col-md-4">
+                                <input type="reset" class="btn btn-block btn-default" />
+                            </div>
+                            <div class="col-md-4">
+                                <input type="submit" class="btn btn-block btn-primary" value="Preview" />
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

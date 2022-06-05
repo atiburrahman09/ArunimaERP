@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = "DailyStatus";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+<div ng-app="scopoApp">
+    <div class="row" ng-controller="prodStatReportCtrl" ng-init="init()">
+
+
+
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h3>Daily Sewing Report</h3>
+                    <canvas id="myChart" width="200" height="100"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+

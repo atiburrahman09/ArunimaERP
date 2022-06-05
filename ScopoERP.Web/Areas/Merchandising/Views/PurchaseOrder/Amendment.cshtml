@@ -1,0 +1,87 @@
+﻿@{
+    ViewBag.Title = "Amendment";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive" ng-if="context.get('amendment')">
+                    <table class="table table-bordered table-condensed table-fixed-header no-wrap">
+                        <thead>
+                            <tr>
+                                <th>Style No</th>
+                                <th>Cost Sheet</th>
+                                <th>Purchase Order No</th>
+                                <th>Order Quantity</th>
+                                <th>Agreed CM</th>
+                                <th>Freight On Board</th>
+                                <th>SubContract Rate</th>
+                                <th>Factory CM</th>
+                                <th>Original CRD</th>
+                                <th>Exit Date</th>
+                                <th>Factory</th>
+                                <th>Season</th>
+                                <th>Remarks</th>
+                                <th>Current Status</th>
+                                <th>Ship Mode</th>
+                                <th>Dc Code</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="po in bulkPurchaseOrder">
+                                <td>
+                                    <select ng-options="style.Value as style.Text for style in styleList"
+                                            ng-model="po.StyleID" class="form-control" required>
+                                        <option value="">Select Style</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select ng-options="cs.ValueString as cs.Text for cs in csList"
+                                            class="form-control"
+                                            ng-model="po.CostSheetNo"></select>
+                                </td>
+                                <td><input type="text" class="form-control" ng-model="po.PurchaseOrderNo" /></td>
+                                <td><input type="number" class="form-control" ng-model="po.OrderQuantity" /></td>
+                                <td><input type="text" class="form-control" ng-model="po.AgreedCM" /></td>
+                                <td><input type="text" class="form-control" ng-model="po.FOB" /></td>
+                                <td><input type="text" class="form-control" ng-model="po.SubContractRate" /></td>
+                                <td><input type="text" class="form-control" ng-model="po.FactoryCM" /></td>
+                                <td>
+                                    <input type="text" class="form-control datepicker"
+                                           ng-model="po.OriginalCRD" is-open="po.OriginalCRD" datepicker-options="dateOptions" close-text="Close"
+                                           required placeholder="Original CRD" />
+                                    @*<input type="text" class="form-control datepicker" ng-model="po.OriginalCRD" />*@
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control datepicker"
+                                           ng-model="po.ExitDate" is-open="po.ExitDate" datepicker-options="dateOptions" close-text="Close"
+                                           required placeholder="Exit Date" />
+                                    @*<input type="text" class="form-control datepicker" ng-model="po.ExitDate" /></td>*@
+                                <td>
+                                    <select ng-options="factory.Value as factory.Text for factory in factoryList"
+                                            ng-model="po.FactoryID" class="form-control"></select>
+                                </td>
+                                <td>
+                                    <select ng-options="season.Value as season.Text for season in seasonList"
+                                            ng-model="po.SeasonID" class="form-control"></select>
+                                </td>
+                                <td><input type="text" class="form-control" ng-model="po.Remarks    " /></td>
+                                <td>
+                                    <select ng-options="currentStatus.Value as currentStatus.Text for currentStatus in currentStatusList"
+                                            ng-model="po.CurrentStatus" class="form-control"></select>
+                                </td>
+                                <td>
+                                    <select ng-model="po.ShipMode" ng-options="sh.id as sh.ShipMode for sh in shipModes" class="form-control">
+                                        <option value="">Select Ship Mode</option>
+                                    </select>
+                                </td>
+                                <td><input type="text" class="form-control" ng-model="po.DCCode" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

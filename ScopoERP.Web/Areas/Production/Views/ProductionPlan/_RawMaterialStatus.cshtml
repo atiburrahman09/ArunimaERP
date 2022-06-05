@@ -1,0 +1,28 @@
+﻿@model IEnumerable<ScopoERP.ProductionStatus.ViewModel.RawMaterialStatusViewModel>
+
+<table class="table">
+    <tr>
+        <th>Item Category</th>
+        <th>Item</th>
+        <th>Total Quantity</th>
+        <th>Current Status</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ItemCategoryName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ItemDescription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalQuantity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CurrentStatus)
+        </td>
+    </tr>
+}
+
+</table>

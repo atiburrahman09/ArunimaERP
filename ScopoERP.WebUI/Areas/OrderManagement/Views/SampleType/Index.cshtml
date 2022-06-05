@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "Sample Type";
+}
+
+<div class="col-sm-12">
+
+    <p>
+        @Html.ActionLink("Create New Sample Type", "Create", "SampleType", null, new { @class = "btn btn-lg btn-primary" })
+    </p>
+
+    @using Telerik.Web.Mvc.UI
+
+    @( Html.Telerik().Grid<ScopoERP.OrderManagement.ViewModel.SampleTypeViewModel>()
+        .Name("SampleTypeGrid")
+        .DataKeys(dataKeys => dataKeys.Add(k => k.SampleTypeID))
+        .DataBinding(dataBinding => dataBinding.Ajax().Select("GetAllSampleType", "SampleType"))
+        .Columns(columns =>
+        {
+            columns.Bound(c => c.SampleTypeID).ClientTemplate(
+                Html.ActionLink("Edit", "Edit", new { id = "<#= SampleTypeID #>" }, new { @class = "t-button" }).ToHtmlString()
+            )
+            .Width(50).Title("").Filterable(false);
+
+            columns.Bound(c => c.SampleTypeName).Width(750);
+        })
+        .ColumnContextMenu()
+        .Resizable(r => r.Columns(true))
+        .Reorderable(r => r.Columns(true))
+        .KeyboardNavigation()
+        .Filterable()
+        .Pageable(p => p.PageSize(10))
+        .Selectable()
+        .Sortable()
+    )
+
+</div>

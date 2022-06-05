@@ -1,0 +1,144 @@
+﻿@model IEnumerable<ScopoERP.Reports.ViewModel.WIPViewModel>
+@{
+    ViewBag.Title = "WIP";
+}
+
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header no-border">
+                <h3> Work In Progress Report</h3>
+            </div>
+            <div class="card-body">
+                @using (Html.BeginForm("WIPExport", "Report", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                    @Html.ValidationSummary(true)
+
+                    <div class="form-group row">
+                        <label class="col-lg-3">From Date</label>
+                        <div class="col-lg-3">
+                            @Html.TextBox("FromDate", null, new { @class = "form-control datepicker", autocomplete = "off", required = "required" })
+                        </div>
+
+                        <label class="col-lg-3">To Date</label>
+                        <div class="col-lg-3">
+                            @Html.TextBox("ToDate", null, new { @class = "form-control datepicker", autocomplete = "off", required = "required" })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-lg-9"></div>
+                        <div class="col-lg-3">
+                            <input type="submit" class="btn btn-block btn-primary details" value="Search" />
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group row" >
+                    <div class="col-md-2 pull-right">
+                        <button type="button" class="btn btn-primary btn-block waves-effect waves-light pull-right download">Excel Download</button>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <table class="table table-bordered table-striped" style="display:inline-block;overflow:auto;height:700px;" id="WipTable">
+                        <thead>
+                            <tr>
+                                <th>Buyer Name</th>
+                                <th>CustomerName</th>
+                                <th>AccountName</th>
+                                <th>JobNo</th>
+                                <th>Contract No</th>
+                                <th>Devision Name</th>
+                                <th>Style No</th>
+                                <th>Style Desc.</th>
+                                <th>Febrication</th>
+                                <th>BodyStyle</th>
+                                <th>Item</th>
+                                <th>Capacity</th>
+                                <th>PoNo</th>
+                                <th>Remarks</th>
+                                <th>OrderQuantity</th>
+                                <th>ExitDate</th>
+                                <th>FactoryName</th>
+                                <th>SeasonName</th>
+                                <th>ActualCM</th>
+                                <th>AgreedCm</th>
+                                <th>TotalAgreedCm</th>
+                                <th>Fob</th>
+                                <th>TotalFob</th>
+                                <th>SubContractRate</th>
+                                <th>FactoryCM</th>
+                                <th>CurrentStatus</th>
+                                <th>TotalCutting</th>
+                                <th>TotalSewing</th>
+                                <th>BalanceSewing</th>
+                                <th>TotalShipment</th>
+                                <th>BalanceShipQty</th>
+                                <th>TotalShippedValue</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.BuyerName</td>
+                                    <td>@item.CustomerName</td>
+                                    <td>@item.AccountName</td>
+                                    <td>@item.JobNo</td>
+                                    <td>@item.ContractNo</td>
+                                    <td>@item.DevisionName</td>
+                                    <td>@item.StyleNo</td>
+                                    <td>@item.StyleDescription</td>
+                                    <td>@item.Febrication</td>
+                                    <td>@item.BodyStyle</td>
+                                    <td>@item.Item</td>
+                                    <td>@item.Capacity</td>
+                                    <td>@item.PoNo</td>
+                                    <td>@item.Remarks</td>
+                                    <td>@item.OrderQuantity</td>
+                                    <td>@item.ExitDate</td>
+                                    <td>@item.FactoryName</td>
+                                    <td>@item.SeasonName</td>
+                                    <td>@item.ActualCM</td>
+                                    <td>@item.AgreedCm</td>
+                                    <td>@item.TotalAgreedCM</td>
+                                    <td>@item.Fob</td>
+                                    <td>@item.TotalFob</td>
+                                    <td>@item.SubContractRate</td>
+                                    <td>@item.FactoryCM</td>
+                                    <td>@item.CurrentStatus</td>
+                                    <td>@item.TotalCutting</td>
+                                    <td>@item.TotalSewing</td>
+                                    <td>@item.BalanceSewing</td>
+                                    <td>@item.TotalShipMent</td>
+                                    <td>@item.BalanceShipQty</td>
+                                    <td>@item.TotalShippedValue</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $(".download").click(function () {
+            //alasql('SELECT AccountNo, BudgetAmount INTO XLSX("' + new Date().toLocaleDateString() + ' BudgetData.xlsx",{sheetid:"Data", headers:true}) FROM HTML("#budgetTable",{headers:true})');
+            alasql('SELECT * INTO XLSX("' + new Date().toLocaleDateString() + ' WIP.xlsx",{headers:true}) \
+                    FROM HTML("#WipTable",{headers:true})')
+        });
+
+        });
+
+</script>
+

@@ -1,0 +1,101 @@
+﻿@model ScopoERP.OrderManagement.ViewModel.StyleViewModel
+
+@{
+    ViewBag.Title = "Update Style";
+}
+
+<div class="col-sm-12">
+    <section class="panel">
+        <header class="panel-heading">
+            Update Style
+        </header>
+        <div class="panel-body">
+
+            @using (Html.BeginForm("Edit", "Style", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary(true)
+                @Html.HiddenFor(model => model.StyleID)
+                
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">Buyer</label>
+                    <div class="col-lg-3">
+                        @Html.DropDownListFor(model => model.BuyerID, ViewBag.Buyer as SelectList, "", new { @class = "combo-box" })
+                        @Html.ValidationMessageFor(model => model.StyleNo)
+                    </div>
+
+                    <label class="col-lg-2 col-sm-2 control-label">Customer</label>
+                    <div class="col-lg-3">
+                        @Html.DropDownListFor(model => model.CustomerID, ViewBag.Customer as SelectList, "", new { @class = "combo-box" })
+                        @Html.ValidationMessageFor(model => model.CustomerID)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">Style No</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.StyleNo, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.StyleNo)
+                    </div>
+
+                    <label class="col-lg-2 col-sm-2 control-label">Style Description</label>
+                    <div class="col-lg-3">
+                        @Html.TextAreaFor(model => model.StyleDescription, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.StyleDescription)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">Febrication</label>
+                    <div class="col-lg-3">
+                        @Html.TextAreaFor(model => model.Febrication, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Febrication)
+                    </div>
+
+                    <label class="col-lg-2 col-sm-2 control-label">Division</label>
+                    <div class="col-lg-3">
+                        @Html.DropDownListFor(model => model.DivisionID, ViewBag.Division as SelectList, "", new { @class = "combo-box" })
+                        @Html.ValidationMessageFor(model => model.DivisionID)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">Capacity</label>
+                    <div class="col-lg-2">
+                        @Html.TextBoxFor(model => model.Capacity, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Capacity)
+                    </div>
+
+                    <label class="col-lg-3 col-sm-3 control-label">SAM</label>
+                    <div class="col-lg-2">
+                        @Html.TextBoxFor(model => model.SAM, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.SAM)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">Body Style</label>
+                    <div class="col-lg-3">
+                        @Html.TextAreaFor(model => model.BodyStyle, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.BodyStyle)
+                    </div>
+
+                    <label class="col-lg-2 col-sm-2 control-label">Item</label>
+                    <div class="col-lg-3">
+                        @Html.TextAreaFor(model => model.Item, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Item)
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="form-group">
+                    <div class="col-lg-offset-6 col-lg-2">
+                        @Html.ActionLink("Cancel", "Index", "Style", null, new { @class = "btn btn-block btn-default" })
+                    </div>
+                    <div class="col-lg-2">
+                        <input type="submit" class="btn btn-block btn-primary" value="Save" />
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+</div>

@@ -1,0 +1,46 @@
+﻿@model ScopoERP.Production.ViewModel.ProductionFloorViewModel
+
+@{
+    ViewBag.Title = "Create Production Floor";
+}
+
+<div class="col-sm-offset-3 col-sm-6">
+    <section class="panel">
+        <header class="panel-heading">
+            Create New Production Floor
+        </header>
+        <div class="panel-body">
+
+            @using (Html.BeginForm("Create", "ProductionFloor", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary(true)
+
+                <div class="form-group">
+                    <label class="col-lg-4 col-sm-4 control-label">Floor</label>
+                    <div class="col-lg-8">
+                        @Html.TextBoxFor(model => model.Floor, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Floor)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-4 col-sm-4 control-label">Line</label>
+                    <div class="col-lg-8">
+                        @Html.TextBoxFor(model => model.Line, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Line)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-offset-4 col-lg-4">
+                        @Html.ActionLink("Cancel", "Index", "ProductionFloor", null, new { @class = "btn btn-block btn-default" })
+                    </div>
+                    <div class="col-lg-4">
+                        <input type="submit" class="btn btn-block btn-primary" value="Save" />
+                    </div>
+                </div>
+            }
+
+        </div>
+    </section>
+</div>

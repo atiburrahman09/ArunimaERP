@@ -1,0 +1,54 @@
+﻿body {
+    color: #333 !important;
+}
+
+form.ng-submitted .ng-invalid {
+    border: 1px solid #ff6a00 !important;
+}
+
+form.ng-submitted .select2-selection__rendered {
+    border: 1px solid #ff6a00 !important;
+}
+
+.alertify, .alertify * {
+    z-index: 90000;
+}
+
+table.no-wrap > tbody > tr > td, table.no-wrap > thead > tr > th {
+    /*white-space: normal;*/
+}
+
+.card {
+    margin-bottom: 10px !important;
+}
+
+.page-titles {
+    padding-bottom: 0px !important;
+}
+
+
+.pull-left {
+    float: left !important;
+}
+
+.caret {
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid;
+    display: inline-block;
+    margin-left: 0;
+    vertical-align: middle;
+    width: 0;
+}
+
+.dropdown.show .dropdown-menu {
+    display: block;
+}
+
+.margin-bottom {
+    margin-bottom: 20px !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #000 !important;
+}

@@ -1,0 +1,176 @@
+﻿@{
+    ViewBag.Title = "Add BL Details";
+}
+
+<div class="col-sm-12">
+    <section class="panel">
+        <header class="panel-heading"> Search Criteria </header>
+        <div class="panel-body">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-md-1" for="PIDropDown">PI No</label>
+                    <div class="col-md-5">
+                        @Html.Hidden("HiddenBLID")
+                        @Html.DropDownList("PIDropDown", (IEnumerable<SelectListItem>)ViewBag.PIDropDown, "SELECT PI", new { @class = "form-control" })
+                    </div>
+
+                    <label class="control-label col-md-1" for="ItemDropDown">Item</label>
+                    <div class="col-md-5">
+                        @Html.DropDownList("ItemDropDown", Enumerable.Empty<SelectListItem>(), "SELECT Item", new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="panel">
+        <header class="panel-heading"> BL Details </header>
+        <div class="panel-body">
+            <div class="form-group">
+                <div class="gridStyle" id="bl-details-area">
+                </div>
+            </div>
+            
+                @*<div class="form-group"></div>
+            <div class="form-group">
+                <div class="col-lg-offset-10 col-lg-2">
+                    <button class="btn btn-block btn-default btn-cancel">Cancel</button>
+                </div>
+            </div>*@
+            </div>
+    </section>
+</div>
+
+<script>
+    $(document).ready(function () {
+        //var PIDropDown = $('#PIDropDown');
+        //var ItemDropDown = $('#ItemDropDown');
+        //var HiddenBLID = $('#HiddenBLID');
+        //var BLDetailsArea = $('#bl-details-area');
+
+        $('#PIDropDown').val('');
+        $('#ItemDropDown').val('');
+
+        //$('#PIDropDown').undelegate('change');
+        //$('#ItemDropDown').undelegate('change');
+        //$('#blDetailsFormSubmit').undelegate('click');
+
+        $('#PIDropDown').live('change', function () {
+            var ItemDropDown = $('#ItemDropDown');
+            if ($(this).val()) {
+                $.get("/Commercial/BL/GetItemByPI", { piID: $(this).val() }, function (data) {
+                    ItemDropDown.empty();
+                    ItemDropDown.append($('<option/>', {
+                        value: "",
+                        text: ""
+                    }));
+
+                    $.each(data, function (index, itemData) {
+                        ItemDropDown.append($('<option/>', {
+                            value: itemData.Value,
+                            text: itemData.Text
+                        }));
+                    });
+                });
+            } else {
+                ItemDropDown.empty();
+                $('#bl-details-area').html('');
+            }
+        });
+
+        $('#ItemDropDown').live('change', function () {
+            if ($(this).val()) {
+                $.ajax({
+                    url: '/Commercial/BL/GetBLDetails',
+                    data: {
+                        blID: $('#HiddenBLID').val(),
+                        piID: $('#PIDropDown').val(),
+                        itemID: $(this).val()
+                    },
+                    type: 'GET',
+                    success: function (res) {
+                        $('#bl-details-area').html(res);
+
+                        var totalInvoiceQty = 0;
+                        $('.invoice-qty').each(function (index, element) {
+                            var invoiceQty = parseFloat($(this).val().trim());
+                            if (isNaN(invoiceQty)) {
+                                totalInvoiceQty += 0;
+                            } else {
+                                totalInvoiceQty += invoiceQty;
+                            }
+                        });
+
+                        $('#totalInvoiceQty').val(Math.round(totalInvoiceQty));
+                    }
+                });
+            } else {
+                $('#bl-details-area').html('');
+            }
+        });
+
+        $('#blDetailsFormSubmit').live('click', function () {
+            toastr.info('Please Wait');
+            $.ajax({
+                url: '/Commercial/BL/SaveBLDetails',
+                type: 'POST',
+                data: $('#blDetailsForm').serializeArray(),
+                success: function (res) {
+                    if (res) {
+                        $('#ItemDropDown').trigger('change');
+                        toastr.clear();
+                        toastr.success("BL Details is Saved Successfully");
+                    } else {
+                        toastr.clear();
+                        toastr.error("Server Might be Facing Some Problem. Please Wait and Try Later Or Contact With Administrator");
+                    }
+                },
+                error: function () {
+                    toastr.clear();
+                }
+            });
+        });
+        
+        $('#bl-details-area').on('keyup blur', '#totalInvoiceQty', function () {
+            var len = $('.booking-qty').length;
+            var totalInvoiceQty = parseFloat($(this).val().trim());
+
+            $('.booking-qty').each(function (index, element) {
+                bookingQty = parseFloat($(this).val().trim());
+
+                if (isNaN(totalInvoiceQty)) {
+                    $(this).parent().next().next().children('.invoice-qty').val(0);
+                }
+                else if (totalInvoiceQty <= 0) {
+                    $(this).parent().next().next().children('.invoice-qty').val(0);
+                }
+                else if (bookingQty <= totalInvoiceQty) {
+                    if (index == len - 1) {
+                        $(this).parent().next().next().children('.invoice-qty').val(Math.round(totalInvoiceQty));
+                    } else {
+                        $(this).parent().next().next().children('.invoice-qty').val(Math.round(bookingQty));
+                    }
+                } 
+                else {
+                    $(this).parent().next().next().children('.invoice-qty').val(Math.round(totalInvoiceQty));
+                }
+
+                totalInvoiceQty -= bookingQty;
+            });
+        });
+
+        $('#bl-details-area').on('keyup blur', '.invoice-qty', function () {
+            var totalInvoiceQty = 0;
+            $('.invoice-qty').each(function (index, element) {
+                var invoiceQty = parseFloat($(this).val().trim());
+                if (isNaN(invoiceQty)) {
+                    totalInvoiceQty += 0;
+                } else {
+                    totalInvoiceQty += invoiceQty;
+                }
+            });
+
+            $('#totalInvoiceQty').val(Math.round(totalInvoiceQty));
+        });
+    });
+</script>
+

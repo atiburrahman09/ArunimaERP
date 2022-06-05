@@ -1,0 +1,48 @@
+﻿@{
+    ViewBag.Title = "Style Image Upload";
+}
+
+<div class="col-xs-12" ng-app="styleImage" ng-controller="styleImageCtrl" ng-init="init()">
+
+    <toaster-container toaster-options="{ 'close-button':true}"></toaster-container>
+
+    <section class="panel">
+        <header class="panel-heading">
+            Upload Image
+        </header>
+        <div class="panel-body">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label left-label col-xs-1">Style No</label>
+                    <div class="col-xs-3">
+                        <input type="text" class="form-control" readonly />
+                    </div>
+
+                    <div class="col-xs-3">
+                        <input type="file" />
+                    </div>
+
+                    <div class="col-xs-2">
+                        <input type="button" class="btn btn-block btn-primary" value="Upload" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <section class="panel">
+        <header class="panel-heading">
+            Gallery
+        </header>
+        <div class="panel-body">
+
+        </div>
+    </section>
+</div>
+
+@Html.Partial("_angular")
+
+<script src="~/Areas/OrderManagement/Scripts/services/styleImageService.js"></script>
+<script src="~/Scripts/app/main.js"></script>
+<script src="~/Areas/OrderManagement/Scripts/controllers/styleImageCtrl.js"></script>
+<script src="~/Areas/OrderManagement/Scripts/app.js"></script>

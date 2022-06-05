@@ -1,0 +1,70 @@
+﻿@if (User.IsInRole("merchant"))
+{
+    <li><a href="/Report/Report/ContractPaper"><span>Contract Paper</span></a></li>
+    <li><a href="~/Report/Report/ProformaInvoiceReport"><span>Proforma Invoice</span></a></li>
+    <li><a href="/Report/Report/RequisitionReport"><span>Requisition Report</span> </a></li>
+
+    <li><a href="~/Report/Report/JobStatusReport"><span>Job Status Report</span> </a></li>
+    <li><a href="~/Report/Report/JobSummaryReport"><span>Job Summary Report</span> </a></li>
+    <li><a href="~/Report/Report/JobItemReport"><span>Job Item Report</span></a></li>
+
+    <li><a href="/Report/Report/ShipmentDetails"><span>Shipment Details(WIP)</span></a></li>
+    <li><a href="/Report/Report/ShipmentReport"><span>Shipment Status</span></a></li>
+    @*<li><a href="/Report/Report/SewingShipmentSummaryReport"><span>Sewing Shipment Summary Report</span></a></li>*@
+
+    <li><a href="/Report/Report/SubContractReport"><span>Sub Contract Report</span></a></li>
+    <li><a href="/Report/Report/WIP"><span>Work In Progress</span></a></li>
+
+}
+
+@if (User.IsInRole("commercial"))
+{
+    <li><a href="~/Report/Report/JobStatusReport"><span>Job Status Report</span> </a></li>
+    <li><a href="~/Report/Report/JobSummaryReport"><span>Job Summary Report</span> </a></li>
+
+    <li><a href="/Report/Report/ShipmentDetails"><span>Shipment Details(WIP)</span></a></li>
+    <li><a href="/Report/Report/ShipmentReport"><span>Shipment Status</span></a></li>
+
+    <li><a href="~/Report/Report/ImportStatusReport"><span>Import Status Report</span></a></li>
+    <li><a href="/Report/Report/BankForwardingReport">Bank Forwarding Report</a></li>
+
+    <li><a href="~/Report/Report/VATReport"><span>VAT Report</span></a></li>
+    <li><a href="~/Report/Report/IncentiveReport"><span>Incentive Report</span></a></li>
+
+    <li><a href="~/Report/Report/DocDispatchInvoiceReport"><span>Doc Dispatch Report</span></a></li>
+    <li><a href="~/Report/Report/CommercialInvoiceReport"><span>Commercial Invoice Report</span></a></li>
+    <li><a href="~/Report/Report/BillOfEntryReport"><span>Bill Of Entry report</span></a></li>
+    <li><a href="~/Report/Report/ComparativeStatementReport"><span>Comparative Statement Report</span></a></li>
+
+    <li><a href="/Report/Report/BGMEUDSystemAuditReport"><span>BGMEA Audit Report</span></a></li>
+    <li><a href="/Report/Report/BGMEForwardingReport"><span>BGMEA Forwarding Report</span></a></li>
+}
+
+@if (User.IsInRole("finance"))
+{
+    <li><a href="/Report/Report/RealizationReport">Realization Report</a></li>
+}
+
+@if (User.IsInRole("Inventory"))
+{
+    <li><a href="~/Report/Report/InventoryReport"><span>Inventory Report</span></a></li>
+}
+
+@if (User.IsInRole("AdvancedCM"))
+{
+    <li><a href="/Report/Report/ExpenseBudgetReport">Expense Budget Report</a></li>
+    <li><a href="/Report/Report/ExpenseReport">Expense Report</a></li>
+}
+
+@if (User.IsInRole("production"))
+{
+    <li><a href="/Report/Report/ProductionReport"><span>Production Report</span></a></li>
+    @*<li><a href="/Report/Report/CouponReport"><span>Coupon Report</span></a></li>*@
+
+}
+
+@*<li><a href="/Report/Report/MonthlyFinancialReport"><span>Monthly Financial Report</span></a></li>
+    <li><a href="~/Report/Report/OrderFinancialSummary"><span>Order Financial Summary</span></a></li>*@
+<li><a href="~/Report/Report/PurchaseRequisitionReport"><span>Purchase Requisition</span></a></li>
+
+

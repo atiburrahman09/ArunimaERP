@@ -1,0 +1,88 @@
+﻿
+@{
+    ViewBag.Title = "EmployeeCurveAssign";
+}
+
+<div class="row" ng-app="scopoApp" ng-controller="employeeRateCtrl" ng-init="init()" ng-cloak>
+    <div class="col-md-3 column">
+        <div class="card card-solid">
+            <div class="card-body">
+                <div class="form-group row">
+                    <input type="text" placeholder="Search Employee" class="form-control margin-bottom" ng-model="searchList"
+                           ng-keyup="getEmployeeByKeyword(searchList)" />
+                </div>
+            </div>
+            <div class="card-body">
+                <ul class="list-group" style="height:700px; overflow:auto">
+                    <li class="list-group-item" ng-repeat="e in employeeList | filter : searchList" ng-class="{active:e.selected}">
+                        <a href="" ng-click="employeeSelected(e)">
+                            <ul class="nav">
+                                <li><i class="fa fa-user" ng-class="{'text-blue':!e.selected}"></i> {{e.EmployeeName}}</li>
+                                <li>Card No: {{e.EmployeeCardNo}}</li>
+                            </ul>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-9">
+        <div class="card card-solid">
+            <form class="form-horizontal" name="employeeRateForm" novalidate ng-submit="saveInformation()">
+                <div class="card-body">
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label class="col-sm-12">Spec No</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" ng-model="employee.SpecNo"
+                                       placeholder="Spec No" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="col-sm-12">Curve</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" ng-model="employee.Curve"
+                                       placeholder="Curve" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="col-sm-12">Stage</label>
+                            <div class="col-sm-12">
+                                <input type="number" class="form-control" ng-model="employee.Stage"
+                                       placeholder="Stage" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label class="col-sm-12">RTorNHorFL</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" ng-model="employee.RTorNHorFL"
+                                       placeholder="RTorNHorFL" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="col-sm-12">Section</label>
+                            <div class="col-sm-12">
+                                <input type="number" class="form-control" ng-model="employee.Section"
+                                       placeholder="Section" required />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <div class="pull-right">
+                                <button type="reset" class="btn btn-danger btn-flat btn-sm"><i class="fa fa-close"></i> Reset</button>
+                                <button type="submit" class="btn btn-success btn-flat btn-sm"><i class="fa fa-save"></i> Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

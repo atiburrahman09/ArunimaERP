@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F9950560-6604-4BFB-A039-7A6D4FFF4D93}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ScopoERP.Common</RootNamespace>
+    <AssemblyName>ScopoERP.Common</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BLL\BuyerLogic.cs" />
+    <Compile Include="BLL\CustomerLogic.cs" />
+    <Compile Include="BLL\DashboardLogic.cs" />
+    <Compile Include="BLL\LCTypeLogic.cs" />
+    <Compile Include="BLL\DepartmentLogic.cs" />
+    <Compile Include="BLL\SampleTypeLogic.cs" />
+    <Compile Include="BLL\SeasonLogic.cs" />
+    <Compile Include="BLL\FactoryLogic.cs" />
+    <Compile Include="BLL\DivisionLogic.cs" />
+    <Compile Include="BLL\StatusLogic.cs" />
+    <Compile Include="BLL\SupplierLogic.cs" />
+    <Compile Include="BLL\TimelineLogic.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="BLL\PurchaseOrderStatusLogic.cs" />
+    <Compile Include="ViewModel\BuyerViewModel.cs" />
+    <Compile Include="ViewModel\CustomerViewModel.cs" />
+    <Compile Include="ViewModel\DashboardViewModel.cs" />
+    <Compile Include="ViewModel\DivisionViewModel.cs" />
+    <Compile Include="ViewModel\DropDownListViewModel.cs" />
+    <Compile Include="ViewModel\FactoryViewModel.cs" />
+    <Compile Include="ViewModel\SampleTypeViewModel.cs" />
+    <Compile Include="ViewModel\SeasonViewModel.cs" />
+    <Compile Include="ViewModel\ShipmentPerDay.cs" />
+    <Compile Include="ViewModel\SupplierViewModel.cs" />
+    <Compile Include="ViewModel\TimelineViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\ScopoERP.Domain\ScopoERP.Domain.csproj">
+      <Project>{d20f07c5-c03a-4aee-a034-744e830c45e7}</Project>
+      <Name>ScopoERP.Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

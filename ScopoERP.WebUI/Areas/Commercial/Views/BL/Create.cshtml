@@ -1,0 +1,124 @@
+﻿@model ScopoERP.Commercial.ViewModel.BLViewModel
+
+@{
+    ViewBag.Title = "Create BL";
+}
+
+<div class="col-sm-12">
+    <section class="panel">
+        <header class="panel-heading">
+            Create New BL
+        </header>
+        <div class="panel-body">
+
+            @using (Html.BeginForm("Create", "BL", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary(true)
+
+                <div class="form-group">
+                    <label class="col-lg-3 col-sm-3 control-label">Back To Back LC No</label>
+                    <div class="col-lg-3">
+                        @Html.DropDownListFor(model => model.BackToBackLCID, ViewBag.BackToBackLC as SelectList, new { @style = "width:100%" })
+                        @Html.ValidationMessageFor(model => model.BackToBackLCID)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-3 col-sm-3 control-label">BL No</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.BLNo, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.BLNo)
+                    </div>
+
+                    <label class="col-lg-3 col-sm-3 control-label">BL Date</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.BLDate, new { @class = "form-control default-date-picker" })
+                        @Html.ValidationMessageFor(model => model.BLDate)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-3 col-sm-3 control-label">Invoice No</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.InvoiceNo, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.InvoiceNo)
+                    </div>
+
+                    <label class="col-lg-3 col-sm-3 control-label">Invoice Date</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.InvoiceDate, new { @class = "form-control default-date-picker" })
+                        @Html.ValidationMessageFor(model => model.InvoiceDate)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-3 col-sm-3 control-label">Copy Document Received Date</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.CopyDocumentReceivedDate, new { @class = "form-control default-date-picker" })
+                        @Html.ValidationMessageFor(model => model.CopyDocumentReceivedDate)
+                    </div>
+
+                    <label class="col-lg-3 col-sm-3 control-label">Original Document Received Date</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.OriginalDocumentReceivedDate, new { @class = "form-control default-date-picker" })
+                        @Html.ValidationMessageFor(model => model.OriginalDocumentReceivedDate)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-3 col-sm-3 control-label">Document Sent To CNF</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.DocumentSentToCNF, new { @class = "form-control default-date-picker" })
+                        @Html.ValidationMessageFor(model => model.DocumentSentToCNF)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-3 col-sm-3 control-label">Goods Delivery Date By CNF</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.GoodsDeliveryDateByCNF, new { @class = "form-control default-date-picker" })
+                        @Html.ValidationMessageFor(model => model.GoodsDeliveryDateByCNF)
+                    </div>
+
+                    <label class="col-lg-3 col-sm-3 control-label">Goods In House Date</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.GoodsInHouseDate, new { @class = "form-control default-date-picker" })
+                        @Html.ValidationMessageFor(model => model.GoodsInHouseDate)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-3 col-sm-3 control-label">Acceptance Value</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.AcceptanceValue, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.AcceptanceValue)
+                    </div>
+
+                    <label class="col-lg-3 col-sm-3 control-label">Acceptance Date</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.AcceptanceDate, new { @class = "form-control default-date-picker" })
+                        @Html.ValidationMessageFor(model => model.AcceptanceDate)
+                    </div>
+                </div>
+
+                <hr />
+                
+                <div class="form-group">
+                    <div class="col-lg-offset-6 col-lg-3">
+                        @Html.ActionLink("Cancel", "Index", "BL", null, new { @class = "btn btn-block btn-default" })
+                    </div>
+                    <div class="col-lg-3">
+                        <input type="submit" class="btn btn-block btn-primary" value="Save" />
+                    </div>
+                </div>
+            }
+
+        </div>
+    </section>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#BackToBackLCID').select2();
+    })
+</script>

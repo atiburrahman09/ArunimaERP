@@ -1,0 +1,213 @@
+﻿@model ScopoERP.Commercial.ViewModel.BackToBackLCViewModel
+@{
+    ViewBag.Title = "Update Back To Back LC";
+}
+
+<div class="col-sm-12">
+    <section class="panel">
+        <header class="panel-heading">
+            Update Back To Back LC
+        </header>
+        <div class="panel-body">
+
+            @using (Html.BeginForm("Edit", "BackToBackLC", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary(true)
+                @Html.HiddenFor(model => model.BackToBackLCID)
+
+                <div class="form-group">
+                    <label class="col-lg-3 col-sm-3 control-label">Job No</label>
+                    <div class="col-lg-3">
+                        @Html.DropDownListFor(model => model.JobID, ViewBag.Job as SelectList, "", new { @style = "width:100%" })
+                        @Html.ValidationMessageFor(model => model.JobID)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-3 col-sm-3 control-label">Back To Back LC No</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.BackToBackLCNo, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.BackToBackLCNo)
+                    </div>
+
+                    <label class="col-lg-3 col-sm-3 control-label">Back To Back LC Date</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.BackToBackLCDate, new { @class = "form-control default-date-picker" })
+                        @Html.ValidationMessageFor(model => model.BackToBackLCDate)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-3 col-sm-3 control-label">Back To Back LC Value</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.BackToBackLCValue, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.BackToBackLCValue)
+                    </div>
+
+                    <label class="col-lg-3 col-sm-3 control-label">Back To Back Shipped Date</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.BackToBackShippedDate, new { @class = "form-control default-date-picker" })
+                        @Html.ValidationMessageFor(model => model.BackToBackShippedDate)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-3 col-sm-3 control-label">LC Type</label>
+                    <div class="col-lg-3">
+                        @Html.DropDownListFor(model => model.LCTypeID, ViewBag.LCType as SelectList, "", new { @style = "width:100%" })
+                        @Html.ValidationMessageFor(model => model.LCTypeID)
+                    </div>
+
+                    <label class="col-lg-3 col-sm-3 control-label">Sight Days</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.SightDays, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.SightDays)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-3 col-sm-3 control-label">PI No</label>
+                    <div class="col-lg-3">
+                        <select id="piDropDown" style="width:100%"></select>
+                    </div>
+                    <div class="col-lg-1">
+                        <button type="button" class="btn btn-success btn-add">+</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-offset-3 col-lg-8">
+                        <table class="table table-bordered" id="pi-table">
+                            <thead>
+                                <tr>
+                                    <th>PI</th>
+                                    <th>PI Value</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @for (int i=0; i<Model.PIList.Count; i++)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.HiddenFor(model => model.PIList[i].PIID)
+                                            @Html.TextBoxFor(model => model.PIList[i].PINo, new { @class = "form-control piIDRow" })
+                                        </td>
+                                        <td>@Html.TextBoxFor(model => model.PIList[i].PIValue, new { @class = "form-control" })</td>
+                                        <td><a href='javascript:void(0);' id='btnRemove'><i class='fa fa-trash-o fa-2x'></i></a></td>
+                                    </tr>
+                                }
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+                <hr />
+
+                <div class="form-group">
+                    <div class="col-lg-offset-6 col-lg-3">
+                        @Html.ActionLink("Cancel", "Index", "BackToBackLC", null, new { @class = "btn btn-block btn-default" })
+                    </div>
+                    <div class="col-lg-3">
+                        <input type="submit" class="btn btn-block btn-primary" value="Update" />
+                    </div>
+                </div>
+            }
+
+        </div>
+    </section>
+</div>
+
+<script type="text/javascript">
+    var formIndexing = function () {
+        for (var i = 0; i < $('#pi-table tbody tr').length; i++) {
+            $('#pi-table tbody').children().eq(i).children().children()
+            .each(function () {
+                if (this.name) {
+                    this.name = this.name.replace(/\[(\d+)\]/, function (str, p1) {
+                        return '[' + i + ']';
+                    });
+                }
+            });
+        }
+    };
+
+    $(document).ready(function () {
+
+        $('#JobID').select2();
+        $('#LCTypeID').select2();
+        $('#piDropDown').select2();
+
+        $("#JobID").on('change', function () {
+
+            var jobID = $(this).val();
+            var piID = $('#piDropDown');
+
+            $.get("/Commercial/BackToBackLC/GetPIDropDownByJob", { jobID: jobID },
+                function (data) {
+
+                    piID.empty();
+                    piID.append($('<option/>', {
+                        value: "",
+                        text: ""
+                    }));
+                    $.each(data, function (index, itemData) {
+                        piID.append($('<option/>', {
+                            value: itemData.Value,
+                            text: itemData.Text
+                        }));
+
+                    })
+
+                });
+        });
+
+        $(".btn-add").on('click', function () {
+            var piID = $('#piDropDown');
+            var piNo = $("#piDropDown option:selected").text();
+            var tableVale = "";
+            var checkPIExistsInTable = false;
+
+            if (piID.val()) {
+                $('#pi-table tbody tr .piIDRow').each(function () {
+                    if ($(this).val() == piID.val()) {
+                        checkPIExistsInTable = true;
+                    }
+                });
+                if (checkPIExistsInTable) {
+                    alertify.alert("This pi is already in the grid");
+                    return;
+                }
+                $.ajax({
+                    url: '/Commercial/BackToBackLC/GetPIValueByPIID',
+                    data: { piID: piID.val() },
+                    success: function (res) {
+                        if (res.piValue >= 0) {
+                            tableVale = "<tr><td>";
+                            tableVale += "<input class='piIDRow' type='hidden' name='PIList[0].PIID' value='" + piID.val() + "' />";
+                            tableVale += "<input type='text' class='form-control' name='PIList[0].PINo' value='" + piNo + "' disabled='' />";
+                            tableVale += "</td>";
+                            tableVale += "<td><input type='text' class='form-control' name='PIList[0].PIValue' value='" + res.piValue + "' disabled='' /></td>";
+                            tableVale += "<td><a href='javascript:void(0);' id='btnRemove'><i class='fa fa-trash-o fa-2x'></i></a></td>";
+                            tableVale += "</tr>";
+
+                            $('#pi-table tbody').append(tableVale);
+                        }
+                    }
+                }).promise().done(function () {
+                    formIndexing();
+                });
+            } else {
+                alertify.alert("Please select PI");
+            }
+        });
+
+        $('#btnRemove').live('click', function () {
+            $(this).parent().parent().remove();
+            formIndexing();
+        });
+    })
+
+</script>
+

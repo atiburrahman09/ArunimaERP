@@ -1,0 +1,96 @@
+﻿
+@{
+    ViewBag.Title = "InventoryIssue";
+}
+
+
+<div class="row" ng-app="scopoApp" ng-controller="inventoryIssueCtrl" ng-init="init()" novalidate>
+
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                        <div class="col-md-6">
+                            <input type="text" placeholder="Serial No" class="form-control" ng-model="srVM.SRNo" required />
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-success btn-flat btn-sm form-control" ng-click="issueSelected(srVM.SRNo)"><i class="fa fa-search"></i> Search</button>
+                        </div>
+                    </div>
+            </div>
+        </div>
+
+        <form name="inventoryIssueForm" class="form-horizontal" ng-submit="saveInventoryIssue()">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <h3 class="card-title">Inventory Issue</h3>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <label class="col-md-2">Date</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control datepicker"
+                                   ng-model="srVM.IssuedDate" is-open="dt.issueDate" datepicker-options="dateOptions" close-text="Close"
+                                   required placeholder="" disabled/>
+                        </div>
+                        <label class="col-md-2">Receiver Name</label>
+                        <div class="col-md-4">
+                            <input type="text" placeholder="Receiver Name" class="form-control" ng-model="srVM.ReceiverName" required disabled />
+                        </div>
+
+                    </div>
+                    <br />
+                    <div class="row">
+                        <label class="col-md-2">Floor Line</label>
+                        <div class="col-md-4">
+                            <select ng-options="floorLine.ProductionFloorID as ('Floor: '+floorLine.Floor+'------Line: '+floorLine.Line) for floorLine in floorLineList"
+                                    ng-model="srVM.FloorLineID" class="form-control" required disabled>
+                                <option value="">Select Floor Line</option>
+                            </select>
+                        </div>
+                        <label class="col-md-offset-6 col-md-2">Remarks</label>
+                        <div class="col-md-4">
+                            <input type="text" placeholder="Remarks" class="form-control" ng-model="srVM.Remarks" disabled/>
+                        </div>
+                    </div>
+                    <br />
+                    <br />
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-condensed table-fixed-header no-wrap">
+                            <thead>
+                                <tr>
+                                    <th>PO</th>
+                                    <th>Item</th>
+                                    <th>Request Qty</th>
+                                    <th>Issue Qty</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="issue in srVM.Inventories track by $id($index)">                                    
+                                    <td>
+                                        <input type="text" class="form-control" ng-model="issue.PoStyleId" required disabled />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" ng-model="issue.ItemID" required disabled />
+                                    </td>
+                                    <td><input type="number" class="form-control" ng-model="issue.RequestedQuantity" required disabled/></td>
+                                    <td><input type="number" class="form-control" ng-model="issue.IssuedQuantity" required/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+                <div class="card-footer">
+                    <div class="pull-right">
+                        <button type="submit" class="btn btn-success btn-flat btn-sm"><i class="fa fa-save"></i> Save</button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>

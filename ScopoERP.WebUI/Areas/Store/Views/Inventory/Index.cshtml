@@ -1,0 +1,115 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<div class="col-md-12">
+    <section class="panel">
+        <header class="panel-heading">
+            Search Criteria
+        </header>
+        <div class="panel-body">
+            <form action="javascript:void(0);" class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label class="col-md-1 control-label" for="PIID">PI No</label>
+                    <div class="col-md-5">
+                        @Html.DropDownList("PIID", ViewBag.PI as SelectList, new { @style = "width:100%;" })
+                    </div>
+
+                    <label class="col-md-1 control-label" for="BLID">BL No</label>
+                    <div class="col-md-5">
+                        <select id="BLID" style="width:100%;"></select>
+                        @*@Html.DropDownList("", Enumerable.Empty<SelectListItem>(), new { @style = "" })*@
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-1 control-label" for="ItemID">Item</label>
+                    <div class="col-md-8">
+                        @Html.DropDownList("ItemID", Enumerable.Empty<SelectListItem>(), new { @style = "width:100%;" })
+                    </div>
+                    <div class="col-md-3">
+                        <button id="searchBlDetails" class="btn btn-success btn-block">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+    <section class="panel">
+        <header class="panel-heading">
+            Receive Raw Materials
+        </header>
+        <div class="panel-body">
+            <div id="BlDetailsGrid">
+
+            </div>
+        </div>
+    </section>
+</div>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#PIID, #BLID, #ItemID').select2({
+            placeholder: "Select One",
+            allowClear: true
+        });
+
+        $('#PIID').on('change', function () {
+            $('#BlDetailsGrid').html('');
+            var BLID = $('#BLID');
+            $('#ItemID').empty();
+            $.get("/Store/Inventory/GetBLByPI", { piID: $(this).val() }, function (data) {
+                BLID.empty();
+                BLID.append($('<option/>', {
+                    value: "",
+                    text: ""
+                }));
+                $.each(data, function (index, itemData) {
+                    BLID.append($('<option/>', {
+                        value: itemData.Value,
+                        text: itemData.Text
+                    }));
+
+                });
+            });
+        });
+
+        $('#BLID').on('change', function () {
+            $('#BlDetailsGrid').html('');
+            var ItemID = $('#ItemID');
+            $.get("/Store/Inventory/GetItemByBL", { blID: $(this).val() }, function (data) {
+                ItemID.empty();
+                ItemID.append($('<option/>', {
+                    value: "",
+                    text: ""
+                }));
+                $.each(data, function (index, itemData) {
+                    ItemID.append($('<option/>', {
+                        value: itemData.Value,
+                        text: itemData.Text
+                    }));
+
+                });
+            });
+        });
+
+        $('#ItemID').on('change', function () {
+            $('#BlDetailsGrid').html('');
+        });
+
+        $('#searchBlDetails').on('click', function () {
+            if (!$('#PIID').val() || !$('#BLID').val() || !$('#ItemID').val()) {
+                alertify.alert('Please select all search criteria to search');
+                return;
+            }
+            $.ajax({
+                url: '/Store/Inventory/GetBLDetails',
+                data: { piID: $('#PIID').val(), blID: $('#BLID').val(), itemID: $('#ItemID').val() },
+                success: function (res) {
+                    $('#BlDetailsGrid').html(res);
+                }
+            });
+        });
+    })
+</script>

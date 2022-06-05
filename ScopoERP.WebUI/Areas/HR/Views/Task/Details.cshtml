@@ -1,0 +1,178 @@
+﻿@{
+    ViewBag.Title = "Create Task";
+}
+
+<div class="col-sm-12">
+    <section class="panel">
+        <header class="panel-heading">
+            Task Details
+        </header>
+        <div class="panel-body">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-2">Task No</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" />
+                    </div>
+
+                    <label class="col-sm-offset-2 col-sm-2">Parent Task</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" readonly />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2">Description</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2">Planned Start Date</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control default-date-picker" />
+                    </div>
+
+                    <label class="col-sm-offset-2 col-sm-2">Planned End Date</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control default-date-picker" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2">Actual Start Date</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control default-date-picker" />
+                    </div>
+
+                    <label class="col-sm-offset-2 col-sm-2">Actual End Date</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control default-date-picker" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2">Status</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" />
+                    </div>
+
+                    <label class="col-sm-offset-2 col-sm-2">Remarks</label>
+                    <div class="col-sm-3">
+                        <textarea class="form-control"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2">Owner</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" readonly />
+                    </div>
+
+                    <label class="col-sm-offset-2 col-sm-2">Entry Date</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" readonly />
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="form-group">
+                    <label class="col-sm-2">Entry Date</label>
+                    <div class="col-sm-1">
+                        <input type="file" />
+                    </div>
+
+                    <div class="col-lg-offset-3 col-sm-3">
+                        <input type="reset" value="Reset" class="btn btn-block btn-default" />
+                    </div>
+                    
+                    <div class="col-sm-3">
+                        <input type="submit" value="Save" class="btn btn-block btn-primary" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="panel">
+        <header class="panel-heading">
+            Distribute Task
+        </header>
+        <div class="panel-body">
+            <label class="col-sm-2">No of Task</label>
+            <div class="col-sm-3">
+                <input type="text" id="NoOfTask" class="form-control" />
+            </div>
+
+            <div class="col-sm-3">
+                <input type="button" id="btn-distribute" class="btn btn-block btn-warning" value="Distribute" />
+            </div>
+        </div>
+    </section>
+
+    <section class="panel">
+        <header class="panel-heading">
+            Sub Task Details
+        </header>
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table id="task-table" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>SL No</th>
+                            <th>Task No</th>
+                            <th>Description</th>
+                            <th>Assigned To</th>
+                            <th>Planned Start Date</th>
+                            <th>Planned End Date</th>
+                            <th>Actual Start Date</th>
+                            <th>Actual End Date</th>
+                            <th>Attachment</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-9 col-sm-3">
+                    <input type="submit" value="Update Allocation" class="btn btn-block btn-primary"/>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script type="text/javascript">
+
+    var row = "<tr> \
+                    <td></td> \
+                    <td></td> \
+                    <td><input type text class='form-control' /></td> \
+                    <td><input type text class='form-control' /></td> \
+                    <td><select class='form-control'></select></td> \
+                    <td><input type text class='form-control' /></td> \
+                    <td><input type text class='form-control' /></td> \
+                    <td><input type text class='form-control' /></td> \
+                    <td><input type text class='form-control' /></td> \
+                    <td><img height='32' width='32' src='@Url.Content("~/Content/images/task_attachment.png")' /></td> \
+                    <td><img height='32' width='32' src='@Url.Content("~/Content/images/task_running.png")' /></td> \
+            </tr>"
+
+    $(document).ready(function () {
+        $('#btn-distribute').on('click', function () {
+            var taskNo = $('#NoOfTask').val();
+
+            for (var i = 0; i < taskNo; i++) {
+                $('#task-table').append(row);
+            }
+        });
+    })
+</script>
+

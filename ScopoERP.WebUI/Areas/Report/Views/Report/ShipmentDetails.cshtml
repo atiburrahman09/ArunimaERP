@@ -1,0 +1,161 @@
+﻿@{
+    ViewBag.Title = "ShipmentDetails";
+}
+
+<div class="col-sm-12">
+
+    @using Telerik.Web.Mvc.UI
+
+    @(Html.Telerik().Grid<ScopoERP.Reports.ViewModel.ShipmentDetailsReportViewModel>()
+    .Name("ShipmentGrid")
+    .ToolBar(commands => commands
+            .Custom()
+                .HtmlAttributes(new { id = "exportLink" })
+                .Text("Export ShipmentDetails Report")
+                .Action("ShipmentDetailsExport", "Report", new { column = "~", orderBy = "~", filter = "~" }))
+
+    .DataKeys(datakeys => datakeys.Add(k => k.PoNo))
+    .DataBinding(dataBinding => dataBinding.Ajax().Select("GetShipmentDetails", "Report"))
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.BuyerName).Width(300);
+        columns.Bound(c => c.StyleNo).Width(150);
+        columns.Bound(c => c.StyleDescription).Width(300);
+        columns.Bound(c => c.PoNo).Width(150);
+        columns.Bound(c => c.Remarks).Width(110);
+        columns.Bound(c => c.FactoryName).Width(150);
+
+        columns.Bound(c => c.OrderQuantity).Width(100)
+            .Aggregate(a => a.Sum())
+            .ClientGroupFooterTemplate("Total: <#= Sum #>")
+            .ClientFooterTemplate("Total: <#= Sum #>");
+
+        columns.Bound(c => c.TotalShipMent).Width(100)
+            .Aggregate(a => a.Sum())
+            .ClientGroupFooterTemplate("Total: <#= Sum #>")
+            .ClientFooterTemplate("Total: <#= Sum #>");
+
+        columns.Bound(c => c.ShippedDate).Format("{0:dd-MMM-yy}").Width(100);
+
+        columns.Bound(c => c.BalanceShipQty).Width(100)
+            .Aggregate(a => a.Sum())
+            .ClientGroupFooterTemplate("Total: <#= Sum #>")
+            .ClientFooterTemplate("Total: <#= Sum #>");
+
+        columns.Bound(c => c.TotalAgreedCM).Width(85);
+        columns.Bound(c => c.TotalFob).Width(100)
+            .Aggregate(a => a.Sum())
+            .ClientGroupFooterTemplate("Total: <#= Sum #>")
+            .ClientFooterTemplate("Total: <#= Sum #>");
+
+        columns.Bound(c => c.TotalShippedValue).Width(100)
+            .Aggregate(a => a.Sum())
+            .ClientGroupFooterTemplate("Total: <#= Sum #>")
+            .ClientFooterTemplate("Total: <#= Sum #>");
+
+        columns.Bound(c => c.TotalShippedAgreedCM).Width(100)
+            .Aggregate(a => a.Sum())
+            .ClientGroupFooterTemplate("Total: <#= Sum #>")
+            .ClientFooterTemplate("Total: <#= Sum #>");
+
+        columns.Bound(c => c.JobNo).Width(150).Title("Job");
+        columns.Bound(c => c.ContractNo).Width(200).Title("Contract");
+
+        columns.Bound(c => c.UDNo).Width(150);
+        columns.Bound(c => c.UDDate).Format("{0:dd-MMM-yy}").Width(150);
+
+        columns.Bound(c => c.InvoiceNo).Width(180).Title("Invoice No");
+        columns.Bound(c => c.InvoiceFOB).Width(100)
+            .Aggregate(a => a.Sum())
+            .ClientGroupFooterTemplate("Total: <#= Sum #>")
+            .ClientFooterTemplate("Total: <#= Sum #>");
+
+        columns.Bound(c => c.InvoiceDate).Format("{0:dd-MMM-yy}").Width(100);
+        columns.Bound(c => c.EXP).Width(100);
+        columns.Bound(c => c.EXPDate).Format("{0:dd-MMM-yy}").Width(100);
+        columns.Bound(c => c.ICDate).Format("{0:dd-MMM-yy}").Width(100);
+        columns.Bound(c => c.ShippingBill).Width(100);
+        columns.Bound(c => c.ShippingBillDate).Format("{0:dd-MMM-yy}").Width(100);
+        columns.Bound(c => c.OnBoardDate).Format("{0:dd-MMM-yy}").Width(100);
+        columns.Bound(c => c.BL).Width(100);
+        columns.Bound(c => c.BLRealeaseDate).Format("{0:dd-MMM-yy}").Width(100);
+        columns.Bound(c => c.CODate).Format("{0:dd-MMM-yy}").Width(100);
+
+        columns.Bound(c => c.FCR).Width(100);
+        columns.Bound(c => c.FCRDate).Format("{0:dd-MMM-yy}").Width(100);
+
+        columns.Bound(c => c.FDBP_No).Width(100);
+        columns.Bound(c => c.BankForwardingNo).Width(100);
+        columns.Bound(c => c.BankForwardingDate).Format("{0:dd-MMM-yy}").Width(100);
+        columns.Bound(c => c.RealizationDate).Format("{0:dd-MMM-yy}").Width(100);
+        columns.Bound(c => c.TotalRealizationValue).Width(100);
+
+        columns.Bound(c => c.TradeCardInPutDate).Format("{0:dd-MMM-yy}").Width(100);
+        columns.Bound(c => c.DocDespatchDate).Format("{0:dd-MMM-yy}").Width(100);
+        columns.Bound(c => c.Courier).Width(100);
+        columns.Bound(c => c.BankNegoDate).Format("{0:dd-MMM-yy}").Width(100);
+        columns.Bound(c => c.PaymentReceiveDate).Format("{0:dd-MMM-yy}").Width(100);
+
+        columns.Bound(c => c.PortOfLoading).Width(100);
+        columns.Bound(c => c.FinalDestination).Width(100);
+        columns.Bound(c => c.CountryName).Width(100);
+
+        columns.Bound(c => c.TotalSewing).Width(100);
+        columns.Bound(c => c.TotalFinishing).Width(100);
+    })
+    .ColumnContextMenu()
+    .Filterable()
+    .Selectable()
+    .Sortable()
+    .Scrollable(x => x.Height("auto"))
+    .Resizable(x => x.Columns(true))
+    .Reorderable(x => x.Columns(true))
+    .Pageable(x => x.PageSize(10))
+    .ClientEvents(events => events.OnDataBound("onDataBound"))
+    )
+
+</div>
+
+<script type="text/javascript">
+
+    var $exportLink = $('#exportLink');
+    var href = $exportLink.attr('href');
+
+    function onDataBound() {
+        var grid = $(this).data('tGrid');
+
+        href = href.replace(/column=([^&]*)/, 'column=' + unCheckedList);
+        href = href.replace(/orderBy=([^&]*)/, 'orderBy=' + (grid.orderBy || '~'));
+        href = href.replace(/filter=(.*)/, 'filter=' + (grid.filterBy || '~'));
+        $exportLink.attr('href', href);
+    }
+
+    var unCheckedList = new Array();
+
+    $(document).ready(function () {
+
+        $(document).delegate('#PoGrid_contextMenu [type=checkbox]', 'click', function () {
+            $('#PoGrid_contextMenu').css({
+                'background-color': 'red !important'
+            });
+
+            var index = $(this).data("field");
+            var column = $("#PoGrid").data("tGrid").columns[index];
+            if (!$(this).is(':checked')) {
+                if ($.inArray(column.member, unCheckedList) == -1)
+                    unCheckedList.push(column.member);
+            }
+            else {
+                $.each(unCheckedList, function (key, value) {
+                    if (value == column.member) {
+                        unCheckedList.splice(key, 1);
+                    }
+                });
+            }
+
+            href = href.replace(/column=([^&]*)/, 'column=' + unCheckedList);
+            $exportLink.attr('href', href);
+        })
+    });
+
+</script>

@@ -1,0 +1,62 @@
+﻿@{
+    ViewBag.Title = "Size Wise FOB";
+}
+<div class="col-sm-12" ng-app="sizewisefob.controllers" ng-controller="sizeWiseFOBController" ng-init="init()">
+    <toaster-container toaster-options="{ 'close-button':true}"></toaster-container>
+
+    <section class="panel">
+        <header class="panel-heading"> Search Criteria </header>
+        <div class="panel-body">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="cboStyle">Style</label>
+                    <div class="col-md-2">
+                        <select ui-select2="styleOptions" ng-model="searchCriteria.styleDropDownVal" ng-options="style.Value as style.Text for style in searchCriteria.styleDropDown track by style.Value" ng-change="styleDropDownChange()" class="" style="width:146%;">
+                            <option value="">Select Style</option>
+                        </select>
+                    </div>
+
+                    <label class="control-label col-md-2">Purchase Order</label>
+                    <div class="col-md-2">
+                        <select ui-select2 data-placeholder="Select Purchase Orders" ng-options="po.Value as po.Text for po in searchCriteria.poDropDown track by po.Value" ng-model="searchCriteria.poDropDownVal" ng-change="purchaseOrderDropDownChange()" class="" style="width:146%;">
+                            <option value="">Select Purchase Order</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="panel">
+        <header class="panel-heading"> Size Wise FOB Details </header>
+        <div class="panel-body">
+            <div class="form-group">
+                <table class="table table-striped table-bordered">
+                    <tr>
+                        <td></td>
+                        <td ng-repeat="columns in sizeColorList[0].SizeQuantity">
+                            {{columns.Size}}
+                        </td>
+                    </tr>
+                    <tr ng-repeat="rows in sizeColorList">
+                        <td>
+                            {{rows.Color}}
+                        </td>
+                        <td ng-repeat="columns in rows.SizeQuantity">
+                            <input type="text" value="{{columns.FOB}}" ng-model="columns.FOB" class="form-control" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-9 col-md-3">
+                    <input type="button" class="btn btn-primary btn-block" value="Save" ng-click="saveButtonClick()" />
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+@Html.Partial("_angular")
+<script src="~/Scripts/app/services/sizecolor.services.js"></script>
+<script src="~/Scripts/app/controllers/sizewisefob.controllers.js"></script>

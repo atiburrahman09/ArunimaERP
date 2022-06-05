@@ -1,0 +1,99 @@
+﻿@model ScopoERP.Reports.ViewModel.ReportFilteringViewModel
+
+@{
+    ViewBag.Title = "inventory Report";
+}
+
+
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        @using (Html.BeginForm("InventoryReport", "Report", FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            <div class="card">
+                <div class="card-body">
+                    @Html.ValidationSummary(true)
+                   
+                    <div class="form-group row">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4">
+                            <input name="ShipmentMode" type="radio" id="ShipmentMode_1" value="1" />
+                            <label for="ShipmentMode_1">Import</label>
+                            @Html.ValidationMessageFor(model => model.ShipmentMode)
+                        </div>
+                        <div class="col-md-4">
+                            <input name="ShipmentMode" type="radio" id="ShipmentMode_2" value="2" />
+                            <label for="ShipmentMode_2">Local</label>
+                            @Html.ValidationMessageFor(model => model.ShipmentMode)
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-4">Job No</label>
+                        <div class="col-lg-8">
+                            @Html.DropDownListFor(model => model.JobID, ViewBag.JobList as SelectList, "Select a Job", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.JobID)
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-4">PO NO</label>
+                        <div class="col-lg-8">
+                            @Html.DropDownListFor(model => model.PurchaseOrderID, Enumerable.Empty<SelectListItem>(), "", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.PurchaseOrderID)
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4">From Date</label>
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.FromDate, new { @class = "form-control datepicker" })
+                            @Html.ValidationMessageFor(model => model.FromDate)
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-4">To Date</label>
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.ToDate, new { @class = "form-control datepicker" })
+                            @Html.ValidationMessageFor(model => model.ToDate)
+                        </div>
+                    </div>
+                   
+                </div>
+                <div class="card-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-dark" type="button"><i class="fa fa-close "></i> Reset</button>
+                        <button class="btn btn-success" type="submit"><i class="fa fa-save "></i> Preview</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#JobID').on('change', function () {
+
+                $.getJSON('\GetPurchaseOrderByJob', { jobID: $(this).val() }, function (res) {
+                    console.log(res);
+                    $("#PurchaseOrderID").empty();
+                    $("#PurchaseOrderID").append("<option value='0'>--Select PO--</option>");
+                    $.each(res, function (index, po) {
+                        $("#PurchaseOrderID").append("<option value='" + po.Value + "'>" + po.Text + "</option>");
+                    });
+                    //console.log(res);
+                    //var purchaseOrderID = $('#PurchasOrderID');
+
+                    //purchaseOrderID.empty();
+                    //purchaseOrderID.append($('<option/>', { value: "", text: "" }));
+
+                    //$.each(res, function (index, itemData) {
+                    //    purchaseOrderID.append($('<option/>', { value: itemData.Value, text: itemData.Text }));
+                    //});
+                    
+                });
+            });
+        });
+
+</script>

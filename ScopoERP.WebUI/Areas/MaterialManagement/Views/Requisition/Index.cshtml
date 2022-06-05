@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<div class="col-sm-12">
+
+    <p>
+        @Html.ActionLink("Create New Requisition", "Create", "Requisition", null, new { @class = "btn btn-lg btn-primary" })
+    </p>
+
+    @using Telerik.Web.Mvc.UI
+
+    @( Html.Telerik().Grid<ScopoERP.MaterialManagement.ViewModel.RequisitionViewModel>()
+    .Name("RequisitionGrid")
+    .DataKeys(dataKeys => dataKeys.Add(k => k.RequisitionID))
+    .DataBinding(dataBinding => dataBinding.Ajax().Select("GetAllRequisition", "Requisition"))
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.RequisitionID).ClientTemplate(
+            Html.ActionLink("Edit", "Edit", new { id = "<#= RequisitionID #>" }, new { @class = "t-button" }).ToHtmlString()
+        )
+        .Width(80).Title("").Filterable(false);
+
+        columns.Bound(c => c.JobNo).Width(100);
+        columns.Bound(c => c.RequisitionNo).Width(100);
+        columns.Bound(c => c.RequisitionSerial).Width(100);
+        columns.Bound(c => c.RequisitionDate).Format("{0:dd-MMM-yy}").Width(100);
+    })
+    .ColumnContextMenu()
+    .Resizable(r => r.Columns(true))
+    .Reorderable(r => r.Columns(true))
+    .Scrollable(x => x.Height("auto"))
+    .Filterable()
+    .Pageable(p => p.PageSize(10))
+    .Selectable()
+    .Sortable()
+    )
+
+</div>

@@ -1,0 +1,131 @@
+﻿@model ScopoERP.Store.ViewModel.ChalanViewModel
+@{
+    ViewBag.Title = "Update Export Chalan";
+}
+
+<script src="~/Areas/Store/Scripts/controllers/chalan.js"></script>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            @using (Html.BeginForm("Edit", "Chalan", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary(true)
+                @Html.HiddenFor(model => model.ChalanID)
+                
+                <div class="card-body">
+                    <div class="form-group row">
+                        <label class="col-sm-3">Chalan No</label>
+                        <div class="col-sm-3">
+                            @Html.TextBoxFor(model => model.ChalanNo, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.ChalanNo)
+                        </div>
+
+                        <label class="col-sm-3">Chalan Date</label>
+                        <div class="col-sm-3">
+                            @Html.TextBoxFor(model => model.ChalanDate, new { @class = "form-control datepicker" })
+                            @Html.ValidationMessageFor(model => model.ChalanDate)
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-3">Vehicle No</label>
+                        <div class="col-sm-3">
+                            @Html.TextBoxFor(model => model.VehicleNo, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.VehicleNo)
+                        </div>
+
+                        <label class="col-sm-3">Driver Name</label>
+                        <div class="col-sm-3">
+                            @Html.TextBoxFor(model => model.DriverName, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.DriverName)
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-3">Mobile No</label>
+                        <div class="col-sm-3">
+                            @Html.TextBoxFor(model => model.MobileNo, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.MobileNo)
+                        </div>
+
+                        <label class="col-sm-3">Shipped By</label>
+                        <div class="col-sm-3">
+                            @Html.TextBoxFor(model => model.ShippedBy, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.ShippedBy)
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-3">Seal No</label>
+                        <div class="col-sm-3">
+                            @Html.TextBoxFor(model => model.SealNo, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.SealNo)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="form-group row">
+                        <label class="col-sm-offset-1 col-sm-1">Style No</label>
+                        <div class="col-sm-2">
+                            @Html.DropDownList("StyleID", ViewBag.Style as SelectList, "", new { @class = "form-control select2" })
+                        </div>
+
+                        <label class="col-sm-1">PO No</label>
+                        <div class="col-sm-2">
+                            @Html.DropDownList("PurchaseOrderID", Enumerable.Empty<SelectListItem>(), "", new { @class = "form-control select2" })
+                        </div>
+
+                        <label class="col-sm-1">Floor</label>
+                        <div class="col-sm-2">
+                            @Html.DropDownList("Floor", ViewBag.FloorList as SelectList, "", new { @class = "form-control select2" })
+                        </div>
+
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-success btn-add">Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered no-wrap" id="shipment-table">
+                            <thead>
+                                <tr>
+                                    <th>PO No</th>
+                                    <th>Order Quantity</th>
+                                    <th>Chalan Quantity</th>
+                                    <th>CBM</th>
+                                    <th>Cartoon Quantity</th>
+                                    <th>Factory</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < Model.ShipmentList.Count; i++)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.HiddenFor(model => model.ShipmentList[i].PurchaseOrderID)
+                                            @Html.TextBoxFor(model => model.ShipmentList[i].PONo, new { @class = "form-control", @readonly = true })
+                                        </td>
+                                        <td>@Html.TextBoxFor(model => model.ShipmentList[i].OrderQuantity, new { @class = "form-control", @readonly = true })</td>
+                                        <td>@Html.TextBoxFor(model => model.ShipmentList[i].ChalanQuantity, new { @class = "form-control" })</td>
+                                        <td>@Html.TextBoxFor(model => model.ShipmentList[i].CBM, new { @class = "form-control" })</td>
+                                        <td>@Html.TextBoxFor(model => model.ShipmentList[i].CartoonQuantity, new { @class = "form-control" })</td>
+                                        <td>@Html.TextBoxFor(model => model.ShipmentList[i].Floor, new { @class = "form-control", @readonly = true })</td>
+                                        <td><a href='javascript:void(0);' class="btn btn-danger" id='btnRemove'><i class='fa fa-trash-o'></i></a></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-success pull-right"><i class="fa fa-save "></i> Save</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

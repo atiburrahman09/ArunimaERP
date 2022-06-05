@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "Shipment Crisis Report";
+}
+
+<div class="col-sm-12">
+
+    @using Telerik.Web.Mvc.UI
+
+    @(Html.Telerik().Grid<ScopoERP.Reports.ViewModel.ShipmentCrisisViewModel>()
+    .Name("ShipmentCrisisGrid")
+    .DataKeys(datakeys => datakeys.Add(k => k.PONo))
+    .DataBinding(dataBinding => dataBinding.Ajax().Select("GetShipmentCrisis", "Report"))
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.BuyerName).Width(300);
+        columns.Bound(c => c.StyleNo).Width(150);
+        columns.Bound(c => c.PONo).Width(150);
+        columns.Bound(c => c.OrderQuantity).Width(110)
+            .Aggregate(a => a.Sum())
+            .ClientGroupFooterTemplate("Total: <#= Sum #>")
+            .ClientFooterTemplate("Total: <#= Sum #>");
+        columns.Bound(c => c.ExitDate).Format("{0:dd-MMM-yyyy}").Width(100);
+    })
+    .ColumnContextMenu()
+    .Filterable()
+    .Selectable()
+    .Sortable()
+    .Scrollable(x => x.Height("auto"))
+    .Resizable(x => x.Columns(true))
+    .Pageable(x => x.PageSize(10))
+    )
+
+</div>

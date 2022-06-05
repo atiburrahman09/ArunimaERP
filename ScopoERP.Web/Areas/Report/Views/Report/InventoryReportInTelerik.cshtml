@@ -1,0 +1,79 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-sm-12">
+
+    @using Telerik.Web.Mvc.UI
+
+    @(Html.Telerik().Grid<ScopoERP.Reports.ViewModel.InventoryViewModel>()
+        .Name("InventoryGrid")
+        .ToolBar(commands => commands
+        .Custom()
+        .HtmlAttributes(new { id = "exportLink" })
+        .Text("Export")
+        .Action("InventoryReportExport", "Report", new { column = "~", orderBy = "~", filter = "~" }))
+        .DataKeys(datakeys => datakeys.Add(k => k.PINo))
+        .DataBinding(dataBinding => dataBinding.Ajax().Select("GetInventoryReport", "Report"))
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.JobNo).Width(200);
+        columns.Bound(c => c.PINo).Width(200);
+        columns.Bound(c => c.BuyerName).Width(200);
+        columns.Bound(c => c.BLNo).Width(200);
+        columns.Bound(c => c.BLDate).Format("{0:dd-MMM-yyyy}").Width(200);
+        columns.Bound(c => c.TotalBookingQty).Width(200);
+        columns.Bound(c => c.TotalReceivedQty).Width(100);
+        columns.Bound(c => c.TotalIssueQty).Width(100);
+    })
+    .ColumnContextMenu()
+    .Filterable()
+    .Selectable()
+    .Sortable()
+    .Scrollable(x => x.Height("auto"))
+    .Resizable(x => x.Columns(true))
+    .Pageable(x => x.PageSize(10))
+            .ClientEvents(events => events.OnDataBound("onDataBound"))
+    )
+
+</div>
+
+<script type="text/javascript">
+
+    var $exportLink = $('#exportLink');
+    var href = $exportLink.attr('href');
+
+    function onDataBound() {
+        var grid = $(this).data('tGrid');
+
+        href = href.replace(/column=([^&]*)/, 'column=' + unCheckedList);
+        href = href.replace(/orderBy=([^&]*)/, 'orderBy=' + (grid.orderBy || '~'));
+        href = href.replace(/filter=(.*)/, 'filter=' + (grid.filterBy || '~'));
+        $exportLink.attr('href', href);
+    }
+
+    var unCheckedList = new Array();
+
+    $(document).ready(function () {
+
+        $(document).delegate('#InventoryGrid_contextMenu [type=checkbox]', 'click', function () {
+            var index = $(this).data("field");
+            var column = $("#InventoryGrid").data("tGrid").columns[index];
+            if (!$(this).is(':checked')) {
+                if ($.inArray(column.member, unCheckedList) == -1)
+                    unCheckedList.push(column.member);
+            }
+            else {
+                $.each(unCheckedList, function (key, value) {
+                    if (value == column.member) {
+                        unCheckedList.splice(key, 1);
+                    }
+                });
+            }
+
+            href = href.replace(/column=([^&]*)/, 'column=' + unCheckedList);
+            $exportLink.attr('href', href);
+        })
+    });
+
+</script>

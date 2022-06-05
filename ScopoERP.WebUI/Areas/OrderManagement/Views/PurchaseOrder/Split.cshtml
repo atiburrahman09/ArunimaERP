@@ -1,0 +1,81 @@
+﻿@model ScopoERP.OrderManagement.ViewModel.SplitViewModel
+@{
+    ViewBag.Title = "Split";
+}
+
+<div class="col-sm-12">
+    <section class="panel">
+        <header class="panel-heading">
+            Split PurchaseOrder
+        </header>
+        <div class="panel-body">
+            @using (Html.BeginForm("Split", "PurchaseOrder", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                <div class="form-group">
+                    <label class="control-label left-label col-xs-2">Style No</label>
+                    <div class="col-xs-3">
+                        @Html.DropDownList("StyleID", ViewBag.styleList as SelectList, "", new { @class = "combo-box" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label left-label col-xs-2">PO No</label>
+                    <div class="col-xs-3">
+                        @Html.DropDownListFor(model => model.MasterPOID, Enumerable.Empty<SelectListItem>(), "", new { @class = "combo-box" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label left-label col-xs-2">Order Quantity</label>
+                    <div class="col-xs-3">
+                        @Html.TextBox("MasterOrderQuantity", null, new { @class = "form-control", @readonly = true })
+                    </div>
+
+                    <label class="control-label left-label col-xs-2">Exit Date</label>
+                    <div class="col-xs-3">
+                        @Html.TextBox("MasterExitDate", null, new { @class = "form-control", @readonly = true })
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="form-group" id="poList"></div>
+            }
+        </div>
+    </section>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#StyleID').on('change', function () {
+            $('#MasterOrderQuantity').val('');
+            $('#MasterExitDate').val('');
+
+            var masterPOID = $('#MasterPOID');
+            masterPOID.empty();
+            masterPOID.append($('<option/>', { value: "", text: "" }));
+
+            $.get('/PurchaseOrder/GetPurchaseOrderDropDown', { styleID: $(this).val() }, function (res) {
+                $.each(res, function (index, itemData) {
+                    masterPOID.append($('<option/>', { value: itemData.Value, text: itemData.Text }));
+                })
+            });
+        });
+
+        $('#MasterPOID').on('change', function () {
+            $.get('/PurchaseOrder/GetPurchaseOrder', { purchaseOrderID: $(this).val() }, function (res) {
+                $('#MasterOrderQuantity').val(res.OrderQuantity);
+
+                var exitDate = $.datepicker.formatDate('dd-M-yy', new Date(parseInt(res.ExitDate.substr(6))))
+
+                $('#MasterExitDate').val(exitDate);
+            });
+
+            $('#poList').html('');
+
+            $.get('/PurchaseOrder/GetPurchaseOrderList', { styleID: $('#StyleID').val(), purchaseOrderID : $(this).val() }, function (res) {
+                $('#poList').html(res);
+            });
+        });
+    })
+</script>

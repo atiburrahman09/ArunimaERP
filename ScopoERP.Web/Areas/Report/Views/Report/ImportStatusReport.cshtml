@@ -1,0 +1,36 @@
+﻿@model ScopoERP.Reports.ViewModel.ReportFilteringViewModel
+
+@{
+    ViewBag.Title = "Import Status Report";
+}
+
+<div class="box box-solid">
+    <header class="box-header with-border">
+        <h3 class="box-title"> Search Criteria</h3>
+    </header>
+    <div class="box-body">
+        <div class="col-md-offset-3 col-sm-6">
+            @using (Html.BeginForm("ImportStatusReport", "Report", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary(true)
+
+                <div class="form-group">
+                    <label class="col-lg-4">Job No</label>
+                    <div class="col-lg-8">
+                        @Html.DropDownListFor(model => model.JobID, ViewBag.Job as SelectList, "Select a Job", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.JobID)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-offset-8 col-lg-2">
+                        <input type="reset" class="btn btn-block btn-default" />
+                    </div>
+                    <div class="col-xs-2">
+                        <input type="submit" class="btn btn-block btn-primary" value="Preview" />
+                    </div>
+                </div>
+            }
+
+        </div>
+        </div>
+    </div>

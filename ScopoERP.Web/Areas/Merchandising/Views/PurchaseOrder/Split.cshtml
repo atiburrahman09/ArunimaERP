@@ -1,0 +1,135 @@
+﻿
+@{
+    ViewBag.Title = "Split";
+}
+
+<div class="row" ng-app="scopoApp" ng-controller="splitCtrl" ng-init="init()" ng-cloak>
+    <div class="col-md-12">
+        <form class="form-horizontal" ng-submit="saveSplittedPurchaseOrders()" name="splitForm">
+            <div class="card card-solid">
+                <div class="card-body">
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <label class="col-sm-12">Style No</label>
+                            <div class="col-sm-12">
+                                <select class="form-control select2" ng-model="masterStyleId" ng-options="s.Value as s.Text for s in masterStyleList"
+                                        ng-change="getPurchaseOrderByStyleIdMaster(masterStyleId)" required>
+                                    <option value="">Select Style</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="col-sm-12">Master Po No</label>
+                            <div class="col-sm-12">
+                                <select class="form-control select2" ng-model="masterPoId" ng-options="p.Value as p.Text for p in masterPoList"
+                                        required>
+                                    <option value="">Select PO</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <label class="col-sm-12">Style No</label>
+                            <div class="col-sm-12">
+                                <select class="form-control select2" ng-model="styleId" ng-options="s.Value as s.Text for s in styleList"
+                                        ng-change="getPurchaseOrderByStyleId(styleId)" required>
+                                    <option value="">Select Style</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="col-sm-12">Child Po No</label>
+                            <div class="col-sm-12">
+                                <select class="form-control select2" ng-model="poId" ng-options="p.Value as p.Text for p in poList"
+                                        required>
+                                    <option value="">Select PO</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*<div class="form-group">
+                        <div class="col-sm-6">
+                            <label class="col-sm-12">Order Quantity</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" readonly ng-model="selectedPO.OrderQuantity" />
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="col-sm-12">Exit Date</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" readonly ng-model="selectedPO.ExitDate" />
+                            </div>
+                        </div>
+                    </div>*@
+
+
+                </div>
+                <div class="card-footer">
+                    <div class="pull-right">
+                        <button type="submit" class="btn btn-success"><i class="fa fa-save "></i> Save</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        
+
+        @*<div class="card card-solid" >
+            <div class="card-body">
+                <form class="form-horizontal" ng-submit="saveSplittedPurchaseOrders()">
+                    <div class="table-responsive">
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <button type="button" class="btn btn-primary waves-effect waves-light" ng-click="addOrder()">
+                                    <span class="fa fa-plus"></span>
+                                </button>
+                            </div>
+                        </div>
+                        <table class="table table-condensed table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    @*<th></th>
+                                    <th>PO No</th>
+                                    <th>Order Quantity</th>
+                                    <th>Exit Date</th>
+                                    <th>FOB</th>
+                                    <th>Agreed CM</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="p in splittedOrders">
+                                    @*<td>
+                                        <button type="button" class="btn btn-primary waves-effect waves-light" ng-click="addOrder()">
+                                            <span class="fa fa-plus"></span>
+                                        </button>
+                                    </td>
+                                    <td><input type="text" class="form-control" ng-model="p.PONo" /></td>
+                                    <td><input type="number" class="form-control" ng-model="p.OrderQuantity" /></td>
+                                    <td><input type="date" class="form-control" ng-model="p.ExitDate" /></td>
+                                    <td><input type="number" class="form-control" ng-model="p.FOB" /></td>
+                                    <td><input type="number" class="form-control" ng-model="p.AgreedCM" /></td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger waves-effect waves-light" ng-click="removeOrder($index)">
+                                            <span class="fa fa-trash"></span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer">
+                        <div class="form-group row">
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-success btn-block"> Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>*@
+    </div>
+
+</div>
+

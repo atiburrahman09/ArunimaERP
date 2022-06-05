@@ -1,0 +1,77 @@
+﻿@model List<ScopoERP.Commercial.ViewModel.BLDetailsViewModel>
+
+@using (Ajax.BeginForm("SaveInventory",
+    new AjaxOptions
+    {
+        //UpdateTargetId = "Response",
+        HttpMethod = "POST",
+        InsertionMode = InsertionMode.Replace,
+        OnBegin = "toastr.info('Please Wait');",
+        OnSuccess = "toastr.clear();toastr.success('Recieve raw materials is saved successfully');",
+    }))
+{
+    <div class="form-group">
+        <div class="col-md-12" style="overflow:auto;">
+            <table class="table table-bordered">
+                <tr>
+                    <th>PO No</th>
+                    <th>Item</th>
+                    <th>Item Color</th>
+                    <th>Item Size</th>
+                    <th>Booking Quantity</th>
+                    <th>Consumpsion Unit</th>
+                    <th>Invoice Quantity</th>
+                    <th>Received Quantity</th>
+                </tr>
+
+                @{
+    int i = 0;
+
+    foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.HiddenFor(modelItem => modelItem[i].BLDetailsID)
+                @Html.HiddenFor(modelItem => modelItem[i].BLID)
+                @Html.HiddenFor(modelItem => modelItem[i].BookingID)
+                @Html.HiddenFor(modelItem => modelItem[i].UserID)
+                @Html.HiddenFor(modelItem => modelItem[i].SetupDate)
+
+                @Html.TextBoxFor(modelItem => modelItem[i].PONo, new { @class = "form-control", @readonly = "", @style = "width:100px;" })
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => modelItem[i].ItemDescription, new { @class = "form-control", @readonly = "", @style = "width:400px;" })
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => modelItem[i].ItemColor, new { @class = "form-control", @readonly = "", @style = "width:100px;" })
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => modelItem[i].ItemSize, new { @class = "form-control", @readonly = "", @style = "width:100px;" })
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => modelItem[i].BookingQuantity, new { @class = "form-control", @readonly = "", @style = "width:100px;" })
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => modelItem[i].ConsumpsionUnit, new { @class = "form-control", @readonly = "", @style = "width:100px;" })
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => modelItem[i].InvoiceQuantity, new { @class = "form-control", @readonly = "", @style = "width:100px;" })
+            </td>
+            <td>
+                @Html.TextBoxFor(modelItem => modelItem[i].ReceivedQuantity, new { @class = "form-control", @style = "width:100px;" })
+            </td>
+        </tr>
+
+        i++;
+    }
+                }
+            </table>
+        </div>
+    </div>
+    <hr />
+    <div class="form-group">
+        <div class="col-md-offset-8 col-md-4"><input type="submit" value="Save" class="btn btn-block btn-large btn-success" /></div>
+    </div>
+
+}
+

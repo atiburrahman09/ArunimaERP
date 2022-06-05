@@ -1,0 +1,106 @@
+﻿
+@{
+    ViewBag.Title = "Inventory";
+}
+<div class="row" ng-app="scopoApp" ng-controller="inventoryCtrl" ng-init="init()">
+    <div class="col-md-12 col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <select class="form-control select2" ng-model="selectedBL" ng-change="blSelected(selectedBL)">
+                            <option value="">Select BL</option>
+                            <option ng-repeat="bl in blList" value="{{bl}}">{{bl.BLNo}}</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">                       
+                        <select class="form-control select2" ng-model="selectedChalan" ng-change="chalanSelected(selectedChalan)">
+                            <option value="">Select Chalan</option>
+                            <option ng-repeat="l in chalanList " value="{{l}}">{{l.BLNo}}</option>
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <form name="chalanForm" class="form-horizontal" ng-submit="createChalan()" ng-class="{submitted:chalanForm.submitted}" novalidate>
+                <div class="card-body">
+                    <div class="row">
+                            <div class="col-md-4">
+                                <input type="text" name="BLNo" ng-model="blInstance.BLNo" placeholder="Chalan No"
+                                       class="form-control" ng-disabled="disableForm" required />
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control datepicker"
+                                       ng-model="blInstance.BLDate" is-open="dt.blDate" datepicker-options="dateOptions" close-text="Close"
+                                       required ng-disabled="disableForm" placeholder="Chalan Date" />
+                            </div>
+                            <div class="col-md-4">
+                                <div class="pull-right">
+                                    <input type="reset" class="btn btn-default" ng-hide="disableForm" />
+                                    <input type="submit" value="Save" class="btn btn-success" ng-hide="disableForm" />
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <form name="blDetailForm" ng-submit="updateBLDetails()">
+            <div class="card">
+                <div class="card-body no-padding" style="height:513px;overflow:auto">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <select class="form-control pull-right select2" ng-model="PI.selected"
+                                    ng-options="item.Value as item.Text for item in PI.list" ng-change="refreshDetails()">
+                                <option value="">Select PI</option>
+                            </select>
+                        </div>
+                       
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>PO No</th>
+                                    <th>Item Description</th>
+                                    <th>Item Color</th>
+                                    <th>Item Size</th>
+                                    <th>Booking Quantity</th>
+                                    <th>Unit</th>
+                                    <th>Invoice Quantity</th>
+                                    <th>Received Quantity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="bld in blDetailsList">
+                                    <td>{{$index + 1}}.</td>
+                                    <td>{{bld.PONo}}</td>
+                                    <td>{{bld.ItemDescription}}</td>
+                                    <td>{{bld.ItemColor}}</td>
+                                    <td>{{bld.ItemSize}}</td>
+                                    <td>{{bld.BookingQuantity}}</td>
+                                    <td>{{bld.ConsumpsionUnit}}</td>
+                                    <td><input type="text" ng-model="bld.InvoiceQuantity" class="form-control input-sm" disabled /></td>
+                                    <td><input type="text" ng-model="bld.ReceivedQuantity" class="form-control input-sm" /></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                </div>
+
+                <div class="card-footer">
+                    <div class="pull-right">
+                        <button type="submit" class="btn btn-success btn-flat btn-sm"><i class="fa fa-save"></i> Update</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>

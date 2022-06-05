@@ -1,0 +1,73 @@
+﻿@model List<ScopoERP.MaterialManagement.ViewModel.CostsheetViewModel>
+<form id="costsheetForm" class="form-horizontal" action="javascript:void(0);">
+    <div class="table-scroll">
+        <table class="table table-hover table-bordered costsheet">
+            <thead>
+                <tr>
+                    <th>Action</th>
+                    <th width="400px">Item Category</th>
+                    <th>Item</th>
+                    <th>Consumption</th>
+                    <th>Consumption Unit</th>
+                    <th>Conversion Quantity</th>
+                    <th>Actual Consumption</th>
+                    <th>Conversion Unit</th>
+                    <th>Wastage %</th>
+                    <th>Total Raw Materials</th>
+                    <th>Unit Cost</th>
+                    <th>Total Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int i = 0;
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.HiddenFor(model => model[i].CostsheetID, new { @class = "costSheetID" })
+                                @Html.HiddenFor(model => model[i].StyleID, new { @class = "styleID" })
+                                @Html.HiddenFor(model => model[i].CostSheetNo, new { @class = "costSheetNo" })
+                                <a class="removeItem" href="javascript:void(0);">
+                                    <i class="fa fa-trash-o fa-2x"></i>
+                                </a>
+                                <a class="addAnotherItem" href="javascript:void(0);">
+                                    <i class="fa fa-plus fa-2x"></i>
+                                </a>
+                            </td>
+                            <td width="400px">@Html.DropDownListFor(model => model[i].ItemCategoryID, ((List<SelectList>)ViewBag.ItemCategoryDropDown)[i], "Please Select an Item Category", new { @class = "itemCategoryID form-control" })</td>
+
+                            <td>@Html.DropDownListFor(model => model[i].ItemID, ((List<SelectList>)ViewBag.ItemDropDown)[i], "Please Select an Item", new { @class = "itemID form-control" })</td>
+                            <td>@Html.TextBoxFor(model => model[i].Consumption, new { @class = "consumption form-control" })</td>
+                            <td>@Html.DropDownListFor(model => model[i].ConsumptionUnitID, ((List<SelectList>)ViewBag.ConsumptionUnitDropDown)[i], "Please Select an Unit", new { @class = "consumptionUnitID form-control" })</td>
+                            <td>@Html.TextBoxFor(model => model[i].ConversionQuantity, new { @class = "conversionQuantity form-control" })</td>
+                            <td>@Html.TextBoxFor(model => model[i].ActualConsumption, new { @class = "actualConsumption form-control", @readonly = "" })</td>
+                            <td>@Html.DropDownListFor(model => model[i].ConversionUnitID, ((List<SelectList>)ViewBag.ConversionUnitDropDown)[i], "Please Select an Unit", new { @class = "conversionUnitID form-control" })</td>
+                            <td>@Html.TextBoxFor(model => model[i].Wastage, new { @class = "wastage form-control" })</td>
+                            <td>@Html.TextBoxFor(model => model[i].TotalRawMaterials, new { @class = "totalRawMaterials form-control", @readonly = "" })</td>
+                            <td>@Html.TextBoxFor(model => model[i].UnitPrice, new { @class = "unitPrice form-control" })</td>
+                            <td>@Html.TextBoxFor(model => model[i].TotalActualCost, new { @class = "totalCost form-control", @readonly = "" })</td>
+                        </tr>
+                        i++;
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="form-group"></div>
+    <div class="form-group">
+        <label class="col-md-offset-4 col-md-2 control-label">Grand Total:</label>
+        <div class="col-md-3">
+            <input id="grandTotalCost" type="text" class="form-control" readonly />
+        </div>
+        <div class="col-md-3">
+            <input id="costsheetFormSubmit" type="submit" class="btn btn-block btn-primary" value="Save" />
+        </div>
+    </div>
+</form>
+
+<script>
+    $(document).ready(function () {
+        //$('.itemCategoryID, .itemID, .consumptionUnitID, .conversionUnitID').select2();
+    });
+</script>

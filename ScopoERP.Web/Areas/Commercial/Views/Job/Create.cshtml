@@ -1,0 +1,96 @@
+﻿@model ScopoERP.LC.ViewModel.JobViewModel
+
+@{
+    ViewBag.Title = "Create Job";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            @using (Html.BeginForm("Create", "Job", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                <header class="card-header with-border">
+                    <h3 class="card-title">Create New Job</h3>
+                </header>
+                <div class="card-body">
+                    <div class="form-group row">
+                        <label class="col-md-4">Job No</label>
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.JobNo, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.JobNo)
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-4">Contract No</label>
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.ContractNo, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.ContractNo)
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4">Contract Date</label>
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.ContractDate, new { @class = "form-control datepicker" ,autocomplete = "off"})
+                            @Html.ValidationMessageFor(model => model.ContractDate)
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-4">Extra Contract No</label>
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.ExtraContractNo, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.ExtraContractNo)
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-4">Bank</label>
+                        <div class="col-md-8">
+                            @Html.DropDownListFor(model => model.BankID, ViewBag.BankList as SelectList, "", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.BankID)
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4">Shipped To</label>
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.ShippedTo, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.ShippedTo)
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4">Notify Party</label>
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.NotifyParty, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.NotifyParty)
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4">Also Notify Party</label>
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.AlsoNotifyParty, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.AlsoNotifyParty)
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4">CAT NO</label>
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.CATNO, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.CATNO)
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="form-group row">
+                        <div class="col-md-2">
+                            @Html.ActionLink("Cancel", "Index", "Job", null, new { @class = "btn btn-block btn-dark waves-effect waves-light" })
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-success btn-block waves-effect waves-light"> Save</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,1 @@
+﻿var realizationAccount = angular.module('realization', ['realization.controllers', 'globalModule']);

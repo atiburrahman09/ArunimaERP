@@ -1,0 +1,183 @@
+﻿@{
+    ViewBag.Title = "Coupon Entry";
+}
+
+
+<div class="row" ng-app="scopoApp" ng-controller="assignCouponCtrl" ng-init="init()" ng-cloak>
+    <form class="form-horizontal" name="assignCouponForm" novalidate>
+        <div class="card card-solid">
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <div class="form-group row">
+                            <label class="col-sm-4 control-label">Date</label>
+                            <div class="col-sm-6">
+                                @*<input type="text" class="form-control datepicker" ng-model="gumsheet.CompletedDate" />*@
+                                <input id="CompletedDate" type="text"
+                                       class="form-control datepicker"
+                                       ng-model="gumsheet.CompletedDate"
+                                       ng-blur="bindDate('CompletedDate', 'gumsheet')"
+                                       placeholder="Completed Date" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 control-label">Operator No</label>
+                            <div class="col-sm-6">
+                                <div class="has-feedback">
+                                    <input type="text" class="form-control" ng-model="gumsheet.EmployeeCardNo" required ng-blur="getEmployeeDetails(gumsheet.EmployeeCardNo)" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 control-label">Spec No</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" ng-model="gumsheet.SpecNo" required ng-blur="getBundleList(gumsheet.SpecNo)" />
+                            </div>
+                            <div class="col-md-2">
+                                <span class="h5" ng-show="specNoShow">Spec - {{learningCurve.SpecNo}}</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 control-label">Clocked Time (Exclude Break)</label>
+                            <div class="col-sm-6">
+                                <input type="number" class="form-control" ng-model="gumsheet.ClockedTime" required />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 control-label">Section</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" ng-model="gumsheet.Section" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <input type="checkbox" id="checkbox_1" name="MachineTrouble" ng-model="gumsheet.MachineTrouble">
+                                <label for="checkbox_1">Machine Trouble</label>
+
+                                <input type="checkbox" id="checkbox_2" name="PayMethod" ng-model="gumsheet.PayMethod">
+                                <label for="checkbox_2">Transfer Method PayMethod</label>
+
+                                @*<input type="checkbox" ng-model="gumsheet.MachineTrouble">
+                                <input type="checkbox" ng-model="gumsheet.PayMethod">*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group row">
+                            <label class="col-sm-4 control-label">Learning Curve(LC) TK</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" ng-model="gumsheet.LearningCurve" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 control-label">Allowance (AL) TK</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" ng-model="gumsheet.Allowance" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 control-label">Factory Min Allowance</label>
+                            <div class="col-sm-6">
+                                <span>{{offStandardRate[0].O2}}</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 control-label">1-Week Avg BDT / Hour</label>
+                            <div class="col-sm-8">
+                                <span>{{offStandardRate[0].V6}}</span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-offset-8">
+                                <button ng-click="assignClicked()" class="btn btn-default btn-sm btn-flat bg-green">Assign</button>
+                                <button ng-click="updateData()" class="btn btn-default btn-sm btn-flat bg-yellow">Update</button>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group row">
+                            <h3 class="text-center text-bold" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01">Total Earning: {{(gumsheetInfo.ProductionEarn + gumsheetInfo.OffStandardEarn) |  number : 2}}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-6">
+                        <div class="card card-solid">
+                            <div class="card-header text-center">
+                                <h3 class="card-title" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01">Production BDT: {{gumsheetInfo.ProductionEarn |  number : 2}}</h3>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-bordered" id="couponTableId">
+                                    <tbody>
+                                        <tr>
+                                            <th colspan="3">Entry Coupons</th>
+                                            <th>
+                                                <div class="pull-right">
+                                                    <button type="button" class="btn btn-sm btn-primary btn-flat pull-right" ng-click="addRowClicked()"><span class="glyphicon glyphicon-plus"></span></button>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                        <tr ng-repeat="row in rowRange">
+                                            <td ng-repeat="column in [1,2,3,4]">
+                                                    <input type="text" ng-model="couponNo"
+                                                           placeholder="Search bundle"
+                                                           uib-typeahead="c.Text as c.Text for c in bundleDropDownList | filter:$viewValue"
+                                                           typeahead-on-select="addBundle($item);"
+                                                           class="form-control">
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card card-solid">
+                            <div class="card-header text-center">
+                                <h3 class="card-title" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01">Off Standard BDT : {{gumsheetInfo.OffStandardEarn |  number : 2}}</h3>
+                            </div>
+                            <div class="card-body">
+                                <br />
+                                <br />
+                                <table class="table table-bordered" id="couponTableId">
+                                    <tbody>
+                                        <tr ng-repeat="code in codeList track by $index">
+                                            <td>
+                                                <div class="form-group row">
+                                                    <div class="col-md-5">
+                                                        <label class="col-md-12">OffStandard Code-{{$index + 1}}</label>
+                                                        <div class="col-md-12">
+                                                            <input type="text" ng-model="code.OffStandardText"
+                                                                   placeholder="Search Code"
+                                                                   uib-typeahead="c.OffStandardText as c.OffStandardText for c in offStandardList | filter:$viewValue"
+                                                                   class="form-control">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="col-md-12">Duration (min)</label>
+                                                        <div class="col-md-12">
+                                                            <input type="number" class="form-control" ng-model="code.offStandanrdDuration" ng-blur="calculateValue(code, $index)" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">  
+                                                        <label class="col-md-12" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01">{{code.offStandardValueText |  number : 2}}</label>
+                                                    </div>
+                                                </div>                                                
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+

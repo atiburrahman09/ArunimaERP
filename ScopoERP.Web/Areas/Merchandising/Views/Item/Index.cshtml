@@ -1,0 +1,95 @@
+﻿@model IEnumerable<ScopoERP.MaterialManagement.ViewModel.ItemViewModel>
+@{
+    ViewBag.Title = "Item";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                @using (Html.BeginForm())
+                {
+                    <div class="form-group row">
+                        <div class="col-md-2">
+                            @Html.ActionLink("Add New Item", "Create", "Item", null, new { @class = "btn btn-success btn-block waves-effect waves-light" })
+                        </div>
+                        <div class="col-md-5"></div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" name="searchString" placeholder="Item Description" />
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-success btn-block waves-effect waves-light"> Search</button>
+                        </div>
+                    </div>
+                }
+                <div class="form-group">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th class="text-center"></th>
+                                <th class="text-center">Item Category Name</th>
+                                <th class="text-center">Item Code</th>
+                                <th class="text-center">Item Description</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <a href="/Merchandising/Item/Edit/@item.ItemID" class="btn btn-primary waves-effect waves-light">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                    </td>
+                                    <td>@item.ItemCategoryName</td>
+                                    <td>@item.ItemCode</td>
+                                    <td>@item.ItemDescription</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*<div class="col-sm-12">
+
+        <p>
+            @Html.ActionLink("Create New Item", "Create", "Item", null, new {
+           @class = "btn btn-lg btn-primary",
+           @id = "itemCreateDialogCall",
+           data_dialog_id = "itemDialog",
+       })
+        </p>
+
+        @using Telerik.Web.Mvc.UI
+
+        @( Html.Telerik().Grid<ScopoERP.MaterialManagement.ViewModel.ItemViewModel>()
+        .Name("ItemGrid")
+        .DataKeys(dataKeys => dataKeys.Add(k => k.ItemID))
+                                .DataBinding(dataBinding => dataBinding.Ajax().Select("GetAllItem", "Item"))
+        .Columns(columns =>
+        {
+            columns.Bound(c => c.ItemID).ClientTemplate(
+                Html.ActionLink("Edit", "Edit", new { id = "<#= ItemID #>" }, new { @class = "t-button itemEditDialogCall", data_dialog_id = "itemDialog" }).ToHtmlString()
+            )
+            .Width(80).Title("").Filterable(false);
+
+            columns.Bound(c => c.ItemCategoryName).Width(150);
+
+            columns.Bound(c => c.ItemCode).Width(200);
+            columns.Bound(c => c.ItemDescription).Width(200);
+
+        })
+        .Resizable(r => r.Columns(true))
+        .Filterable()
+        .Pageable(p => p.PageSize(10))
+        .Selectable()
+        .Sortable()
+        .Scrollable(x => x.Height("auto"))
+        )
+    </div>*@

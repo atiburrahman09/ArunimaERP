@@ -1,0 +1,54 @@
+﻿@model IEnumerable<ScopoERP.Accounts.ViewModel.ExpenseViewModel>
+@{
+    ViewBag.Title = "Expense";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-md-2">
+                        @Html.ActionLink("Add New Expense", "Create", "Expenses", null, new { @class = "btn btn-success btn-block waves-effect waves-light" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th class="text-center"></th>
+                                <th class="text-center">Reference No</th>
+                                <th class="text-center">Account</th>
+                                <th class="text-center">Date</th>
+                                <th class="text-center">Expense Amount</th>
+                                <th class="text-center">Expense By</th>
+                                <th class="text-center">Description</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                            <tr>
+                                <td>
+                                    <a href="/Misc/Expenses/Edit/@item.ExpenseID" class="btn btn-primary waves-effect waves-light">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+                                </td>
+                                <td>@item.ReferenceNo</td>
+                                <td>@item.AccountNo</td>
+                                <td>@item.ExpenseDate.ToString("dd-MMM-yyyy")</td>
+                                <td class="text-right"> &#2547; @item.ExpenseAmount</td>
+                                <td>@item.ExpenseBy</td>
+                                <td>@item.Description</td>
+
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

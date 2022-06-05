@@ -1,0 +1,162 @@
+﻿@{
+    ViewBag.Title = "Production Status";
+}
+
+
+<div class="row" ng-app="scopoApp" ng-controller="productionStatusCtrl" ng-init="init()" ng-cloak>
+    <div class="col-md-3">
+        <form name="filterForm" class="form-horizontal" ng-submit="getFilteredResult()" novalidate>
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <label class="control-label">Exit Date</label>
+                        </div>
+
+                        <div class="col-md-12">
+                            @*<input id="ProductionDate" type="text"
+                                class="form-control datepicker"
+                                ng-model="filter.ProductionDate"
+                                ng-blur="bindDate('ProductionDate', 'filter')"
+                                placeholder="Enter Exit Date" required />*@
+
+
+                            <input type="date" class="form-control" ng-model="filter.ProductionDate" required placeholder="Enter Exit Date" />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <label class="control-label">Floor</label>
+                        </div>
+                        <div class="col-md-12">
+                            <select class="form-control"
+                                    ng-options="f.Text as f.ValueString for f in productionFloorList"
+                                    ng-model="filter.productionFloor"
+                                    ng-change="getProductionLineByFloor(filter.productionFloor)" required>
+                                <option value="">Select Floor</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <label class="control-label">Line</label>
+                        </div>
+                        <div class="col-md-12">
+                            <select class="form-control"
+                                    ng-options="l.Text as l.ValueString for l in productionLineList"
+                                    ng-model="filter.productionLine" required>
+                                <option value="">Select Line</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <label class="control-label">Buyer</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" ng-model="filter.BuyerName"
+                                   placeholder="Enter Buyer Id"
+                                   uib-typeahead="b as b.BuyerName for b in buyerList | filter:$viewValue"
+                                   typeahead-on-select="getBuyerIDAndStyle($item, $model, $label)"
+                                   class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <label class="control-label">Styles</label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" ng-model="filter.Value"
+                                   placeholder="Enter Style No"
+                                   uib-typeahead="s as s.Text for s in styleList | filter : $viewValue"
+                                   typeahead-on-select="getStyleID($item, $model, $label)"
+                                   class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-default btn-block" ng-click="resetForm('filterForm', 'filter')">Reset</button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="submit" class="btn btn-primary btn-block">Search</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-md-9">
+        <form name="purchaseForm" class="form-horizontal" ng-submit="saveProductionStatus()" novalidate>
+            <div class="card">
+                <div class="card-body" style="height: 700px; overflow:auto;">
+                    <div class="table-responsive">
+                        <table class="table table-bordered no-wrap">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th class="text-center">Purchase Order</th>
+                                    <th>Color</th>
+                                    <th>Cutting</th>
+                                    <th class="text-center">Sewing Input</th>
+                                    <th class="text-center">Today Sewing</th>
+                                    <th class="text-center">Sent Print Emb</th>
+                                    <th class="text-center">Recieved Print Emb</th>
+                                    <th>Sent Wash</th>
+                                    <th class="text-center">Received Wash</th>
+                                    <th class="text-center">Today Finish</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="pdr in filteredResult">
+                                    <td>
+                                        <button class="btn btn-sm btn-block btn-danger" type="button" ng-click="removeRow($index,pdr.PurchaseOrderID)">
+                                            <i class="fa fa-times"></i>
+                                        </button>
+                                    </td>
+                                    @*style="max-width: 120px;">
+                                        <input type="text" class="form-control" ng-model="pdr.PONo" />*@
+                                    <td>
+                                        <select ng-options="purchaseOrder.Value as purchaseOrder.Text for purchaseOrder in purchaseOrders"
+                                                ng-model="pdr.PurchaseOrderID" ng-change="ifPOexists(pdr.PurchaseOrderID, $index)" 
+                                                class="form-control" style="width:120px!important;" required>
+                                            <option value="">Select PO</option>
+                                        </select>
+                                    </td>
+                                    <td><input type="text" class="form-control" ng-model="pdr.Color" /></td>
+                                    <td style="max-width: 120px;"><input type="number" class="form-control" ng-model="pdr.Cutting" /></td>
+                                    <td style="max-width: 120px;"><input type="number" class="form-control" ng-model="pdr.SewingInput" /></td>
+                                    <td style="max-width: 120px;"><input type="number" class="form-control" ng-model="pdr.TodaySewing" /></td>
+                                    <td style="max-width: 120px;"><input type="number" class="form-control" ng-model="pdr.SentPrintEmb" /></td>
+                                    <td style="max-width: 120px;"><input type="number" class="form-control" ng-model="pdr.ReceivedPrintEmb" /></td>
+                                    <td style="max-width: 120px;"><input type="number" class="form-control" ng-model="pdr.SentWash" /></td>
+                                    <td style="max-width: 120px;"><input type="number" class="form-control" ng-model="pdr.ReceivedWash" /></td>
+                                    <td style="max-width: 120px;"><input type="number" class="form-control" ng-model="pdr.TodayFinish" /></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <button class="btn btn-success pull-right" type="submit"><i class="fa fa-floppy-o"> </i> Save Changes</button>
+                    <button class="btn btn-warning" type="button" ng-click="addRow()"><i class="fa fa-plus"> </i> Add Row</button>
+                </div>
+                @*<div class="card-footer">
+                        <div class="form-group">
+                            <div class="col-md-offset-8 col-md-4">
+                            
+                                <button class="btn btn-success btn-block" ng-click="saveProductionStatus()">Save Changes</button>
+                            </div>
+                        </div>
+                    </div>*@
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,48 @@
+﻿@model ScopoERP.Reports.ViewModel.ReportFilteringViewModel
+@{
+    ViewBag.Title = "ComparativeStatementReport";
+}
+
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        @using (Html.BeginForm("GetComparativeStatementReport", "Report", FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            <div class="card">
+                <div class="card-body">
+                    @Html.ValidationSummary(true)
+
+                    <div class="form-group row">
+                        <label class="col-md-4">From Date</label>
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.FromDate, new { @class = "form-control datepicker",required="required", autocomplete = "off" })
+                            @Html.ValidationMessageFor(model => model.FromDate)
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-4">To Date</label>
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.ToDate, new { @class = "form-control datepicker required", required = "required", autocomplete = "off" })
+                            @Html.ValidationMessageFor(model => model.ToDate)
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-4">Job No</label>
+                        <div class="col-lg-8">
+                            @Html.DropDownListFor(model => model.JobID, ViewBag.JobList as SelectList, "Select a Job", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.JobID)
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-dark" type="button"><i class="fa fa-close "></i> Reset</button>
+                        <button class="btn btn-success" type="submit"><i class="fa fa-save "></i> Preview</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

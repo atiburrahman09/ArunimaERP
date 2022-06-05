@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Title = "Excess Booking";
+}
+
+<div class="col-sm-12">
+
+    <p>
+        @Html.ActionLink("Create New Excess Booking", "Create", "ExcessBooking", null, new { @class = "btn btn-lg btn-primary" })
+    </p>
+
+    @using Telerik.Web.Mvc.UI
+
+    @( Html.Telerik().Grid<ScopoERP.MaterialManagement.ViewModel.ExcessBookingViewModel>()
+        .Name("ExcessBookingGrid")
+    .DataKeys(dataKeys => dataKeys.Add(k => k.ExcessBookingID))
+            .DataBinding(dataBinding => dataBinding.Ajax().Select("GetAllExcessBooking", "ExcessBooking"))
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.ItemID).ClientTemplate(
+            Html.ActionLink("Edit", "Edit", new { id = "<#= ExcessBookingID #>" }, new { @class = "t-button" }).ToHtmlString()
+        )
+        .Width(80).Title("").Filterable(false);
+
+        columns.Bound(c => c.JobNo).Width(150);
+        columns.Bound(c => c.ProformaInvoiceNo).Width(150);
+        
+        columns.Bound(c => c.ItemDescription).Width(200);
+        columns.Bound(c => c.ItemColor).Width(100);
+        columns.Bound(c => c.ItemSize).Width(100);
+
+        columns.Bound(c => c.TotalQuantity).Width(100);
+        columns.Bound(c => c.TotalPrice).Width(100);
+    })
+    .Resizable(r => r.Columns(true))
+    .Filterable()
+    .Pageable(p => p.PageSize(10))
+    .Selectable()
+    .Sortable()
+    .Scrollable(x => x.Height("auto"))
+    )
+</div>

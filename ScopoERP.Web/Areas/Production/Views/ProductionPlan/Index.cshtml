@@ -1,0 +1,158 @@
+﻿@{
+    ViewBag.Title = "Production Plan";
+}
+
+
+
+
+
+    <div class="row"  ng-app="scopoApp" ng-controller="calendarCtrl">
+        <form class="form-inline">
+            <div class="col-md-4 column">
+                <div class="box box-solid">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Search Criterion</h3>
+                    </div>
+
+                    <div class="box-body">
+
+
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label left-label">Factory</label>
+                            <div class="col-sm-8">
+                                @Html.DropDownList("cboFactory", ViewBag.Factory as SelectList, "", new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label left-label">Style</label>
+                            <div class="col-sm-8">
+                                @Html.DropDownList("cboStyle", ViewBag.Style as SelectList, "", new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="box-body">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Purchase Order</h3>
+                        </div>
+                        <div class="col-md-12" id="purchaseOrderContainer">
+
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+            </div>
+
+
+            <div class="col-md-8 column">
+                <div class="box box-solid">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Search criterion</h3>
+                    </div>
+
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label left-label">Floor</label>
+                            <div class="col-sm-4">
+                                @Html.DropDownList("cboFloor", ViewBag.Floor as SelectList, "", new { @class = "form-control" })
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label left-label">From Date</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control datepicker" />
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label left-label">To Date</label>
+                            <div class="col-sm-4">
+                                <input class="form-control datepicker" type="text" />
+                            </div>
+                        </div>
+                        <input type="submit" class="btn btn-primary btn-md" value="Search" id="btnSubmitSearch" />
+                        @*<div class="form-group">
+                                <div class="col-sm-4">
+                                    <input type="submit" class="btn btn-primary btn-md pull-right" value="Search" id="btnSubmitSearch" />
+                                </div>
+                            </div>*@
+
+
+                        @*<div class="box bos-solid with-border">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Production Plan</h3>
+                                </div>
+
+                                    <div class="col-md-12" id="productionPlanCalendar">
+
+
+                                    </div>
+                                    <label class="control-label col-md-12 productionHourLabel" for="cboStyle">Production Hour: 10 hours per day</label>
+
+                            </div>*@
+
+
+                    </div>
+
+
+                    <div class="box-body row " style="margin-top:29px">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Production Plan</h3>
+                        </div>
+                        <div class="col-md-12" id="productionPlanCalendar">
+
+
+                        </div>
+                    </div>
+
+
+
+
+
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+        </form>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @*<script src="~/Scripts/productionPlan/fullcalendar.js"></script>
+        <script src="~/Scripts/productionPlan/date.format.js"></script>
+        <script src="~/Scripts/productionPlan/context.js"></script>
+        <script src="~/Scripts/productionPlan/highcharts.js"></script>
+        <script src="~/Scripts/productionPlan/ProductionPlan.js"></script>*@

@@ -1,0 +1,143 @@
+﻿@model ScopoERP.MaterialManagement.ViewModel.AdvancedCMViewModel
+
+@{
+    ViewBag.Title = "Create Advanced CM";
+}
+
+<div class="col-sm-12">
+    <section class="panel">
+        <header class="panel-heading">
+            Create New AdvancedCM
+        </header>
+        <div class="panel-body">
+
+            @using (Html.BeginForm("Create", "AdvancedCM", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary(true)
+
+                <div class="form-group">
+                    <label class="col-lg-3 col-sm-3 control-label">Job No</label>
+                    <div class="col-lg-3">
+                        @Html.DropDownListFor(model => model.JobID, ViewBag.Job as SelectList, "Select Job No", new { @style = "width : 245px" })
+                        @Html.ValidationMessageFor(model => model.JobID)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 col-sm-3 control-label">PI No</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.PINo, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.PINo)
+                    </div>
+
+                    <label class="col-lg-3 col-sm-3 control-label">Supplier</label>
+                    <div class="col-lg-3">
+                        @Html.DropDownListFor(model => model.SupplierID, ViewBag.Supplier as SelectList, "Select Supplier", new { @style = "width : 245px" })
+                        @Html.ValidationMessageFor(model => model.JobID)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-3 col-sm-3 control-label">PI Value</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.PIValue, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.PIValue)
+                    </div>
+
+                    <label class="col-lg-3 col-sm-3 control-label">PI Date</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.PIDate, new { @class = "form-control default-date-picker" })
+                        @Html.ValidationMessageFor(model => model.PIDate)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-3 col-sm-3 control-label">UD Status</label>
+                    <div class="col-lg-3">
+                        @Html.CheckBoxFor(model => model.UDStatus, new { @class = "switch-large" })
+                        @Html.ValidationMessageFor(model => model.UDStatus)
+                    </div>
+
+                    <label class="col-lg-3 col-sm-3 control-label">Conversion Rate</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.ConversionRate, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ConversionRate)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-3 col-sm-3 control-label">Receivable Amount</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.ReceivableAmount, new { @class = "form-control", @readonly = "true" })
+                        @Html.ValidationMessageFor(model => model.ReceivableAmount)
+                    </div>
+
+                    <label class="col-lg-3 col-sm-3 control-label">Received Amount</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.ReceivedAmount, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ReceivedAmount)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-3 col-sm-3 control-label">Difference from Receivable</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.DifferenceFromReceivable, new { @class = "form-control", @readonly = "true" })
+                        @Html.ValidationMessageFor(model => model.DifferenceFromReceivable)
+                    </div>
+
+                    <label class="col-lg-3 col-sm-3 control-label">Cause of Difference</label>
+                    <div class="col-lg-3">
+                        @Html.TextAreaFor(model => model.Remarks, new { @class = "form-control", @readonly = "true" })
+                        @Html.ValidationMessageFor(model => model.Remarks)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-3 col-sm-3 control-label">Received Date</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.ReceivedDate, new { @class = "form-control default-date-picker" })
+                        @Html.ValidationMessageFor(model => model.ReceivedDate)
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="form-group">
+                    <div class="col-lg-offset-6 col-lg-3">
+                        @Html.ActionLink("Cancel", "Index", "AdvancedCM", null, new { @class = "btn btn-block btn-default" })
+                    </div>
+                    <div class="col-lg-3">
+                        <input type="submit" class="btn btn-block btn-primary" value="Save" />
+                    </div>
+                </div>
+            }
+
+        </div>
+    </section>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#JobID').select2();
+        $('#SupplierID').select2();
+
+        $('#ConversionRate').focusout(function () {
+            $('#ReceivableAmount').val($('#ConversionRate').val() * $('#PIValue').val());
+        });
+
+        $('#ReceivedAmount').focusout(function () {
+            var receivableAmount = $('#ReceivableAmount').val();
+            var receivedAmount = $('#ReceivedAmount').val();
+
+            if (receivableAmount != receivedAmount) {
+
+                $('#DifferenceFromReceivable').val(receivableAmount - receivedAmount);
+
+                $('#Remarks').attr('readonly', false);
+                $('#Remarks').attr('required', true);
+            }
+        })
+    })
+
+</script>

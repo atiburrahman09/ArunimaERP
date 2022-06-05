@@ -1,0 +1,68 @@
+﻿@{
+    ViewBag.Title = "Costsheet";
+}
+<style>
+     .select2-container, .select2-drop, .select2-search, .select2-search input {
+        box-sizing: border-box;
+        width: 100%;
+    }
+</style>
+<div class="col-md-12">
+    <section class="panel">
+        <header class="panel-heading"> Search Criteria </header>
+        <div class="panel-body">
+            <div>
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="cboStyle">Style</label>
+                        <div class="col-md-3">
+                            @Html.DropDownList("StyleDropDown", "Select Style")
+                        </div>
+
+                        <label class="control-label col-md-2" for="cboCostsheetNo">Costsheet No</label>
+                        <div class="col-md-3">
+                            @Html.DropDownList("CostSheetNoDropDown", Enumerable.Empty<SelectListItem>())
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="cboStyle">Copy From Style</label>
+                        <div class="col-md-3">
+                            @Html.DropDownList("CopyFromStyleDropDown", "Select Style")
+                        </div>
+
+                        <label class="control-label col-md-2" for="cboCostsheetNo">Costsheet No</label>
+                        <div class="col-md-3">
+                            @Html.DropDownList("CopyFromCostSheetNoDropDown", Enumerable.Empty<SelectListItem>())
+                        </div>
+
+                        <div class="col-md-2">
+                            <button id="btn-copy" class="btn btn-info btn-block">Copy</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    <section class="panel">
+        <header class="panel-heading"> Costsheet Details 
+        <div class="pull-right">
+            <button style="height:30px" id="btnCostsheetExport" class="btn btn-success">
+                Export
+            </button>
+            <button style="height:30px" id="btnCostsheetDelete" class="btn btn-danger">
+                Delete
+            </button>
+        </div>
+        </header>
+
+        <div class="panel-body">
+            <div class="form-group">
+                <div class="gridStyle" id="costsheet-create-area">
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script src="~/Scripts/costsheet/costsheet.js"></script>

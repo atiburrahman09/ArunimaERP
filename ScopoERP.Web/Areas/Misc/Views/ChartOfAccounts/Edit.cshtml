@@ -1,0 +1,44 @@
+﻿@model ScopoERP.Accounts.ViewModel.ChartOfAccountViewModel
+
+@{
+    ViewBag.Title = "Update Account";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            @using (Html.BeginForm("Edit", "ChartOfAccounts", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                @Html.HiddenFor(model => model.ChartOfAccountID)
+
+                <div class="card-body">
+                    <div class="form-group row">
+                        <label class="col-md-4">Account No</label>
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.AccountNo, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.AccountNo)
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-4">Account Name</label>
+                        <div class="col-md-8">
+                            @Html.TextAreaFor(model => model.AccountName, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.AccountName)
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="form-group row">
+                        <div class="col-md-2">
+                            @Html.ActionLink("Cancel", "Index", "ChartOfAccounts", null, new { @class = "btn btn-block btn-dark waves-effect waves-light" })
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-success btn-block waves-effect waves-light"> Save</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

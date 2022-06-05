@@ -1,0 +1,38 @@
+﻿@model IEnumerable<ScopoERP.Production.ViewModel.MachineCategoryViewModel>
+@{
+    ViewBag.Title = "Machine Category";
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-solid">
+            <header class="card-header with-border">
+                <h3 class="card-title pull-right">@Html.ActionLink("Create New Machine Category", "Create", "MachineCategory", null, new { @class = "btn btn-success btn-block waves-effect waves-light" })</h3>
+            </header>
+            <div class="card-body">
+                <div class="form-group row">
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <a href="@Url.Action("Edit" , new { id = item.MachineCategoryID})"><span class="fa fa-edit"></span></a>
+                                    </td>
+                                    <td>@item.Name</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

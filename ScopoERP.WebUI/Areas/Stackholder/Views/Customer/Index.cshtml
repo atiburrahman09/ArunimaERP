@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "Customer";
+}
+
+<div class="col-sm-12">
+
+    <p>
+        @Html.ActionLink("Create New Customer", "Create", "Customer", null, new { @class = "btn btn-lg btn-primary" })
+    </p>
+
+    @using Telerik.Web.Mvc.UI
+
+    @( Html.Telerik().Grid<ScopoERP.Stackholder.ViewModel.CustomerViewModel>()
+    .Name("CustomerGrid")
+    .DataKeys(dataKeys => dataKeys.Add(k => k.CustomerID))
+    .DataBinding(dataBinding => dataBinding.Ajax().Select("GetAllCustomer", "Customer"))
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.CustomerID).ClientTemplate(
+            Html.ActionLink("Edit", "Edit", new { id = "<#= CustomerID #>" }, new { @class = "t-button" }).ToHtmlString()
+        )
+        .Width(120).Title("").Filterable(false);
+
+        columns.Bound(c => c.CustomerName).Width(170);
+    })
+    .ColumnContextMenu()
+    .Resizable(r => r.Columns(true))
+    .Reorderable(r => r.Columns(true))
+    .KeyboardNavigation()
+    .Filterable()
+    .Pageable(p => p.PageSize(10))
+    .Selectable()
+    .Sortable()
+    )
+
+</div>

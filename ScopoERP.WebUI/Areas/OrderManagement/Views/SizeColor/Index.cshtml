@@ -1,0 +1,87 @@
+﻿@{
+    ViewBag.Title = "Size Color Matrix";
+}
+
+<div class="col-sm-12" ng-app="sizecolor.controllers">
+    <toaster-container toaster-options="{ 'close-button':true}"></toaster-container>
+    <section class="panel">
+        <header class="panel-heading">
+            Purchase Order No :
+        </header>
+        <div class="panel-body">
+            <div ng-controller="sizeColorController" ng-init="init()">
+
+                <div class="form-group">
+
+                </div>
+
+                <div style="width: 100%; overflow-x:scroll" class="form-group">
+                    <table width="3000" class="table table-striped table-bordered">
+                        <tr>
+                            <td>
+                                <button style="width:75px;" class="btn btn-success" ng--click="addRow()">+ Color</button>
+                                <button style="width:75px;" class="btn btn-success" ng--click="addColumn()">+ Size</button>
+                            </td>
+                            <td ng-repeat="columns in sizeColorList[0].SizeQuantity">
+                                <input style="width:100px;" type="text" value="{{columns.Size}}" ng-model="columns.Size" class="form-control" />
+                            </td>
+                            <td><center>Total</center></td>
+                        </tr>
+
+                        <tr ng-repeat="rows in sizeColorList">
+                            <td>
+                                <input style="width:100px;" type="text" value="{{rows.Color}}" ng-model="rows.Color" class="form-control" />
+                            </td>
+                            <td ng-repeat="columns in rows.SizeQuantity">
+                                <input style="width:100px;" type="text" value="{{columns.Quantity}}" ng-model="columns.Quantity" class="form-control" />
+                            </td>
+
+                            <td>
+                                <center>{{getRowTotal($index)}}</center>
+                            </td>
+                            <td>
+                                <center><a href="javascript:void(0);" id="btnRemove" ng-click="removeRow($index)"><i class="fa fa-trash-o fa-2x"></i></a></center>
+                            </td>
+                            
+                        </tr>
+
+                        <tr>
+                            <td>Total</td>
+                            <td ng-repeat="columns in sizeColorList[0].SizeQuantity">
+                                <center>{{getColumnTotal($index)}}</center>
+                            </td>
+                            <td>
+                                <center>{{getGrandTotal()}}</center>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td ng-repeat="columns in sizeColorList[0].SizeQuantity">
+                                <center><a href="javascript:void(0);" id="btnRemove" ng-click="removeColumn($index)"><i class="fa fa-trash-o fa-2x"></i></a></center>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">Copy From:</label>
+                    <div class="col-md-3">
+                        <select ui-select2="dropDownOptions" data-placeholder="Select PO" ng-options="po.Value as po.Text for po in poDropDown track by po.Value" ng-model="copyFromPO" class="" style="width:100%;">
+                            <option value="">Select PO</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="button" class="btn btn-success btn-block" value="Copy" ng-click="copyButtonClick()" />
+                    </div>
+                    <div class="col-md-offset-1 col-md-3">
+                        <input type="button" class="btn btn-primary btn-block" value="Save" ng-click="saveButtonClick()" />
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+</div>
+@Html.Partial("_angular")
+<script src="~/Scripts/app/services/sizecolor.services.js"></script>
+<script src="~/Scripts/app/controllers/sizecolor.controllers.js"></script>

@@ -1,0 +1,44 @@
+﻿@model IEnumerable<ScopoERP.MaterialManagement.ViewModel.ItemCategoryViewModel>
+@{
+    ViewBag.Title = "Item Category";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        @Html.ActionLink("Add New Item Category", "Create", "ItemCategory", null, new { @class = "btn btn-success btn-block waves-effect waves-light" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th class="text-center"></th>
+                                <th class="text-center">Name</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>                                    
+                                    <td>
+                                        <a href="/Merchandising/ItemCategory/Edit/@item.ItemCategoryID" class="btn btn-primary waves-effect waves-light">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                    </td>
+                                    <td>@item.Name</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

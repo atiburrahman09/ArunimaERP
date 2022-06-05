@@ -1,0 +1,48 @@
+﻿@{
+    ViewBag.Title = "Purchase Order";
+}
+
+<div class="col-sm-12">
+
+    <p>
+        @Html.ActionLink("Create New Funding", "Create", "Funding", null,
+        new
+        {
+            @id = "fundingCreateDialogCall",
+            data_dialog_id = "fundingDialog",
+            @class = "btn btn-primary btn-lg"
+        })
+    </p>
+
+    @using Telerik.Web.Mvc.UI
+
+    @( Html.Telerik().Grid<ScopoERP.OrderManagement.ViewModel.FundingViewModel>()
+    .Name("FundingGrid")
+    .DataKeys(dataKeys => dataKeys.Add(k => k.FundingID))
+                            .DataBinding(dataBinding => dataBinding.Ajax().Select("GetAllFunding", "Funding"))
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.FundingID).ClientTemplate(
+            Html.ActionLink("Edit", "Edit", new { id = "<#= FundingID #>" },
+                new
+                {
+                    @class = "t-button fundingEditDialogCall",
+                    data_dialog_id = "fundingDialog"
+                }).ToHtmlString()
+        )
+        .Width(245).Title("").Filterable(false);
+
+        columns.Bound(c => c.JobNo).Width(200);
+        columns.Bound(c => c.SupplierName).Width(200);
+
+        columns.Bound(c => c.Amount).Width(200);
+    })
+    .Resizable(r => r.Columns(true))
+    .Filterable()
+    .Pageable(p => p.PageSize(10))
+    .Selectable()
+    .Sortable()
+    .Scrollable(x => x.Height("auto"))
+    )
+
+</div>

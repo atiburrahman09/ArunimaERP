@@ -1,0 +1,107 @@
+﻿@{
+    ViewBag.Title = "Production Plan";
+}
+<style>
+    .external-po { /* try to mimick the look of a real event */
+        margin: 10px 0;
+        padding: 2px 4px;
+        background: #3366CC !important;
+        color: #fff;
+        font-size: .85em;
+        cursor: pointer;
+    }
+</style>
+<div class="col-sm-3">
+    <section class="panel">
+        <header class="panel-heading"> Search Criteria </header>
+        <div class="panel-body">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-md-3" for="cboFactory">Factory</label>
+                    <div class="col-md-9">
+                        @Html.DropDownList("cboFactory", ViewBag.Factory as SelectList, "", new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3" for="cboStyle">Style</label>
+                    <div class="col-md-9">
+                        @Html.DropDownList("cboStyle", ViewBag.Style as SelectList, "", new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="panel">
+        <header class="panel-heading"> Purchase Order </header>
+        <div class="panel-body">
+            <div class="col-md-12" id="purchaseOrderContainer">
+
+            </div>
+        </div>
+    </section>
+</div>
+<div class="col-sm-9">
+    <section class="panel">
+        <header class="panel-heading"> Search Criteria </header>
+        <div class="panel-body">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-md-1" for="cboFloor">Floor</label>
+                    <div class="col-md-2">
+                        @Html.DropDownList("cboFloor", ViewBag.Floor as SelectList, "", new { @class = "form-control" })
+                    </div>
+
+                    <label class="control-label col-md-1" for="txtStartDate">From Date</label>
+                    <div class="col-md-2">
+                        <input type="text" id="fromDate" class="form-control default-date-picker" />
+                    </div>
+                    <label class="control-label col-md-1" for="txtToDate">To Date</label>
+                    <div class="col-md-2">
+                        <input type="text" id="toDate" class="form-control default-date-picker" />
+                    </div>
+                        @*<label class="control-label col-md-1" for="txtStartDate">Month</label>
+            <div class="col-md-2">
+                <select id="cboStartDate" class="form-control">
+                    <option value="0">Jan</option>
+                    <option value="1">Feb</option>
+                    <option value="2">Mar</option>
+                    <option value="3">Apr</option>
+                    <option value="4">May</option>
+                    <option value="5">Jun</option>
+                    <option value="6">Jul</option>
+                    <option value="7">Aug</option>
+                    <option value="8">Sep</option>
+                    <option value="9">Oct</option>
+                    <option value="10">Nov</option>
+                    <option value="11">Dec</option>
+                </select>
+            </div>
+
+            <label class="control-label col-md-1" for="txtYear">Year</label>
+            <div class="col-md-2">
+                <input type="text" id="txtYear" class="form-control" />
+            </div>*@
+
+                        <div class="col-md-2">
+                            <input type="submit" id="btnSubmitSearch" value="Search" class="btn btn-primary btn-block" />
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="panel">
+        <header class="panel-heading"> Production Plan </header>
+        <div class="panel-body">
+            <div class="col-md-12" id="productionPlanCalendar"></div>
+            <label class="control-label col-md-12 productionHourLabel" for="cboStyle">Production Hour: 10 hours per day</label>
+        </div>
+    </section>
+</div>
+
+<script src="~/Scripts/productionPlan/fullcalendar.js"></script>
+<script src="~/Scripts/productionPlan/date.format.js"></script>
+<script src="~/Scripts/contextMenu/context.js"></script>
+<script src="~/Scripts/highcharts.js"></script>
+<script src="~/Scripts/productionPlan/ProductionPlan.js"></script>
+

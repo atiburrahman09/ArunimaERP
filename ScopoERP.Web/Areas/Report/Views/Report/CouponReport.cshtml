@@ -1,0 +1,98 @@
+﻿@model ScopoERP.Reports.ViewModel.ReportFilteringViewModel
+@{
+    ViewBag.Title = "CouponReport";
+}
+
+
+<div class="box box-solid">
+    <header class="box-header with-border">
+        <h3 class="box-title"> Search Criteria</h3>
+    </header>
+    <div class="box-body">
+        <div class="col-md-offset-3 col-sm-6">
+            @using (Html.BeginForm("GetCouponReport", "Report", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary(true)
+                @Html.HiddenFor(model => model.BuyerName)
+
+                <div class="form-group row">
+                    <label class="col-lg-4">Buyer Name</label>
+                    <div class="col-lg-8">
+                        @Html.DropDownListFor(model => model.BuyerID, ViewBag.Buyer as SelectList, "", new { @class = "form-group select2" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-4">Style</label>
+                    <div class="col-lg-8">
+                       @Html.DropDownListFor(model => model.StyleID, Enumerable.Empty<SelectListItem>(), "", new { @class = "form-control select2" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-4">Purchase Order</label>
+                    <div class="col-lg-8">
+                       @Html.DropDownListFor(model => model.PurchaseOrderID, Enumerable.Empty<SelectListItem>(), "", new { @class = "form-control select2" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-4">Cutting Plan</label>
+                    <div class="col-lg-8">
+                        @Html.DropDownListFor(model => model.CuttingPlanID, Enumerable.Empty<SelectListItem>(), "", new { @class = "form-control select2" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-4">Operation Category</label>
+                    <div class="col-lg-8">
+                        @Html.DropDownListFor(model => model.OperationCategoryID, ViewBag.OperationCategoryList as SelectList, "", new { @class = "form-group select2" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-2">
+                        <input type="submit" class="btn btn-block btn-primary" value="Preview" />
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#BuyerID').on('change', function () {
+
+            $.getJSON('\GetStyleListByBuyerID', { buyerID: $(this).val() }, function (res) {
+                console.log(res);
+                $("#StyleID").empty();
+                $("#StyleID").append("<option value='0'>--Select Style--</option>");
+                $.each(res, function (index, s) {
+                    $("#StyleID").append("<option value='" + s.Value + "'>" + s.Text + "</option>");
+                });
+            });
+        });
+
+        $('#StyleID').on('change', function () {
+            $.getJSON('\GetPurchaseOrderListByStyleID', { styleID: $(this).val() }, function (res) {
+                console.log(res);
+                $("#PurchaseOrderID").empty();
+                $("#PurchaseOrderID").append("<option value='0'>--Select Purchase Order--</option>");
+                $.each(res, function (index, p) {
+                    $("#PurchaseOrderID").append("<option value='" + p.Value + "'>" + p.Text + "</option>");
+                });
+            });
+        });
+
+        $('#PurchaseOrderID').on('change', function () {
+            $.getJSON('\GetCuttingPlanListByPOID', { purchaseOrderID: $(this).val() }, function (res) {
+                console.log(res);
+                $("#CuttingPlanID").empty();
+                $("#CuttingPlanID").append("<option value='0'>--Select Cutting Plan--</option>");
+                $.each(res, function (index, c) {
+                    $("#CuttingPlanID").append("<option value='" + c.Value + "'>" + c.Value + "</option>");
+                });
+            });
+        });
+    })
+</script>
+
+

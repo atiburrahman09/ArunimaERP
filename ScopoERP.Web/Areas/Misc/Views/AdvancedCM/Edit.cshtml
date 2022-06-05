@@ -1,0 +1,133 @@
+﻿@model ScopoERP.MaterialManagement.ViewModel.AdvancedCMViewModel
+
+@{
+    ViewBag.Title = "Update Advanced CM";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            @using (Html.BeginForm("Edit", "AdvancedCM", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary(true)
+
+                @Html.HiddenFor(model => model.AdvancedCMID)
+                @Html.HiddenFor(model => model.PIID)
+                <div class="card-body">
+                    <div class="form-group row">
+                        <label class="col-md-2">Job No</label>
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.JobID, ViewBag.Job as SelectList, "Select Job No", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.JobID)
+                        </div>
+                        <label class="col-md-2">PI No</label>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.PINo, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.PINo)
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2">Supplier</label>
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.SupplierID, ViewBag.Supplier as SelectList, "Select Supplier", new { @class = "form-control", @readonly = "true" })
+                            @Html.ValidationMessageFor(model => model.JobID)
+                        </div>
+                        <label class="col-md-2">PI Value</label>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.PIValue, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.PIValue)
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2">PI Date</label>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.PIDate, new { @class = "form-control datepicker" })
+                            @Html.ValidationMessageFor(model => model.PIDate)
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4">
+                            <input type="checkbox" id="checkbox_1" value="true" name="UDStatus" checked="@Model.UDStatus">
+                            <label for="checkbox_1">UD Status</label>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2">Conversion Rate</label>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.ConversionRate, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.ConversionRate)
+                        </div>
+                        <label class="col-md-2">Receivable Amount</label>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.ReceivableAmount, new { @class = "form-control", @readonly = "true" })
+                            @Html.ValidationMessageFor(model => model.ReceivableAmount)
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2">Received Amount</label>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.ReceivedAmount, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.ReceivedAmount)
+                        </div>
+                        <label class="col-md-2">Difference from Receivable</label>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.DifferenceFromReceivable, new { @class = "form-control", @readonly = "true" })
+                            @Html.ValidationMessageFor(model => model.DifferenceFromReceivable)
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2">Cause of Difference</label>
+                        <div class="col-md-4">
+                            @Html.TextAreaFor(model => model.Remarks, new { @class = "form-control", @readonly = "true" })
+                            @Html.ValidationMessageFor(model => model.Remarks)
+                        </div>
+                        <label class="col-md-2">Received Date</label>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.ReceivedDate, new { @class = "form-control datepicker" })
+                            @Html.ValidationMessageFor(model => model.ReceivedDate)
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="card-footer">
+                    <div class="form-group row">
+                        <div class="col-md-2">
+                            @Html.ActionLink("Cancel", "Index", "AdvancedCM", null, new { @class = "btn btn-block btn-dark waves-effect waves-light" })
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-success btn-block waves-effect waves-light"> Save</button>
+                        </div>
+                    </div>
+
+                </div>
+            }
+            </div>
+        </div>
+    </div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        //$('#JobID').select2();
+        //$('#SupplierID').select2();
+
+        $('#ConversionRate').focusout(function () {
+            $('#ReceivableAmount').val($('#ConversionRate').val() * $('#PIValue').val());
+        });
+
+        $('#ReceivedAmount').focusout(function () {
+            var receivableAmount = $('#ReceivableAmount').val();
+            var receivedAmount = $('#ReceivedAmount').val();
+
+            if (receivableAmount != receivedAmount) {
+
+                $('#DifferenceFromReceivable').val(receivableAmount - receivedAmount);
+
+                $('#Remarks').attr('readonly', false);
+                $('#Remarks').attr('required', true);
+            }
+        })
+    })
+
+</script>

@@ -1,0 +1,50 @@
+﻿@model ScopoERP.MaterialManagement.ViewModel.PIViewModel
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<div class="col-sm-offset-3 col-sm-6">
+    <section class="panel">
+        <header class="panel-heading">
+            Are you sure want to Delete the following Proforma Invoice?
+        </header>
+        <div class="panel-body">
+            @using (Html.BeginForm("Delete", "PI", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                <div class="form-group">
+                    <label class="col-lg-4 col-sm-4 control-label">Reference No</label>
+                    <div class="col-lg-8">
+                        @Html.TextBoxFor(model => model.ReferenceNo, new { @readlony = true, @class = "form-control", @disabled = "true" })
+                        @Html.ValidationMessageFor(model => model.ReferenceNo)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-4 col-sm-4 control-label">PI No</label>
+                    <div class="col-lg-8">
+                        @Html.TextBoxFor(model => model.PINo, new { @class = "form-control", @disabled = "true" })
+                        @Html.ValidationMessageFor(model => model.PINo)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-4 col-sm-4 control-label">PI Date</label>
+                    <div class="col-lg-8">
+                        @Html.TextBoxFor(model => model.PIDate, new { @class = "form-control", @disabled="true" })
+                        @Html.ValidationMessageFor(model => model.PIDate)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-offset-4 col-lg-4">
+                        @Html.ActionLink("Cancel", "Index", "PI", null, new { @class = "btn btn-block btn-default" })
+                    </div>
+                    <div class="col-lg-4">
+                        <input type="submit" class="btn btn-block btn-danger" value="Delete" />
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+</div>

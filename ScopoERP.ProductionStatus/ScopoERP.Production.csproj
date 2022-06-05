@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5E5C794E-CBA4-4B32-94E2-4BEDAA899694}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ScopoERP.ProductionStatus</RootNamespace>
+    <AssemblyName>ScopoERP.Production</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BLL\CouponLogic.cs" />
+    <Compile Include="BLL\CuttingPlanLogic.cs" />
+    <Compile Include="BLL\EmployeeCapabilityService.cs" />
+    <Compile Include="BLL\JobClassLogic.cs" />
+    <Compile Include="BLL\MachineCategoryLogic.cs" />
+    <Compile Include="BLL\MachineLogic.cs" />
+    <Compile Include="BLL\ProductionFloorLogic.cs" />
+    <Compile Include="BLL\ProductionPlanningLogic.cs" />
+    <Compile Include="BLL\ProductionReportLogic.cs" />
+    <Compile Include="BLL\ProductionStatusLogic.cs" />
+    <Compile Include="BLL\SpecLogic.cs" />
+    <Compile Include="BLL\StandardOperationLogic.cs" />
+    <Compile Include="BLL\StyleOperationLogic.cs" />
+    <Compile Include="BLL\SupervisorLogic.cs" />
+    <Compile Include="BLL\SewingPlanLogic.cs" />
+    <Compile Include="BLL\TrainingCurveLogic.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\AssignCouponViewModel.cs" />
+    <Compile Include="ViewModel\BundleViewModel.cs" />
+    <Compile Include="ViewModel\CouponViewModel.cs" />
+    <Compile Include="ViewModel\CuttingPlanViewModel.cs" />
+    <Compile Include="ViewModel\EmployeeCapabilityViewModel.cs" />
+    <Compile Include="ViewModel\EmployeeRateViewModel.cs" />
+    <Compile Include="ViewModel\GumSheetDataViewModel.cs" />
+    <Compile Include="ViewModel\gumSheetOffStandanrdViewModel.cs" />
+    <Compile Include="ViewModel\GumSheetViewModel.cs" />
+    <Compile Include="ViewModel\JobClassViewModel.cs" />
+    <Compile Include="ViewModel\offStandardRateViewModel.cs" />
+    <Compile Include="ViewModel\OperationCategoryViewModel.cs" />
+    <Compile Include="ViewModel\PackMasterViewModel.cs" />
+    <Compile Include="ViewModel\PoEmployeeMappingViewModel.cs" />
+    <Compile Include="ViewModel\ProductionFloorViewModel.cs" />
+    <Compile Include="ViewModel\LineViewModel.cs" />
+    <Compile Include="ViewModel\MachineCategoryViewModel.cs" />
+    <Compile Include="ViewModel\MachineViewModel.cs" />
+    <Compile Include="ViewModel\ProductionPlanViewModel.cs" />
+    <Compile Include="ViewModel\ProductionReportViewModel.cs" />
+    <Compile Include="ViewModel\ProductionStatisticsViewModel.cs" />
+    <Compile Include="ViewModel\ProductionStatusFilterViewModel.cs" />
+    <Compile Include="ViewModel\ProductionStatusViewModel.cs" />
+    <Compile Include="ViewModel\RawMaterialStatusViewModel.cs" />
+    <Compile Include="ViewModel\SpecViewModel.cs" />
+    <Compile Include="ViewModel\StandardOperationViewModel.cs" />
+    <Compile Include="ViewModel\StyleOperationViewModel.cs" />
+    <Compile Include="ViewModel\SupervisorViewModel.cs" />
+    <Compile Include="ViewModel\TargetViewModel.cs" />
+    <Compile Include="ViewModel\TrainingCurveViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ScopoERP.Common\ScopoERP.Common.csproj">
+      <Project>{f9950560-6604-4bfb-a039-7a6d4fff4d93}</Project>
+      <Name>ScopoERP.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ScopoERP.Domain\ScopoERP.Domain.csproj">
+      <Project>{d20f07c5-c03a-4aee-a034-744e830c45e7}</Project>
+      <Name>ScopoERP.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ScopoERP.OrderManagement\ScopoERP.OrderManagement.csproj">
+      <Project>{C2576C87-6E10-4C8F-BF66-F52A3697C0D0}</Project>
+      <Name>ScopoERP.OrderManagement</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

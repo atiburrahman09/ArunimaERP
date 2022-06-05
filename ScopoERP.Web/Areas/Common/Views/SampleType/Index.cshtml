@@ -1,0 +1,42 @@
+﻿@model IEnumerable<ScopoERP.Common.ViewModel.SampleTypeViewModel>
+@{
+    ViewBag.Title = "SampleType";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-md-2">
+                        @Html.ActionLink("Add New Sample Type", "Create", "SampleType", null, new { @class = "btn btn-success btn-block waves-effect waves-light" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Sample Type Name</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.SampleTypeName</td>
+                                    <td>
+                                        <a href="/Common/SampleType/Edit/@item.SampleTypeID" class="btn btn-primary waves-effect waves-light">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

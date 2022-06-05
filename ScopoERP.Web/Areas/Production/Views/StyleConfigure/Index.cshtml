@@ -1,0 +1,125 @@
+﻿
+@{
+    ViewBag.Title = "Style";
+}
+
+<div class="row" ng-app="scopoApp" ng-controller="styleConfigureCtrl" ng-init="init()" ng-cloak>
+    <div class="col-sm-3">
+        <div class="card card-solid">           
+            <div class="card-body">
+                <div class="form-group row">                    
+                        <input type="text" ng-model="buyerId"
+                               placeholder="Enter Buyer Name"
+                               uib-typeahead="b as b.BuyerName for b in buyerList | filter:$viewValue"
+                               typeahead-on-select="getBuyerIDAndStyle($item, $model, $label)"
+                               class="form-control" required>
+                    </div>                
+                <div class="form-group row">
+                    <input type="text" placeholder="Search Style" class="form-control margin-bottom" ng-model="searchStyle" />
+                </div>
+                <ul class="list-group" style="height:741px;overflow:auto">
+                    <li class="list-group-item" ng-repeat="style in styleList | filter:searchStyle track by $index" ng-class="{active:style.selected}">
+                        <a href="#" ng-click="selectedStyle($index,style)"><i class="fa fa-shirtsinbulk" aria-hidden="true"></i> {{style.StyleNo}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+    <div class="col-sm-{{column}}">
+        <div class="card card-solid">
+            <form name="operationForm" ng-submit="saveStyleOperation()" novalidate>              
+                <div class="card-body">
+                    <div class="form-group row pull-right">
+                        <button type="button" class="btn btn-primary btn-sm btn-flat" ng-click="addSize()"><i class="fa fa-file-text-o bg-yellow"></i>Add Size</button>
+                        <br />
+                    </div>
+                    <br />
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Operation Name</th>
+                                <th>Spec</th>
+                                <th>Machine</th>
+                                <th>Section No</th>
+                                <th>Supervisor</th>
+                                <th>Auxiliary Time(min)</th>
+                                <th ng-repeat="sizes in operationList[0].SizeListVM"><input type="text" class="form-control" placeholder="Insert Size" ng-model="sizes.Size" /></th>
+
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="operation in operationList | filter:searchOperation">
+                                <td>
+                                    <select class="form-control select2"
+                                            ng-model="operation.OperationID"
+                                            ng-options="o.OperationID as (o.OperationCodeNo+'-'+o.OperationName) for o in allStdOperations" 
+                                            required>
+                                        <option value="">Select Operation</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control select2"
+                                            ng-model="operation.SpecID"
+                                            ng-options="s.SpecID as (s.SpecNo+'-'+s.SpecName) for s in specList | filter : { OperationID: operation.OperationID }:true"
+                                            required>
+                                        <option value="">Select Operation</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control"
+                                            ng-options="machine.Value as machine.Text for machine in machineList"
+                                            ng-model="operation.MachineID">
+                                        <option value="">Select Machine</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control" min="1"
+                                           ng-model="operation.SectionNo"
+                                           placeholder="Section No"
+                                           required />
+                                </td>
+                                <td>
+                                    <select class="form-control"
+                                            ng-options="supervisor.SupervisorID as (supervisor.Line +'-'+ supervisor.SupervisorName) for supervisor in supervisorList"
+                                            ng-model="operation.SupervisorID">
+                                        <option value="">Select Supervisor</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control"
+                                           placeholder="Auxiliary Time" ng-model="operation.AuxSam" />
+                                </td>
+                                <td ng-repeat="size in operation.SizeListVM">
+                                    <input type="number" class="form-control" min="1"
+                                           ng-model="size.Sam"
+                                           placeholder="Operation Time"
+                                           required />
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-flat btn-sm btn-warning" ng-click="removeOperation($index)">
+                                        <span class="fa fa-remove"></span>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer fixed">
+                    <div class="col-sm-2">
+                        <button class="btn btn-primary" type="button" ng-click="addOperation()"><i class="fa fa-plus"> </i> Add Row</button>
+                    </div>
+                    <label class="control-label col-sm-offset-1 col-sm-2">SAM: {{totalOperationTime != null ? totalOperationTime : "N/A"}}(sec)</label>
+                    <div class="col-sm-2 pull-right">
+                        <button class="btn btn-success" type="submit"><i class="fa fa-floppy-o"> </i> Save Changes</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

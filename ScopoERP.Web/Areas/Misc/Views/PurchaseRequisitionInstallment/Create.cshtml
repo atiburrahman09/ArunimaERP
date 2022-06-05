@@ -1,0 +1,90 @@
+﻿@model ScopoERP.Accounts.ViewModel.PurchaseRequisitionInstallmentViewModel
+@{
+    ViewBag.Title = "Create";
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            @using (Html.BeginForm("Create", "PurchaseRequisitionInstallment", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary(true)
+
+                <div class="card-body">
+                    <div class="form-group row">
+                        <label class="col-lg-4">Requisition No</label>
+                        <div class="col-lg-8">
+                            @Html.DropDownListFor(model => model.PurchaseRequisitionID, ViewBag.requisitionList as SelectList, "", new { @class = "form-control select2", required = "required" })
+                            @Html.ValidationMessageFor(model => model.PurchaseRequisitionID)
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-4">Requisition Amount</label>
+                        <div class="col-lg-8">
+                            @Html.TextBox("TotalAmount", null, new { @class = "form-control", @readonly = true })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-4">Installment Amount</label>
+                        <div class="col-lg-8">
+                            @Html.TextBoxFor(model => model.Amount, new { @class = "form-control", required = "required" })
+                            @Html.ValidationMessageFor(model => model.Amount)
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-4">Installment Date</label>
+                        <div class="col-lg-8">
+                            @Html.TextBoxFor(model => model.InstallmentDate, new { @class = "form-control datepicker", required = "required" })
+                            @Html.ValidationMessageFor(model => model.InstallmentDate)
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-4">Payable Amount</label>
+                        <div class="col-lg-8">
+                            @Html.TextBoxFor(model => model.PayableAmount, new { @class = "form-control", @readonly = true })
+                            @Html.ValidationMessageFor(model => model.PayableAmount)
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-4">Payable Date</label>
+                        <div class="col-lg-8">
+                            @Html.TextBoxFor(model => model.PayableDate, new { @class = "form-control datepicker", required = "required" })
+                            @Html.ValidationMessageFor(model => model.PayableDate)
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="form-group row">
+                        <div class="col-lg-offset-8 col-lg-2">
+                            @Html.ActionLink("Cancel", "Index", "PurchaseRequisitionInstallment", null, new { @class = "btn btn-block btn-dark waves-effect waves-light" })
+                        </div>
+                        <div class="col-lg-2">
+                            <button type="submit" class="btn btn-success btn-block waves-effect waves-light"> Save</button>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#PurchaseRequisitionID').on('change', function () {
+            $.getJSON('\GetTotalAmount', { purchaseRequisitionID: $(this).val() }, function (res) {
+                $('#TotalAmount').val('');
+                $('#TotalAmount').val(res);
+            });
+        });
+
+
+        $('#Amount').on('change', function () {
+            $('#PayableAmount').val($('#TotalAmount').val() - $(this).val());
+        });
+    })
+</script>

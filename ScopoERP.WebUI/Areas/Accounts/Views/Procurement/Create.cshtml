@@ -1,0 +1,72 @@
+﻿@model ScopoERP.Accounts.ViewModel.ProcurementViewModel
+@{
+    ViewBag.Title = "Save";
+}
+
+<div class="col-sm-offset-1 col-sm-10">
+    <section class="panel">
+        <header class="panel-heading">
+            Procurement
+        </header>
+        <div class="panel-body">
+
+            @using (Html.BeginForm("Create", "Procurement", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary(true)
+
+                if (ViewBag.ProcurementID !=  null)
+                {
+                    @Html.HiddenFor(model => model.ProcurementID)
+                }
+
+                <div class="form-group">
+                    <label class="col-xs-3 control-label">Item</label>
+                    <div class="col-xs-9">
+                        @Html.TextBoxFor(model => model.Item, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Item)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-3 control-label">Assigned To</label>
+                    <div class="col-xs-3">
+                        @Html.TextBoxFor(model => model.AssignedTo, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.AssignedTo)
+                    </div>
+
+                    <label class="col-xs-3 control-label">Assigned Date</label>
+                    <div class="col-xs-3">
+                        @Html.TextBoxFor(model => model.AssignedDate, new { @class = "form-control default-date-picker" })
+                        @Html.ValidationMessageFor(model => model.AssignedDate)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-3 control-label">Tracking No</label>
+                    <div class="col-xs-3">
+                        @Html.TextBoxFor(model => model.TrackingNo, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.TrackingNo)
+                    </div>
+
+                    <label class="col-xs-3 control-label">Status</label>
+                    <div class="col-xs-3">
+                        @Html.DropDownListFor(model => model.Status, ViewBag.statusList as SelectList, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Status)
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="form-group">
+                    <div class="col-lg-offset-4 col-lg-4">
+                        @Html.ActionLink("Cancel", "Index", "Procurement", null, new { @class = "btn btn-block btn-default" })
+                    </div>
+                    <div class="col-lg-4">
+                        <input type="submit" class="btn btn-block btn-primary" value="Save" />
+                    </div>
+                </div>
+            }
+
+        </div>
+    </section>
+</div>

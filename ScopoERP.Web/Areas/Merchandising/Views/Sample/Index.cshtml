@@ -1,0 +1,141 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row" ng-app="scopoApp" ng-controller="sampleApproveCtrl" ng-init="init()">
+    <div class="col-md-12">
+        <form name="approveForm" class="form-horizontal" ng-submit="saveApprove()" novalidate>
+            <div class="col-md-12 column">
+                <div class="card card-solid">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <select ng-options="style.StyleID as style.StyleNo for style in styleList"
+                                        ng-model="StyleID" class="form-control select2" ng-change="getAllSampleApprove(StyleID)" required>
+                                    <option value="">Select Style</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-12">
+                <div class="card card-solid">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped no-wrap">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Sample</th>
+                                        <th>Color</th>
+                                        <th>Size</th>
+                                        <th>Quantity</th>
+                                        <th>Appr. Sent Date</th>
+                                        <th>Sent Date</th>
+                                        <th>Approval Date</th>
+                                        <th>Validity Time (In Days)</th>
+                                        <th>Due Date</th>
+                                        <th>Approval Status</th>
+                                        <th>Courier Name</th>
+                                        <th>Courier No</th>
+                                        <th>Approval Through</th>
+                                        <th>Remarks</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="approve in sampleApproveList track by $id($index)">
+                                        <td>
+                                            <button class="btn btn-sm btn-flat btn-danger" type="button" ng-click="removeRow($index)">
+                                                <i class="fa fa-close"></i>
+                                            </button>
+                                        </td>
+                                        <td style="min-width:150px">
+                                            <select ng-options="sample.SampleTypeID as sample.SampleTypeName for sample in sampleList"
+                                                    ng-model="approve.SampleTypeID" class="form-control" required>
+                                                <option value="">Select Sample</option>
+                                            </select>
+                                        </td>
+                                        <td style="min-width:120px"><input type="text" class="form-control" ng-model="approve.Color" /></td>
+                                        <td style="min-width:120px"><input type="number" class="form-control" ng-model="approve.Size" /></td>
+                                        <td style="min-width:120px">
+                                            <input type="number" class="form-control" ng-model="approve.Quantity" required />
+                                        </td>
+                                        <td>
+                                            <input id="ApproximateSentDate" type="date"
+                                                   class="form-control "
+                                                   ng-model="approve.ApproximateSentDate"
+                                                   placeholder="" required />
+
+                                        </td>
+                                        <td>
+                                            <input id="SentDate" type="date"
+                                                   class="form-control "
+                                                   ng-model="approve.SentDate"
+                                                   placeholder="" />
+
+                                        </td>
+                                        <td>
+                                            <input id="ApproveDate" type="date"
+                                                   class="form-control "
+                                                   ng-model="approve.ApproveDate"
+                                                   placeholder="" />
+
+                                        </td>
+                                        <td>
+                                            <input type="text" placeholder="In Days" class="form-control" ng-model="approve.ValidityTime" required />
+                                        </td>
+                                        <td>
+                                            <input id="DueDate" type="text"
+                                                   class="form-control"
+                                                   value="{{getDueDate(approve.ApproveDate, approve.ValidityTime)}}" readonly
+                                                   placeholder="" />
+
+                                        </td>
+                                        @*<td><input id="ApproximateSentDate" type="text" class="form-control " ng-model="approve.ApproximateSentDate" ng-blur="bindDate('ApproximateSentDate', 'approve')"  /></td>
+                                        <td><input id="SentDate" type="text" class="form-control " ng-model="approve.SentDate" ng-blur="bindDate('SentDate', 'approve')" /></td>
+                                        <td><input id="ApprovalDate" type="text" class="form-control " ng-model="approve.ApprovalDate" ng-blur="bindDate('ApprovalDate', 'approve')"  /></td>*@
+                                        <td>
+
+                                            <select name="approvalStatus" ng-model="approve.ApprovalStatus" class="form-control" ng-options="obj.value as obj.text for obj in statusList"></select>
+                                            @*<select ng-model="approve.ApprovalStatus" class="form-control">
+                                                <option value="">Select Status</option>
+                                                <option value="2" ng-selected="approve.ApprovalStatus == 2">Pending</option>
+                                                <option value="1" ng-selected="approve.ApprovalStatus == 1">Approved</option>
+                                                <option value="0" ng-selected="approve.ApprovalStatus == 0">Rejected</option>
+                                            </select>*@
+                                            @*<input type="text" class="form-control" ng-model="approve.ApprovalStatus" />*@
+
+                                        </td>
+
+                                        <td><input type="text" class="form-control" ng-model="approve.CourierName" /></td>
+                                        <td><input type="number" class="form-control" ng-model="approve.CourierNo" /></td>
+                                        <td><input type="text" class="form-control" ng-model="approve.ApprovalThrough" /></td>
+                                        <td>
+                                            <input type="text" class="form-control" ng-model="approve.Remarks" />
+                                            <input type="hidden" class="form-control" ng-model="approve.SampleApprovalID" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                    <div class="card-footer">
+                        <div class="pull-right">
+                            <button class="btn btn-warning btn-flat" type="button" ng-click="addRowToSampleApproveList()"><i class="fa fa-plus"> </i> Add Row</button>
+                            @*<button type="reset" class="btn btn-default btn-sm btn-flat bg-orange"><i class="fa fa-close "></i> Reset</button>*@
+                            <button type="submit" class="btn btn-default btn-flat bg-green"><i class="fa fa-save "></i> Save</button>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

@@ -1,0 +1,168 @@
+﻿/* Styles for validation helpers
+-----------------------------------------------------------*/
+.field-validation-error {
+    color: #ff0000;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+.input-validation-error {
+    border: 1px solid #ff0000;
+    background-color: #ffeeee;
+}
+
+.validation-summary-errors {
+    font-weight: bold;
+    color: #ff0000;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
+/**/
+.btn-small {
+    padding: 2px 2px !important;
+}
+
+/**/
+.chosen-container-single .chosen-single {
+    background: -moz-linear-gradient(center top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4 100%) repeat scroll 0 0 padding-box rgba(0, 0, 0, 0);
+    border: 1px solid #aaa;
+    border-radius: 0px;
+    box-shadow: 0 0 3px white inset, 0 1px 1px rgba(0, 0, 0, 0.1);
+    color: #444;
+    display: block;
+    height: auto;
+    line-height: 20px;
+    overflow: hidden;
+    padding: 2px;
+    position: relative;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+/**/
+.chosen-container-multi {
+    background: -moz-linear-gradient(center top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4 100%) repeat scroll 0 0 padding-box rgba(0, 0, 0, 0) !important;
+    padding: 2px;
+}
+
+/* ng grid style */
+.gridStyle {
+    border: 1px solid rgb(212,212,212);
+    height: 300px;
+}
+
+
+.ui-dialog .ui-dialog-content {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border: 0 none;
+    overflow: auto;
+    padding: 0px;
+    position: relative;
+}
+
+.ui-widget-overlay {
+    background: #000000;
+    opacity: 0.76;
+}
+
+.dialog .panel {
+    margin-bottom: 0px;
+}
+
+.dialog .col-sm-12, .dialog .col-md-12 {
+    padding: 0px;
+}
+
+.productionHourLabel {
+    margin-top: 5px;
+    padding-top: 5px;
+    border-top: 1px solid #666666;
+}
+
+.alert-error-msg {
+    color: red;
+}
+
+.left-label {
+    text-align: left !important;
+}
+
+
+/* Telerik Grid */
+
+.t-grid-header .t-header .t-link {
+    height: auto !important;
+    white-space: normal !important;
+    text-align: center !important;
+}
+
+.t-grid td {
+    border-left: 1px solid #ddd !important;
+    border-bottom: 1px solid #ddd !important;
+}
+
+.notification-time {
+    padding-left: 25px !important;
+}
+
+#upcoming-shipment {
+    overflow-y: scroll;
+    height: 400px;
+}
+
+.table-scroll {
+    overflow-x: scroll;
+    height: 315px;
+}
+
+    .table-scroll table {
+        width: 2400px;
+        overflow-y: scroll;
+    }
+
+        .table-scroll table thead tr th,
+        .table-sc-scroll table thead tr th {
+            background-color: #555555;
+            color: #ffffff;
+        }
+
+        .table-scroll table tbody tr td,
+        .table-sc-scroll table tbody tr td {
+            padding: 0px;
+        }
+
+            .table-scroll table tbody tr td select,
+            .table-scroll table tbody tr td input,
+            .table-sc-scroll table tbody tr td select,
+            .table-sc-scroll table tbody tr td input {
+                margin: 0px;
+                border: none;
+            }
+
+                .table-scroll table tbody tr td input[readonly] {
+                    /*border: 1px solid #EEEEEE;*/
+                }
+
+            .table-scroll table tbody tr td .form-control {
+                padding: 0;
+                text-align: center;
+                width: 150px;
+            }
+
+        .table-scroll table thead tr th {
+            text-align: center;
+        }
+
+.label-dpr {
+    font-size: 12px !important;
+}
+
+.form-control{
+    border-radius: 0 !important;
+    height: 28px !important;
+}

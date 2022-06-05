@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "Job";
+}
+
+<div class="col-sm-12">
+
+    <p>
+        @Html.ActionLink("Create New Job", "Create", "Job", null, new { @class = "btn btn-lg btn-primary" })
+    </p>
+
+    @using Telerik.Web.Mvc.UI
+
+    @( Html.Telerik().Grid<ScopoERP.LC.ViewModel.JobViewModel>()
+    .Name("JobGrid")
+    .DataKeys(dataKeys => dataKeys.Add(k => k.JobId))
+    .DataBinding(dataBinding => dataBinding.Ajax().Select("GetAllJob", "Job"))
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.JobId).ClientTemplate(
+            Html.ActionLink("Edit", "Edit", new { id = "<#= JobId #>" }, new { @class = "t-button" }).ToHtmlString()
+        )
+        .Width(80).Title("").Filterable(false);
+
+        columns.Bound(c => c.JobNo).Width(200);
+        columns.Bound(c => c.ContractNo).Width(200);
+        columns.Bound(c => c.ExtraContractNo).Width(150);
+        columns.Bound(c => c.BankName).Width(150);
+        columns.Bound(c => c.UDNo).Width(150);
+        columns.Bound(c => c.UDDate).Format("{0:dd-MMM-yyyy}").Width(150);
+    })
+    .Filterable()
+    .Pageable(p => p.PageSize(10))
+    .Selectable()
+    .Sortable()
+    .Scrollable(x => x.Height("auto"))
+    )
+
+</div>

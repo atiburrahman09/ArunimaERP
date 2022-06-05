@@ -1,0 +1,107 @@
+﻿@model List<ScopoERP.Finance.ViewModel.RealizationViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="col-sm-12" ng-app="realization" ng-controller="realizationCtrl" ng-init="init()">
+    <toaster-container toaster-options="{ 'close-button':true}"></toaster-container>
+    <section class="panel">
+        <header class="panel-heading">
+            Realization Setup
+        </header>
+        <div class="panel-body">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label left-label">Account Type</label>
+                    <div class="col-lg-2">
+                        <select class="combo-box" ng-model="AccountType">
+                            <option></option>
+                            <option ng-repeat="item in AccountTypeList" value="{{item.Value}}">
+                                {{item.Text}}
+                            </option>
+                        </select>
+                    </div>
+                    
+                    <label class="col-lg-2 col-sm-2 control-label">FDBP No</label>
+                    <div class="col-lg-2">
+                        <select class="combo-box" ng-model="BankForwardingID" ng-change="getAllRealization()">
+                            <option></option>
+                            <option ng-repeat="item in FDBPNoList" value="{{item.Value}}">
+                                {{item.Text}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label left-label">Realization Date</label>
+                    <div class="col-lg-2">
+                        <input type="text" ng-model="RealizationDate" 
+                               class="form-control default-date-picker" />
+                    </div>
+
+                    <label class="col-xs-2 control-label">Currency Rate</label>
+                    <div class="col-lg-2">
+                        <input type="text" ng-model="CurrencyRate" class="form-control" />
+                    </div>
+
+                    <label class="col-lg-2 col-sm-2 control-label">Invoice Value</label>
+                    <div class="col-lg-2">
+                        <input type="text" ng-model="InvoiceValue" class="form-control" readonly />
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="form-group">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped condensed">
+                            <thead>
+                                <tr>
+                                    <th class="col-md-1">SL</th>
+                                    <th class="col-md-6">Account Name</th>
+                                    <th class="col-md-3">Account No</th>
+                                    <th class="col-md-2">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in realizationList">
+                                    <td><center>{{$index + 1}}</center></td>
+                                    <td>{{item.AccountName}}</td>
+                                    <td>{{item.AccountNo}}</td>
+                                    <td><input type="text" ng-model="item.Amount" class="form-control" /></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td>Balance: {{getBalanceAmount()}}</td>
+                                    <td>Total: {{getTotalAmount()}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="form-group">
+                    <div class="col-lg-offset-8 col-lg-2">
+                        <input type="reset" class="btn btn-block btn-default" value="Reset" />
+                    </div>
+                    <div class="col-lg-2">
+                        <input type="submit" class="btn btn-block btn-primary" ng-click="saveRealization()" value="Save" />
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </section>
+</div>
+
+@Html.Partial("_angular")
+
+<script src="~/Areas/Finance/Scripts/services/realizationService.js"></script>
+<script src="~/Scripts/app/main.js"></script>
+<script src="~/Areas/Finance/Scripts/controllers/realizationCtrl.js"></script>
+<script src="~/Areas/Finance/Scripts/app.js"></script>

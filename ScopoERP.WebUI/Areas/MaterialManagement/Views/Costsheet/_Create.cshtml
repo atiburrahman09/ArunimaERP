@@ -1,0 +1,63 @@
+﻿@model List<ScopoERP.MaterialManagement.ViewModel.CostsheetViewModel>
+<form id="costsheetForm" class="form-horizontal" action="javascript:void(0);">
+    <div class="table-scroll">
+        <table class="table table-hover table-bordered costsheet">
+            <thead>
+                <tr>
+                    <th>Action</th>
+                    <th>Item Category</th>
+                    <th>Item</th>
+                    <th>Consumption</th>
+                    <th>Consumption Unit</th>
+                    <th>Conversion Quantity</th>
+                    <th>Actual Consumption</th>
+                    <th>Conversion Unit</th>
+                    <th>Wastage %</th>
+                    <th>Total Raw Materials</th>
+                    <th>Unit Price</th>
+                    <th>Total Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <input type="hidden" name="[0].StyleID" class="styleID" value="" />
+                        <a class="removeItem" href="javascript:void(0);">
+                            <i class="fa fa-trash-o fa-2x"></i>
+                        </a>
+                        <a class="addAnotherItem" href="javascript:void(0);">
+                            <i class="fa fa-plus fa-2x"></i>
+                        </a>
+                    </td>
+                    <td>@Html.DropDownList("ItemCategoryDropDown", null, "Select a Item Category", new { @Name = "[0].ItemCategoryID", @class = "itemCategoryID form-control" })</td>
+                    <td>@Html.DropDownList("ItemDropDown", Enumerable.Empty<SelectListItem>(), new { @Name = "[0].ItemID", @class = "itemID form-control" })</td>
+                    <td><input type="text" name="[0].Consumption" class="consumption form-control" /></td>
+                    <td>@Html.DropDownList("UnitDropDown", null, "Select a Unit", new { @Name = "[0].ConsumptionUnitID", @class = "consumptionUnitID form-control" })</td>
+                    <td><input type="text" name="[0].ConversionQuantity" class="conversionQuantity form-control" /></td>
+                    <td><input type="text" name="[0].ActualConsumption" readonly class="actualConsumption form-control" /></td>
+                    <td>@Html.DropDownList("UnitDropDown", null, "Select a Unit", new { @Name = "[0].ConversionUnitID", @class = "conversionUnitID form-control" })</td>
+                    <td><input type="text" name="[0].Wastage" class="wastage form-control" /></td>
+                    <td><input type="text" name="[0].TotalRawMaterials" readonly class="totalRawMaterials form-control" /></td>
+                    <td><input type="text" name="[0].UnitPrice" class="unitPrice form-control" /></td>
+                    <td><input type="text" name="[0].TotalActualCost" readonly class="totalCost form-control" /></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="form-group"></div>
+    <div class="form-group">
+        <label class="col-md-offset-4 col-md-2 control-label">Grand Total:</label>
+        <div class="col-md-3">
+            <input id="grandTotalCost" type="text" class="form-control" readonly />
+        </div>
+        <div class="col-md-3">
+            <input id="costsheetFormSubmit" type="submit" class="btn btn-block btn-primary" value="Save" />
+        </div>
+    </div>
+</form>
+
+<script>
+    $(document).ready(function () {
+        //$('.itemCategoryID, .itemID, .consumptionUnitID, .conversionUnitID').select2();
+    });
+</script>

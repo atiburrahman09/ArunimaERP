@@ -1,0 +1,64 @@
+﻿@model ScopoERP.Reports.ViewModel.ReportFilteringViewModel
+
+@{
+    ViewBag.Title = "Realization Report";
+}
+
+<div class="col-sm-offset-2 col-sm-8">
+    <section class="panel">
+        <header class="panel-heading">
+            Search Criteria
+        </header>
+        <div class="panel-body">
+
+            @using (Html.BeginForm("RealizationReport", "Report", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary(true)
+
+                <div class="form-group">
+                    <label class="col-xs-2 control-label left-label">From Date</label>
+                    <div class="col-xs-3">
+                        @Html.TextBoxFor(model => model.FromDate, new { @class = "form-control default-date-picker" })
+                    </div>
+
+                    <label class="col-xs-2 control-label">To Date</label>
+                    <div class="col-xs-3">
+                        @Html.TextBoxFor(model => model.ToDate, new { @class = "form-control default-date-picker" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-xs-offset-2 col-xs-1">
+                        @Html.RadioButtonFor(model => model.Decision, 1, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Decision)
+                    </div>
+                    <label class="col-xs-2 control-label left-label">Arunima</label>
+
+                    <div class="col-xs-1">
+                        @Html.RadioButtonFor(model => model.Decision, 2, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Decision)
+                    </div>
+                    <label class="col-xs-2 control-label left-label">DMC</label>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-xs-offset-2 col-xs-1">
+                        @Html.CheckBoxFor(model => model.InBDT)
+                    </div>
+                    <label class="col-xs-4 control-label left-label">Show Amount in BDT</label>
+                </div>
+
+                <hr />
+
+                <div class="form-group">
+                    <div class="col-lg-offset-6 col-lg-3">
+                        <input type="reset" class="btn btn-block btn-default" />
+                    </div>
+                    <div class="col-lg-3">
+                        <input type="submit" class="btn btn-block btn-primary" value="Preview" />
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+</div>

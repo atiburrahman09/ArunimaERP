@@ -1,0 +1,119 @@
+﻿@model ScopoERP.ProductionStatus.ViewModel.ProductionPlanViewModel
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h2>Create Swing Plan</h2>
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.StyleID, "Style", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(x => x.StyleID, ViewBag.Style as SelectList, "Select Style", new { @class = "form-control select2", @id = "_style" })
+                                @Html.ValidationMessageFor(model => model.PoStyleID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.PoStyleID, "Purchase Order", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(x => x.PoStyleID, ViewBag.PO as SelectList, "Select PO", new { @class = "form-control select2", @id = "_po" })
+                                @Html.ValidationMessageFor(model => model.PoStyleID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.FloorLineID, "Floor Line", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(x => x.FloorLineID, ViewBag.Floor as SelectList, "Select Floor Line", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.FloorLineID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.Capacity, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Capacity, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Capacity, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.StartDate, "Start Date", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                                @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.EndDate, "End Date", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                                @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group pull-right">
+                            <div class="">
+                                @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-warning" })
+                                <input type="submit" value="Create" class="btn btn-success" />
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        let uri = "/Production/SewingPlan/GetPurchaseOrdersByStyle?styleId=";
+        let poList = document
+            .querySelector('#_po');
+        const styleList = document
+            .querySelector('#_style');
+
+        let onStyleChanged = function (event) {
+            getPurchaseOrdersByStyle(event.target.value)
+                .done((items) => bindItems(items, poList));
+        }
+        let getPurchaseOrdersByStyle = (styleId) => {
+            return $.getJSON(uri + styleId);
+        }
+        function bindItems(items, element) {
+            element.innerHTML = '<option value="">Select PO</option>';
+            for (let i = 0; i < items.length; i++) {
+                let op = document.createElement('option');
+                op.value = items[i].Value;
+                op.text = items[i].Text;
+                element.appendChild(op);
+            }
+        }
+        styleList.addEventListener('change', onStyleChanged);
+    });
+</script>

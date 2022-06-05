@@ -1,0 +1,164 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<div class="col-sm-12" ng-app="booking.controllers" ng-controller="bookingController" ng-init="init()">
+    <toaster-container toaster-options="{ 'close-button':true}"></toaster-container>
+    <section class="panel">
+        <header class="panel-heading"> Search Booking </header>
+        <div class="panel-body">
+            <div>
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="cboStyle">Reference No</label>
+                        <div class="col-sm-4">
+                            <select class="combo-box" ui-select2="refernceNoOptions" data-placeholder="Select Reference No" ng-model="searchBooking.piID" ng-change="refernceNoDropDownChange()">
+                                <option value="">Select Reference No</option>
+                                <option ng-repeat="c in searchCriteria.piDropDown" value="{{ c.Value }}">{{ c.Text }}</option>
+                            </select>
+                        </div>
+
+                        <div class="col-sm-offset-3 col-sm-3">
+                            @Html.ActionLink("Excess Booking", "Create", "ExcessBooking", null, new { @class = "btn btn-block btn-success" })
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section class="panel">
+        <header class="panel-heading"> Search Criteria </header>
+        <div class="panel-body">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="cboStyle">Style</label>
+                    <div class="col-md-10">
+                        <select ui-select2="styleOptions" multiple data-placeholder="Select Styles" ng-model="searchCriteria.multipleStyle" ng-change="styleDropDownChange()" class="" style="width:100%;">
+                            <option ng-repeat="c in searchCriteria.multipleStyleDropDown" value="{{ c.Value }}">{{ c.Text }}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">Purchase Order</label>
+                    <div class="col-md-9">
+                        <select id="cmbMultiplePO" ui-select2 multiple data-placeholder="Select Purchase Orders" ng-model="searchCriteria.multiplePO" ng-change="poDropDownChange()" class="" style="width:100%;">
+                            <option ng-repeat="c in searchCriteria.multiplePODropDown" value="{{ c.Value }}">{{ c.Text }}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-1">
+                        <input type="checkbox" ng-model="allPO.isChecked" ng-click="clickAllPurchaseOrder()" /> All
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">Item</label>
+                    <div class="col-md-10">
+                        <select ui-select2 ng-model="searchCriteria.item" class="" style="width:100%;">
+                            <option value="">Select Item</option>
+                            <option ng-repeat="c in searchCriteria.itemDropDown" value="{{ c.Value }}">{{ c.Text }}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-8 col-md-4">
+                    <input type="button" class="btn btn-block btn-primary" ng-click="searchBookingButtonClick()" value="Search Booking" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="panel" ng-show="isWorksheetShow">
+        <header class="panel-heading"> Worksheet Details </header>
+        <div class="panel-body">
+
+            <div class="form-group">
+                <div class="costsheetGrid">
+                    <div class="gridStyle" ng-grid="worksheetGridOptions">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-3">
+                    <h3 class="label label-info">Last Revised Number: {{ RevisionNo }}</h3>
+                </div>
+
+                <label class="control-label col-md-2">Total Quantity</label>
+                <div class="col-md-2">
+                    <input type="text" class="form-control" ng-model="grandTotalQuantityForRevise" ng-keyup="changeAllRowTotalQuantityForRevise()" />
+                </div>
+
+                <label class="control-label col-md-2">Total Price</label>
+                <div class="col-md-2">
+                    <input type="text" class="form-control" ng-model="grandTotalPriceForRevise" />
+                </div>
+
+                <div class="col-md-offset-1 col-md-4">
+                    <input type="button" class="btn btn-block btn-primary" value="Revise" ng-click="reviseBooking()" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="panel" ng-show="isBookingShow">
+        <header class="panel-heading"> Summarized Booking </header>
+        <div class="panel-body">
+
+            <div class="form-group">
+                <div class="costsheetGrid">
+                    <div class="gridStyle" ng-grid="bookingGridOptions">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <select ui-select2="refernceNoOptions" ng-options="c.Value as c.Text for c in referenceNoDropDown track by c.Value" ng-model="referenceNoDropDownVal" class="" style="width:100%;">
+                            <option value="">Select Reference No</option>
+                        </select>
+                    </div>
+                    <label class="control-label col-md-2">Total Quantity</label>
+                    <div class="col-md-2">
+                        <input type="text" class="form-control" ng-model="grandTotalQuantity" ng-keyup="changeAllRowTotalQuantity()" />
+                    </div>
+                    <label class="control-label col-md-1">Total Price</label>
+                    <div class="col-md-2">
+                        <input type="text" class="form-control" ng-model="grandTotalPrice" readonly="" />
+                    </div>
+                    <div class="col-md-2">
+                        <input type="button" class="btn btn-block btn-primary" value="Create Booking" ng-click="createBooking()" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    @*<script type="text/ng-template" id="SupplierAndReferenceModal.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Supplier and Reference No</h3>
+        </div>
+        <div class="modal-body">
+            <select ui-select2 ng-model="supplierDropDownVal" class="" style="width:100%;">
+                <option value="">Select Supplier</option>
+                <option ng-repeat="c in supplierDropDown" value="{{ c.Value }}">{{ c.Text }}</option>
+            </select>
+            <br /><br /><br />
+            <select ui-select2 ng-model="referenceNoDropDownVal" class="" style="width:100%;">
+                <option value="">Select Reference No</option>
+                <option ng-repeat="c in referenceNoDropDown" value="{{ c.Value }}">{{ c.Text }}</option>
+            </select>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="modalOkButton()">OK</button>
+            <button class="btn btn-warning" ng-click="modalCancelButton()">Cancel</button>
+        </div>
+    </script>*@
+</div>
+@Html.Partial("_angular")
+<script src="~/Scripts/app/services/booking.services.js"></script>
+<script src="~/Scripts/app/controllers/booking.controllers.js"></script>

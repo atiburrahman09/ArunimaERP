@@ -1,0 +1,242 @@
+﻿
+@{
+    ViewBag.Title = "Style";
+}
+
+<div class="row" ng-app="scopoApp" ng-controller="settingsCtrl" ng-init="init()" ng-cloak>
+    <div class="col-sm-3">
+        <div class="card card-solid">
+            <div class="card-body">
+                <div class="has-feedback">
+                    <input type="text" placeholder="Search" class="form-control margin-bottom" ng-model="search" />
+                </div>
+                <ul class="list-group" style="height:741px;overflow:auto" ng-show="jobClassListShow">
+                    <li class="list-group-item" ng-repeat="job in jobClassList | filter:search track by $index" ng-class="{active:job.selected}">
+                        <a href="#" ng-click="selectedJob(job)"><i class="fa fa-shirtsinbulk" aria-hidden="true"></i> {{job.JobClassName}}</a>
+                    </li>
+                </ul>
+
+                <ul class="list-group" style="height:741px;overflow:auto" ng-show="supervisorListShow">
+                    <li class="list-group-item" ng-repeat="supervisor in supervisorList | filter:search track by $index" ng-class="{active:supervisor.selected}">
+                        <a href="#" ng-click="selectedSupervisor(supervisor)"><i class="fa fa-shirtsinbulk" aria-hidden="true"></i>{{supervisor.Line}}-{{supervisor.SupervisorName}}</a>
+                    </li>
+                </ul>
+
+                <ul class="list-group" style="height:741px;overflow:auto" ng-show="operationListShow">
+                    <li class="list-group-item" ng-repeat="operation in allStdOperations | filter:search track by $index" ng-class="{active:operation.selected}">
+                        <a href="#" ng-click="selectedOperation(operation)"><i class="fa fa-shirtsinbulk" aria-hidden="true"></i> {{operation.OperationCodeNo}}-{{operation.OperationName}}</a>
+                    </li>
+                </ul>
+
+                <ul class="list-group" style="height:741px;overflow:auto" ng-show="specListShow">
+                    <li class="list-group-item" ng-repeat="spec in specList | filter:search track by $index" ng-class="{active:spec.selected}">
+                        <a href="#" ng-click="selectedSpec(spec)"><i class="fa fa-shirtsinbulk" aria-hidden="true"></i>{{spec.SpecNo}}-{{spec.SpecName}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+    <div class="col-sm-9">
+        <div class="card">
+            <div class="card-body">
+                <div class="pull-right">
+                    <button type="button" class="btn btn-primary btn-sm btn-flat" ng-click="jobClassSetting()"><i class="fa fa-edit bg-blue"></i> Job Class</button>
+                    <button type="button" class="btn btn-primary btn-sm btn-flat" ng-click="supervisorSetting()"><i class="fa fa-file-text-o bg-green"></i> Supervisor</button>
+                    <button type="button" class="btn btn-primary btn-sm btn-flat" ng-click="operationSetting()"><i class="fa fa-edit-o bg-yellow"></i> Operation</button>
+                    <button type="button" class="btn btn-primary btn-sm btn-flat" ng-click="specSetting()"><i class="fa fa-file-text-o bg-orange"></i> Spec</button>
+                </div>
+            </div>
+            <form name="jobClassForm" class="form-horizontal" ng-submit="saveJobClass()" novalidate ng-show="jobClassFormShow">
+                <div class="card-body">
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label class="col-sm-12">Job Class Name</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" ng-model="jobClass.JobClassName"
+                                       placeholder="Job Class Name"
+                                       required />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="col-sm-12">Base Rate</label>
+                            <div class="col-sm-12">
+                                <input type="number" class="form-control" ng-model="jobClass.BaseRate"
+                                       placeholder="Base Rate"
+                                       required />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="col-sm-12">Max Paid</label>
+                            <div class="col-sm-12">
+                                <input type="number" class="form-control" ng-model="jobClass.MaxPaid"
+                                       placeholder="Max Paid"
+                                       required />
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12">
+                        <div class="pull-right">
+                            <button type="button" class="btn btn-danger btn-sm btn-flat bg-orange" ng-click="resetForm(jobClassForm)"><i class="fa fa-close "></i>Reset</button>
+                            <button class="btn btn-success btn-sm btn-flat bg-green" type="submit"><i class="fa fa-floppy-o"> </i> Save</button>
+                        </div>
+                    </div>
+                   <br />
+                </div>
+
+            </form>
+            <form name="supervisorForm" class="form-horizontal" ng-submit="saveSupervisor()" novalidate ng-show="supervisorFormShow">
+                    <div class="card-body">
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <label class="col-sm-12">Supervisor Name</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" ng-model="supervisor.SupervisorName"
+                                           placeholder="Supervisor Name"
+                                           required />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="col-sm-12">Card No</label>
+                                <div class="col-sm-12">
+                                    <input type="number" class="form-control" ng-model="supervisor.CardNo"
+                                           placeholder="Card No"
+                                           required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <label class="col-sm-12">Floor</label>
+                                <div class="col-sm-12">
+                                    <select class="form-control select2" style="width:100%"
+                                            ng-model="supervisor.Floor"
+                                            ng-options="floor.Text as floor.Text for floor in floorList"
+                                            ng-change="getLine(supervisor.Floor)"
+                                            required>
+                                        <option value={{supervisor.Floor}}>{{supervisor.Text}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="col-sm-12">Line</label>
+                                <div class="col-sm-12">
+                                    <select class="form-control select2" style="width:100%"
+                                            ng-model="supervisor.Line"
+                                            ng-options="line.Text as line.Text for line in lineList"
+                                            required>
+                                        <option value={{supervisor.Line}}>{{supervisor.Text}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="pull-right">
+                                <button type="button" class="btn btn-danger btn-sm btn-flat bg-orange" ng-click="resetForm(supervisorForm)"><i class="fa fa-close "></i>Reset</button>
+                                <button class="btn btn-success btn-sm btn-flat bg-green" type="submit"><i class="fa fa-floppy-o"> </i> Save</button>
+                            </div>
+                        </div>
+                        <br />
+                    </div>                                   
+            </form>
+            <form name="operationForm" class="form-horizontal" ng-submit="saveOperation()" novalidate ng-show="operationFormShow">
+                <div class="card-body">
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <label class="col-sm-12">Operation Name</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" ng-model="stdOperation.OperationName"
+                                       placeholder="Operation Name"
+                                       required />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="col-sm-12">Operation Code</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" ng-model="stdOperation.OperationCodeNo"
+                                       placeholder="Operation Code"
+                                       required />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="col-sm-12">Operation Category</label>
+                            <div class="col-sm-12">
+                                <select class="form-control select2" style="width:100%"
+                                        ng-model="stdOperation.OperationCategoryID"
+                                        ng-options="oc.OperationCategoryID as oc.OperationCategogyName for oc in operationCategoryList"
+                                        required>
+                                    <option value={{stdOperation.OperationCategoryID}}>{{stdOperation.OperationCategogyName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="col-sm-12">Job Class</label>
+                            <div class="col-sm-12">
+                                <select class="form-control select2" style="width:100%"
+                                        ng-model="stdOperation.JobClassID"
+                                        ng-options="j.JobClassID as j.JobClassName for j in jobClassList"
+                                        required>
+                                    <option value={{stdOperation.JobClassID}}>{{stdOperation.JobClassName}}</option>
+                                </select>
+                            </div>
+                        </div>  
+                    </div>
+                    <div class="col-md-12">
+                        <div class="pull-right">
+                            <button type="button" class="btn btn-danger btn-sm btn-flat bg-orange" ng-click="resetForm(operationForm)"><i class="fa fa-close "></i>Reset</button>
+                            <button class="btn btn-success btn-sm btn-flat bg-green" type="submit"><i class="fa fa-floppy-o"> </i> Save</button>
+                        </div>
+                    </div>
+                    <br />
+                </div>
+              
+            </form>
+            <form name="specForm" class="form-horizontal" ng-submit="saveSpec()" novalidate ng-show="specFormShow">
+                <div class="card-body">
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label class="col-sm-12">Spec Name</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" ng-model="spec.SpecName"
+                                       placeholder="Spec Name"
+                                       required />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="col-sm-12">Operation</label>
+                            <div class="col-sm-12">
+                                <select class="form-control select2" style="width:100%"
+                                        ng-model="spec.OperationID"
+                                        ng-options="op.OperationID as (op.OperationCodeNo+'-'+op.OperationName) for op in operationList"
+                                        required>
+                                    <option value={{spec.OperationID}}>{{spec.OperationCodeNo}} + {{op.OperationName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="col-sm-12">Spec No</label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" ng-model="spec.SpecNo"
+                                       placeholder="Spec No"
+                                       required />
+                            </div>
+                        </div>                       
+                    </div>
+                    <div class="col-md-12">
+                        <div class="pull-right">
+                            <button type="button" class="btn btn-danger btn-sm btn-flat bg-orange" ng-click="resetForm(specForm)"><i class="fa fa-close "></i>Reset</button>
+                            <button class="btn btn-success btn-sm btn-flat bg-green" type="submit"><i class="fa fa-floppy-o"> </i> Save</button>
+                        </div>
+                    </div>
+                    <br />
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,197 @@
+﻿@{
+    ViewBag.Title = "Booking";
+}
+
+<div class="row" ng-app="scopoApp" ng-controller="bookingCtrl" ng-init="init()" ng-cloak>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-5">
+                        <select ng-model="selectedJob" ng-change="onJobChange(selectedJob)" class="form-control select2">
+                            <option value="">Select Job</option>
+                            <option ng-repeat="job in jobList" value="{{job.Value}}">{{job.Text}}</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-5">
+                        <select ng-model="seledtedPI" ng-change="onSelectPI(seledtedPI)" class="form-control select2">
+                            <option value="">Select PI</option>
+                            <option ng-repeat="pi in referenceDropdown" value="{{pi.Value}}">{{pi.Text}}</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-success btn-block" ng-click="newClicked()">
+                            <i class="fa fa-file-text-o"></i> New Booking
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <div class="card">
+            <form name="forms.podForm" class="form-horizontal" ng-submit="handleFormSubmission()">
+                <div class="card-body" ng-show="context.get('editPI') || context.get('newPI')">
+                    <div class="form-group row">
+                        <label class="col-md-2 control-label">PI No</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" ng-model="PI.PINo" />
+                        </div>
+
+                        <label class="col-md-2 control-label">Reference No</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" ng-model="PI.ReferenceNo" ng-readonly="RefTrue" />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-2 control-label">PI Date</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control datepicker" ng-model="PI.PIDate" />
+                            @*<input type="text" class="form-control datepicker" ng-model="PI.PIDate" />*@
+                        </div>
+
+                        <label class="col-md-2 control-label">Supplier Name</label>
+                        <div class="col-md-4">
+                            <select ng-options="s.Value as s.Text for s in supplierList"
+                                    ng-model="PI.SupplierID" class="form-control">
+                                <option value="">Select Supplier</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-2 control-label">InHouse Date</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control datepicker" ng-model="PI.ApproximateInHouseDate" />
+                            @*<input type="text" class="form-control datepicker"
+                                   ng-model="PI.ApproximateInHouseDate" />*@
+                        </div>
+
+                        <label class="col-md-2 control-label">Loan From Job</label>
+                        <div class="col-md-4">
+                            <select ng-options="job.Value as job.Text for job in jobList"
+                                    ng-model="PI.LoanFromJobID" class="form-control">
+                                <option value="">Select Job</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body" ng-show="context.get('newBooking')">
+                    <div class="">
+                        <label class="">Select PO</label>
+                        <div class="col-md-12">
+                            <select ng-model="searchCriteria.multiplePO" ng-change="poDropDownChange()" class="form-control select2 select2-multiple" multiple="multiple" style="width:400px;">
+                                <option value="">Select Purchase Order</option>
+                                <option ng-repeat="po in purchaseOrderList" value="{{po.Value}}">{{po.Text}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="">
+                        <div class=".table-responsive">
+                            <table class="table">
+                                <tr>
+                                    <th>Select Item</th>
+                                    <th>Select Formula</th>
+                                    <th></th>
+                                </tr>
+                                <tr ng-repeat="itemFormulaObj in itemFormulaList">
+                                    <td>
+                                        <select ng-options="item.Value as item.Text for item in searchCriteria.itemDropDown"
+                                                ng-model="itemFormulaObj.Item" ng-change="enableAddRow()" class="form-control select2" >
+                                            <option value="">Select Item</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select ng-options="f.Value as f.Text for f in formulaList"
+                                                ng-model="itemFormulaObj.Formula" ng-change="enableAddRow()" class="form-control" >
+                                            <option value="">Select Formula</option>
+                                        </select>
+                                    </td>
+                                    <td><button id="" type="button" class="btn btn-sm btn-primary btn-flat pull-right" ng-click="addRow()" ng-disabled="addRowDisabled"><span class="glyphicon glyphicon-plus"></span></button></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <div class="pull-right">
+                        <button type="button" ng-click="deleteClicked()" class="btn btn-danger btn-sm btn-flat bg-red" ng-if="User.IsInRole('Admin')"><i class="fa fa-trash-o"></i> Delete</button>
+                        <button type="reset" class="btn btn-success btn-sm btn-flat bg-orange" ng-if="context.get('editPI') || context.get('newPI')"><i class="fa fa-close "></i> Reset</button>
+                        <button type="submit" class="btn btn-success btn-sm btn-flat bg-green" ng-if="context.get('editPI') || context.get('newPI')"><i class="fa fa-save "></i> Save</button>
+                        <button type="button" ng-click="generateClicked()" class="btn btn-success btn-sm btn-flat bg-green" ng-if="context.get('newBooking')"><i class="fa fa-save " ng-disabled="addRowDisabled"></i> Generate</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <div class="card">
+            <div ng-if="bookingView">
+                <div class="card-body">
+                    <div class="table-responsive" style="height:600px!important; overflow:auto;">
+                        <table class="table table-bordered table-striped no-wrap">
+                            <tbody>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Purchase Order NO</th>
+                                    <th>Item Description</th>
+                                    <th>Item Size</th>
+                                    <th>Item Color</th>
+                                    <th>Total Quantity</th>
+                                    <th>Unit</th>
+                                    <th>Unit Price</th>
+                                    <th>Total Price</th>
+                                </tr>
+                                <tr ng-repeat="booking in bookingList | filter:searchBooking track by $index">
+                                    <td>{{$index + 1}}.</td>
+                                    <td>{{booking.PONo}}</td>
+                                    <td>{{booking.ItemDescription}}</td>
+                                    <td>{{booking.ItemSize}}</td>
+                                    <td>{{booking.ItemColor}}</td>
+                                    <td><input type="text" 
+                                               ng-model="booking.TotalQuantity" 
+                                               class="form-control input-sm" 
+                                               ng-keyup="reviseTotalQuantityOnQuantityChange()" /></td>
+                                    <td>{{booking.ConsumptionUnitName}}</td>
+                                    <td><input type="text" ng-model="booking.UnitPrice" class="form-control input-sm" ng-keyup="reviseTotalPriceOnUnitPriceChange()" /></td>
+                                    <td><label>{{booking.TotalQuantity * booking.UnitPrice}}</label></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="5"></td>
+                                    <td>
+                                        <input type="text" class="form-control" ng-model="grandTotalQuantityForRevise"
+                                               ng-keyup="changeAllRowTotalQuantityForRevise(grandTotalQuantityForRevise)" />
+                                    </td>
+                                    <td colspan="2"></td>
+                                    <td>
+                                        <input type="text" class="form-control" ng-model="grandTotalPriceForRevise"
+                                               ng-keyup="changeAllRowUnitPriceForRevise()" />
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-success btn-sm btn-flat bg-green" ng-click="saveBookings()" ng-show="!bookingReviseBtn"><i class="fa fa-save"></i> Save</button>
+                        <button type="button" class="btn btn-success btn-sm btn-flat bg-green" ng-click="reviseBookings()" ng-show="bookingReviseBtn"><i class="fa fa-save"></i> Revise</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

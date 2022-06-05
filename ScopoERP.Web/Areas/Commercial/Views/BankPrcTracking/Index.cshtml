@@ -1,0 +1,144 @@
+﻿
+@{
+    ViewBag.Title = "Bank PRC Tracking";
+}
+
+<div class="row" ng-app="scopoApp" ng-controller="bankPrcTrackingCtrl" ng-init="init()" ng-cloak>
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    @*<div class="col-md-5">
+                            <select class="form-control select2" ng-model="selectedJob" ng-change="onJobChange(selectedJob)">
+                                <option value="">Select Job</option>
+                                <option ng-repeat="job in jobList" value="{{job.Value}}">{{job.Text}}</option>
+                            </select>
+                        </div>*@
+
+                    <div class="col-md-5">
+                        <select class="form-control select2" ng-model="selectedBPT" ng-change="selectBankPRC(selectedBPT)">
+                            <option value="">Select PRC Tracking</option>
+                            <option ng-repeat="prc in allBankPRC" value="{{prc}}">{{prc.TrackingNo}}</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <button class="btn btn-success btn-block waves-effect waves-light" ng-click="resetForm()">Create New</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12">
+        <form class="form-horizontal" name="bankPRCForm" ng-submit="saveBankPRC(bankPRC)" novalidate>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <label class="col-sm-4 control-label">Bank PRC Tracking No</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control" ng-model="bankPRC.TrackingNo" />
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-4 control-label">Bank PRC Tracking Date</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control datepicker" ng-model="bankPRC.TrackingDate" required />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <div class="col-sm-10">
+                                    @*<select class="form-control select2" ng-model="selectedInvoice"
+                                                ng-options="i as i.EXP for i in invoiceList">
+                                            <option value="">Select Exp</option>
+                                        </select>*@
+                                    <input type="text" ng-model="selectedInvoice"
+                                           placeholder="Search using exp"
+                                           uib-typeahead="i as i.EXP for i in getInvoicesAsync($viewValue)"
+                                           typeahead-min-length="5"                                           
+                                           class="form-control">
+
+                                </div>
+                                <div class="col-sm-2">
+                                    <button type="button" class="btn btn-success waves-effect waves-light" ng-click="addToGrid(selectedInvoice)">
+                                        <i class="fa fa-plus-circle"></i>
+                                    </button>
+
+                                </div>
+                            </div>
+
+                            <div class="table-responsive" style="max-height:30vh;overflow:auto;">
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Exp No
+                                            </th>
+                                            <th>
+                                                Exp Date
+                                            </th>
+                                            <th>
+                                                Invoice No
+                                            </th>
+                                            <th>
+                                                Invoice Date
+                                            </th>
+                                            <th>
+                                                Invoice Value
+                                            </th>
+                                            <th>
+                                                FDBP No
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="invoice in bankPRC.InvoiceList">
+                                            <td>
+                                                <button type="button" class="btn" ng-click="removeFromGrid($index)">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                                {{invoice.EXP}}
+                                            </td>
+                                            <td>
+                                                {{invoice.EXPDate}}
+                                            </td>
+
+                                            <td>
+                                                {{invoice.InvoiceNo}}
+                                            </td>
+                                            <td>
+                                                {{invoice.InvoiceDate}}
+                                            </td>
+                                            <td>
+                                                {{invoice.InvoiceValue}}
+
+                                            </td>
+                                            <td>
+                                                {{invoice.FDBP_No}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-dark" type="button" ng-click="resetForm()"><i class="fa fa-close "></i> Reset</button>
+                        <button class="btn btn-success" type="submit"><i class="fa fa-save "></i> Save Changes</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+

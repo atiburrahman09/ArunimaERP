@@ -1,0 +1,37 @@
+﻿@{
+    ViewBag.Title = "Realization Account";
+}
+
+<div class="col-sm-12">
+
+    <p>
+        @Html.ActionLink("Create New Realization Account", "Create", "RealizationAccount", null, new { @class = "btn btn-lg btn-primary" })
+    </p>
+
+    @using Telerik.Web.Mvc.UI
+
+    @( Html.Telerik().Grid<ScopoERP.Finance.ViewModel.RealizationAccountViewModel>()
+        .Name("RealizationAccountGrid")
+        .DataKeys(dataKeys => dataKeys.Add(k => k.RealizationAccountID))
+        .DataBinding(dataBinding => dataBinding.Ajax().Select("GetAllRealizationAccount", "RealizationAccount"))
+        .Columns(columns =>
+        {
+            columns.Bound(c => c.RealizationAccountID).ClientTemplate(
+                Html.ActionLink("Edit", "Edit", new { id = "<#= RealizationAccountID #>" }, new { @class = "t-button" }).ToHtmlString()
+            )
+            .Width(50).Title("").Filterable(false);
+
+            columns.Bound(c => c.RealizationAccountNo).Width(750);
+            columns.Bound(c => c.RealizationAccountName).Width(750);
+        })
+        .ColumnContextMenu()
+        .Resizable(r => r.Columns(true))
+        .Reorderable(r => r.Columns(true))
+        .KeyboardNavigation()
+        .Filterable()
+        .Pageable(p => p.PageSize(10))
+        .Selectable()
+        .Sortable()
+    )
+
+</div>

@@ -1,0 +1,95 @@
+﻿@model ScopoERP.MaterialManagement.ViewModel.PIViewModel
+
+@{
+    ViewBag.Title = "Update PI";
+}
+
+<div class="col-sm-offset-3 col-sm-6">
+    <section class="panel">
+        <header class="panel-heading">
+            Update PI
+        </header>
+        <div class="panel-body">
+
+            @using (Html.BeginForm("Edit", "PI", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary(true)
+                @Html.HiddenFor(model => model.PIID)
+
+                <div class="form-group">
+                    <label class="col-lg-4 col-sm-4 control-label">Reference No</label>
+                    <div class="col-lg-8">
+                        @Html.TextBoxFor(model => model.ReferenceNo, new { @readlony = true, @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ReferenceNo)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-4 col-sm-4 control-label">PI No</label>
+                    <div class="col-lg-8">
+                        @Html.TextBoxFor(model => model.PINo, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.PINo)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-4 col-sm-4 control-label">PI Date</label>
+                    <div class="col-lg-8">
+                        @Html.TextBoxFor(model => model.PIDate, "{0:MM/dd/yyyy}", new { @class = "form-control default-date-picker" })
+                        @Html.ValidationMessageFor(model => model.PIDate)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-4 col-sm-4 control-label">Supplier</label>
+                    <div class="col-lg-8">
+                        @Html.DropDownListFor(model => model.SupplierID, ViewBag.Supplier as SelectList, "", new { @class = "combo-box" })
+                        @Html.ValidationMessageFor(model => model.SupplierID)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-4 col-sm-4 control-label">Loan From Job</label>
+                    <div class="col-lg-8">
+                        @Html.DropDownListFor(model => model.LoanFromJobID, ViewBag.Job as SelectList, "", new { @class = "combo-box" })
+                        @Html.ValidationMessageFor(model => model.LoanFromJobID)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-4 col-sm-4 control-label">Delivery Date</label>
+                    <div class="col-lg-8">
+                        @Html.TextBoxFor(model => model.DeliveryDate, "{0:MM/dd/yyyy}", new { @class = "form-control default-date-picker" })
+                        @Html.ValidationMessageFor(model => model.DeliveryDate)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-4 col-sm-4 control-label">Approximate In House Date</label>
+                    <div class="col-lg-8">
+                        @Html.TextBoxFor(model => model.ApproximateInHouseDate, "{0:MM/dd/yyyy}", new { @class = "form-control default-date-picker" })
+                        @Html.ValidationMessageFor(model => model.ApproximateInHouseDate)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-offset-4 col-lg-4">
+                        @Html.ActionLink("Cancel", "Index", "PI", null, new { @class = "btn btn-block btn-default" })
+                    </div>
+                    <div class="col-lg-4">
+                        <input type="submit" class="btn btn-block btn-primary" value="Save" />
+                    </div>
+                </div>
+            }
+
+        </div>
+    </section>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#SupplierID, #LoanFromJobID').select2();
+    })
+
+</script>

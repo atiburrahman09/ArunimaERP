@@ -1,0 +1,204 @@
+﻿@model ScopoERP.Store.ViewModel.ChalanViewModel
+
+@{
+    ViewBag.Title = "Create Chalan";
+}
+
+<div class="col-sm-12">
+    <section class="panel">
+        <header class="panel-heading">
+            Create New Chalan
+        </header>
+        <div class="panel-body">
+
+            @using (Html.BeginForm("Create", "Chalan", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary(true)
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">Chalan No</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.ChalanNo, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ChalanNo)
+                    </div>
+
+                    <label class="col-lg-2 col-sm-2 control-label">Chalan Date</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.ChalanDate, new { @class = "form-control default-date-picker" })
+                        @Html.ValidationMessageFor(model => model.ChalanDate)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">Vehicle No</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.VehicleNo, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.VehicleNo)
+                    </div>
+
+                    <label class="col-lg-2 col-sm-2 control-label">Driver Name</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.DriverName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.DriverName)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">Mobile No</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.MobileNo, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.MobileNo)
+                    </div>
+
+                    <label class="col-lg-2 col-sm-2 control-label">Shipped By</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.ShippedBy, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ShippedBy)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">Seal No</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.SealNo, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.SealNo)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">Style No</label>
+                    <div class="col-lg-3">
+                        @Html.DropDownList("StyleID", ViewBag.Style as SelectList, "", new { @class = "combo-box" })
+                    </div>
+
+                    <label class="col-xs-2 control-label">PO No</label>
+                    <div class="col-lg-3">
+                        @Html.DropDownList("PurchaseOrderID", Enumerable.Empty<SelectListItem>(), "", new { @class = "combo-box" })
+                    </div>
+
+                    <div class="col-lg-1">
+                        <button type="button" class="btn btn-success btn-add">Add</button>
+                    </div>
+                </div>
+
+                <section class="panel">
+                    <div class="panel-body">
+                        <table class="table table-bordered" id="shipment-table">
+                            <thead>
+                                <tr>
+                                    <th>PO No</th>
+                                    <th>Order Quantity</th>
+                                    <th>Chalan Quantity</th>
+                                    <th>CBM</th>
+                                    <th>Cartoon Quantity</th>
+                                    <th>Factory</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <div class="form-group">
+                    <div class="col-lg-offset-8 col-lg-2">
+                        @Html.ActionLink("Cancel", "Index", "Chalan", null, new { @class = "btn btn-block btn-default" })
+                    </div>
+                    <div class="col-lg-2">
+                        <input type="submit" class="btn btn-block btn-primary" value="Save" />
+                    </div>
+                </div>
+            }
+
+        </div>
+    </section>
+</div>
+
+<script type="text/javascript">
+    var formIndexing = function () {
+        for (var i = 0; i < $('#shipment-table tbody tr').length; i++) {
+            $('#shipment-table tbody').children().eq(i).children().children()
+            .each(function () {
+                if (this.name) {
+                    this.name = this.name.replace(/\[(\d+)\]/, function (str, p1) {
+                        return '[' + i + ']';
+                    });
+                }
+            });
+        }
+    };
+
+    $(document).ready(function () {
+
+        $("#StyleID").on('change', function () {
+
+            var styleID = $(this).val();
+            var purchaseOrderID = $('#PurchaseOrderID');
+
+            $.get("/Store/Chalan/GetPurchaseOrderByStyle", { styleID: styleID },
+                function (data) {
+
+                    purchaseOrderID.empty();
+                    purchaseOrderID.append($('<option/>', {
+                        value: "",
+                        text: ""
+                    }));
+                    $.each(data, function (index, itemData) {
+                        purchaseOrderID.append($('<option/>', {
+                            value: itemData.Value,
+                            text: itemData.Text
+                        }));
+                    })
+                });
+        });
+
+        $(".btn-add").on('click', function () {
+            var purchaseOrderID = $('#PurchaseOrderID');
+            var poNo = $("#PurchaseOrderID option:selected").text();
+            var tableVale = "";
+            var checkPIExistsInTable = false;
+
+            if (purchaseOrderID.val()) {
+                $('#shipment-table tbody tr .purchaseOrderIDRow').each(function () {
+                    if ($(this).val() == purchaseOrderID.val()) {
+                        checkPIExistsInTable = true;
+                    }
+                });
+                if (checkPIExistsInTable) {
+                    alertify.alert("This Purchase Order is already in the grid");
+                    return;
+                }
+                $.ajax({
+                    url: '/Store/Chalan/GetShipmentByPurchaseOrder',
+                    data: { purchaseOrderID: purchaseOrderID.val() },
+                    success: function (res) {
+                        tableVale = "<tr><td>";
+                        tableVale += "<input class='purchaseOrderIDRow' type='hidden' name='ShipmentList[0].PurchaseOrderID' value='" + purchaseOrderID.val() + "' />";
+                        tableVale += "<input type='text' class='form-control' name='ShipmentList[0].PONo' value='" + poNo + "' disabled='' />";
+                        tableVale += "</td>";
+                        tableVale += "<td><input type='text' class='form-control' name='ShipmentList[0].OrderQuantity' value='" + res.OrderQuantity + "' disabled='' /></td>";
+                        tableVale += "<td><input type='text' class='form-control' name='ShipmentList[0].ChalanQuantity'  /></td>";
+                        tableVale += "<td><input type='text' class='form-control' name='ShipmentList[0].CBM'  /></td>";
+                        tableVale += "<td><input type='text' class='form-control' name='ShipmentList[0].CartoonQuantity'  /></td>";
+                        tableVale += "<td><input type='text' class='form-control' name='ShipmentList[0].FactoryName' value='" + res.FactoryName + "' disabled='' /></td>";
+                        tableVale += "<td><a href='javascript:void(0);' id='btnRemove'><i class='fa fa-trash-o fa-2x'></i></a></td>";
+                        tableVale += "</tr>";
+
+                        $('#shipment-table tbody').append(tableVale);
+                    }
+                }).promise().done(function () {
+                    formIndexing();
+                });
+            } else {
+                alertify.alert("Please select Purchase Order");
+            }
+        });
+
+        $('#btnRemove').live('click', function () {
+            $(this).parent().parent().remove();
+            formIndexing();
+        });
+    })
+
+</script>

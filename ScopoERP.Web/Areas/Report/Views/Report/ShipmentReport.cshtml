@@ -1,0 +1,77 @@
+﻿@model ScopoERP.Reports.ViewModel.ReportFilteringViewModel
+
+@{
+    ViewBag.Title = "Shipment Report";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header no-border">
+                <h3>Shipment Report</h3>
+            </div>
+            <div class="card-body">
+                <div class="">
+
+                    @using (Html.BeginForm("ShipmentReport", "Report", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                        @Html.ValidationSummary(true)
+                        @Html.HiddenFor(model => model.BuyerName)
+
+                        <div class="form-group row">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <input name="Decision" type="radio" id="Decision_1" value="1" />
+                                <label for="Decision_1">Details</label>
+                                @Html.ValidationMessageFor(model => model.Decision)
+                            </div>
+                            <div class="col-md-4">
+                                <input name="Decision" type="radio" id="Decision_2" value="2" />
+                                <label for="Decision_2">Summary</label>
+                                @Html.ValidationMessageFor(model => model.Decision)
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-lg-4">From Date</label>
+                            <div class="col-lg-8">
+                                @Html.TextBoxFor(model => model.FromDate, new { @class = "form-control datepicker",autocomplete="off" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-4">To Date</label>
+                            <div class="col-lg-8">
+                                @Html.TextBoxFor(model => model.ToDate, new { @class = "form-control datepicker", autocomplete = "off" })
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="form-group row">
+                            <div class="col-lg-4">
+                                <input type="reset" class="btn btn-block btn-default" />
+                            </div>
+                            <div class="col-lg-4">
+                                <input type="submit" class="btn btn-block btn-primary" value="Preview" />
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var buyerID = $('#BuyerID');
+
+            buyerID.select2();
+
+            buyerID.change(function () {
+
+                $('#BuyerName').val($('#BuyerID option:selected').text());
+            })
+        })
+    </script>
+

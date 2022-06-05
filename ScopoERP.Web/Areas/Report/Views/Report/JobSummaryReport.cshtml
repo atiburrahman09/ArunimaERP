@@ -1,0 +1,46 @@
+﻿@model ScopoERP.Reports.ViewModel.ReportFilteringViewModel
+
+@{
+    ViewBag.Title = "Job Summary Report";
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header no-border">
+                <h3>Job Summary Report</h3>
+            </div>
+            <div class="card-body">
+                <div class="">
+                    @using (Html.BeginForm("JobSummaryReport", "Report", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                        @Html.ValidationSummary(true)
+
+                        <div class="form-group row">
+                            <label class="col-lg-4">Job No</label>
+                            <div class="col-lg-8">
+                                @Html.DropDownListFor(model => model.JobID, ViewBag.Job as SelectList, "Select a Job", new { @class = "form-control select2" })
+                                @Html.ValidationMessageFor(model => model.JobID)
+                            </div>
+                        </div>
+                        <hr />  
+                        <div class="form-group row">
+                            <div class="col-lg-4">
+                                <input type="reset" class="btn btn-block btn-default" />
+                            </div>
+                            <div class="col-lg-4">
+                                <input type="submit" class="btn btn-block btn-primary" value="Preview" />
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

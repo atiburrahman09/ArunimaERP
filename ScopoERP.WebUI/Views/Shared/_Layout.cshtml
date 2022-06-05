@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="ThemeBucket">
+    <link rel="shortcut icon" href="images/favicon.png">
+    <title>@ViewBag.Title</title>
+
+    @Html.Partial("_Css")
+    @Html.Partial("_Js") 
+</head>
+<body>
+    <section id="container">
+        <!--header start-->
+        <header class="header fixed-top clearfix">
+            <!--logo start-->
+            <div class="brand">
+
+                <a href="/Home/Index" class="logo">
+                    <img src="~/Content/Template/images/logo.png" alt="">
+                </a>
+                <div class="sidebar-toggle-box">
+                    <div class="fa fa-bars"></div>
+                </div>
+            </div>
+            <!--logo end-->
+
+            @*@Html.Partial("_Notification")*@
+
+            @Html.Partial("_TopMenu")
+
+            @Html.Partial("_UserInformation")
+
+        </header>
+        <!--header end-->
+        
+        <!--sidebar start-->
+        @Html.Partial("_LeftSideBar")
+        <!--sidebar end-->
+
+        <!--main content start-->
+        <section id="main-content">
+            <section class="wrapper">
+                <!-- page start-->
+
+                <div class="row">
+                    @RenderBody()
+                </div>
+
+                <!-- page end-->
+            </section>
+        </section>
+        <!--main content end-->
+
+    </section>
+</body>
+</html>

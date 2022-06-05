@@ -1,0 +1,59 @@
+﻿@model ScopoERP.Reports.ViewModel.ReportFilteringViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="box box-solid">
+    <header class="box-header with-border">
+        <h3 class="box-title"> Search Criteria</h3>
+    </header>
+    <div class="box-body">
+        <div class="col-md-offset-3 col-sm-6">
+
+            @using (Html.BeginForm("JobFinanceReport", "Report", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary(true)
+                @Html.HiddenFor(model => model.JobNo)
+
+                <div class="form-group">
+                    <label class="col-lg-4">Job No</label>
+                    <div class="col-lg-8">
+                        @Html.DropDownListFor(model => model.JobID, ViewBag.JobList as SelectList, "", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.JobID)
+                    </div>
+                </div>
+             
+                <div class="form-group">
+                    <div class="col-lg-offset-8 col-lg-2">
+                        <input type="reset" class="btn btn-block btn-default" />
+                    </div>
+                    <div class="col-lg-2">
+                        <input type="submit" class="btn btn-block btn-primary" value="Preview" />
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+@*<script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#JobID').on('change', function () {
+
+                $.getJSON('\GetRequisitionByJob', { jobID: $(this).val() }, function (res) {
+                    var requisitionID = $('#RequisitionID');
+
+                    requisitionID.empty();
+                    requisitionID.append($('<option/>', { value: "", text: "" }));
+
+                    $.each(res, function (index, itemData) {
+                        requisitionID.append($('<option/>', { value: itemData.Value, text: itemData.Text }));
+                    });
+                });
+            });
+        });
+
+</script>*@

@@ -1,0 +1,37 @@
+﻿@{
+    ViewBag.Title = "Production Floor";
+}
+
+<div class="col-sm-12">
+
+    <p>
+        @Html.ActionLink("Create New Production Floor", "Create", "ProductionFloor", null, new { @class = "btn btn-lg btn-primary" })
+    </p>
+
+    @using Telerik.Web.Mvc.UI
+
+    @( Html.Telerik().Grid<ScopoERP.Production.ViewModel.ProductionFloorViewModel>()
+        .Name("ProductionFloorGrid")
+        .DataKeys(dataKeys => dataKeys.Add(k => k.ProductionFloorID))
+        .DataBinding(dataBinding => dataBinding.Ajax().Select("GetAllProductionFloor", "ProductionFloor"))
+        .Columns(columns =>
+        {
+            columns.Bound(c => c.ProductionFloorID).ClientTemplate(
+                Html.ActionLink("Edit", "Edit", new { id = "<#= ProductionFloorID #>" }, new { @class = "t-button" }).ToHtmlString()
+            )
+            .Width(50).Title("").Filterable(false);
+
+            columns.Bound(c => c.Floor).Width(300);
+            columns.Bound(c => c.Line).Width(300);
+        })
+        .ColumnContextMenu()
+        .Resizable(r => r.Columns(true))
+        .Reorderable(r => r.Columns(true))
+        .KeyboardNavigation()
+        .Filterable()
+        .Pageable(p => p.PageSize(10))
+        .Selectable()
+        .Sortable()
+    )
+
+</div>

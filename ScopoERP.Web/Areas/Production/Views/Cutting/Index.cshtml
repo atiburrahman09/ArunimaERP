@@ -1,0 +1,161 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row" ng-app="scopoApp" ng-controller="cuttingCtrl" ng-init="init()" ng-cloak>
+    <div class="col-sm-3">
+        <div class="card card-solid">
+           <div class="card-body">
+               <div class="form-group row">
+                   <input type="text" ng-model="buyerId"
+                          placeholder="Select Buyer"
+                          uib-typeahead="b as b.BuyerName for b in buyerList | filter:$viewValue"
+                          typeahead-on-select="getBuyerIDAndStyle($item, $model, $label)"
+                          class="form-control" required>
+               </div>
+                <div class="form-group row">
+                    <input type="text" ng-model="StyleId"
+                           placeholder="Select Style"
+                           uib-typeahead="s as s.StyleNo for s in styleList | filter:$viewValue"
+                           typeahead-on-select="getStyleIDAndPO($item, $model, $label)"
+                           class="form-control" required>
+                </div>
+           
+                <div class="form-group row">
+                    <input type="text" ng-model="POID"
+                           placeholder="Select Purchase Order"
+                           uib-typeahead="p as p.PurchaseOrderID for p in POList | filter:$viewValue"
+                           typeahead-on-select="getPOIDAndCuttingList($item, $model, $label)"
+                           class="form-control" required>
+                </div>
+                <div class="form-group row">
+                    <input type="text" placeholder="Search Cutting Plan" class="form-control margin-bottom" ng-model="cuttingPlan" />
+                </div>
+                <ul class="list-group">
+                    <li class="list-group-item" ng-repeat="cuttingPLan in cuttingList | filter:cuttingPlan" ng-class="{active:cuttingPLan.selected}">
+                        <a href="#" ng-click="selectedCuttingPlan(cuttingPLan)">
+                            <ul class="nav">
+                                <li><i class="glyphicon glyphicon-text"></i>Cutting No : {{cuttingPLan.CuttingNo}}</li>
+                                <li>Cutting Date : {{cuttingPLan.CuttingDate}}</li>
+                            </ul>
+                        </a>
+                    </li>                   
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-9">
+        <form name="cuttingForm" class="form-horizontal" ng-submit="saveCutting()" novalidate>
+            <div class="card card-solid">
+                <div class="card-body">
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label class="col-md-12">Cutting No</label>
+                            <div class="col-md-12">
+                                <input type="number" class="form-control" ng-model="cutting.CuttingNo" placeholder="Cutting No" required readonly />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="col-md-12">Cutting Quantity</label>
+                            <div class="col-md-12">
+                                <input type="number" class="form-control" min="1" ng-model="cutting.CuttingQuantity" placeholder="Cutting Quantity" required />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="col-md-12">Cutting Date</label>
+                            <div class="col-md-12">
+                                <input id="CuttingDate" type="text"
+                                       class="form-control datepicker"
+                                       ng-model="cutting.CuttingDate"
+                                       ng-blur="bindDate('CuttingDate', 'cutting')"
+                                       placeholder="Cutting Date"  autocomplete="off"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label class="col-md-12">No of Bundle</label>
+                            <div class="col-md-12">
+                                <input type="number" class="form-control" min="1" ng-model="cutting.NoOfBundle" placeholder="No of Bundle" ng-disabled="NoOfBundle" required />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="col-md-12">Ply / Bundle</label>
+                            <div class="col-md-12">
+                                <input type="number" class="form-control" ng-model="cutting.BundlePerQuantity" placeholder="Ply / Bundle" ng-disabled="BundlePerQuantity" required />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="col-md-12">Loop Pattern</label>
+                            <div class="col-md-12">
+                                <input type="number" class="form-control" ng-model="cutting.LoopPattern" placeholder="Loop Pattern" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label class="col-md-12">Shade</label>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" ng-model="cutting.Shade" placeholder="Shade" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="col-md-12"></label>
+                            <input type="checkbox" id="checkbox_1" name="Prepack" ng-model="cutting.IsPrepack">
+                            <label for="checkbox_1">Prepack</label>
+
+                        </div>
+                        <div class="col-md-4">
+
+                        </div>
+                        
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <div class="pull-right">
+                                <button class="btn btn-info" type="button" ng-click="generateBundle(cutting.NoOfBundle, cutting.BundlePerQuantity)" ng-disabled="GenerateButton"><i class="fa fa-floppy-o"> </i> Generate Bundle</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered" id="bundleTableId">
+                        <tbody>
+
+                            <tr ng-repeat="bundle in bundleInformation track by $index">
+                                <td>
+                                    <div class="has-feedback">
+                                        <label>Bundle #</label>
+                                        <label>{{bundle.BundleNo}}</label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="has-feedback">
+                                        <label>Qty</label>
+                                        <input type="text" class="form-control" ng-model="bundle.Quantity">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="has-feedback">
+                                        <label>Size</label>
+                                        <input type="text" class="form-control" ng-model="bundle.Size">
+                                    </div>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card-footer fixed">
+                    <div class="col-sm-2 pull-right">
+                        <button class="btn btn-success" type="submit"><i class="fa fa-floppy-o"> </i> Save Changes</button>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>

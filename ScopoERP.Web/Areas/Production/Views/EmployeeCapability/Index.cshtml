@@ -1,0 +1,85 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row" ng-app="scopoApp" ng-controller="employeeCapabilityCtrl" ng-init="init()" ng-cloak>
+    <div class="col-md-3">
+        <div class="card card-solid">
+            <div class="card-body">
+                <div class="form-group row">
+                    <input type="text" placeholder="Search Employee" class="form-control margin-bottom" ng-model="searchList"
+                           ng-keyup="getEmployeeByKeyword(searchList)" />
+                </div>
+            </div>
+            
+            <div class="card-body">
+                <ul class="list-group" style="height:700px; overflow:auto">
+                    <li class="list-group-item" ng-repeat="e in employeeList | filter : searchList" ng-class="{active:e.selected}">
+                        <a href="" ng-click="employeeSelected(e)">
+                            <ul class="nav">
+                                <li><i class="fa fa-user" ng-class="{'text-blue':!e.selected}"></i> {{e.EmployeeName}}</li>
+                                <li>Card No: {{e.EmployeeCardNo}}</li>
+                            </ul>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-9">
+        <form class="form-horizontal" name="employeeCapabilityForm" novalidate ng-submit="saveInformation()">
+            <div class="card card-solid">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="multi-append" class="control-label">Select Spec</label>
+                        <div class="input-group">
+                            <select id="multi-append" class="form-control select2-multiple" ng-model="employee.Specs" ng-options="s.SpecNo as s.SpecNo for s in specs" multiple>
+                                <option value="">Select Spec</option>
+                            </select>
+                            @*<span class="input-group-btn">
+                                <button class="btn btn-default" type="button" data-select2-open="multi-append">
+                                    <span class="fa fa-search"></span>
+                                </button>
+                            </span>*@
+                        </div>
+                    </div>
+                    @*<div class="form-group">
+                        <label for="multi-append" class="control-label">Select2 multi append</label>
+                        <div class="input-group">
+                            <select id="multi-append" class="form-control select2-multiple" ng-model="employee.Specs" ng-options="s.SpecNo as s.SpecNo for s in specs" multiple>
+                                <option value="">Select Spec</option>
+                            </select>
+                        </div>
+                    </div>*@
+                    @*<div class="form-group row">
+                    <label class="col-sm-2">Specs(s)</label>
+                    <div class="col-sm-4">
+                        <ui-select multiple sortable="true" ng-model="employee.Specs" theme="bootstrap"
+                                   class="form-control" title="Choose Specs">
+                            <ui-select-match placeholder="Select or search a Spec">{{$item.SpecNo}}</ui-select-match>
+                            <ui-select-choices repeat="item.SpecNo as item in specs" value="{{$select.selected.SpecNo}}">
+                                <div ng-bind-html="item.SpecNo"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+
+                </div>*@
+                </div>
+                <div class="card-footer">
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <div class="pull-right">
+                                <button type="reset" class="btn btn-danger btn-flat btn-sm"><i class="fa fa-close"></i> Reset</button>
+                                <button type="submit" class="btn btn-success btn-flat btn-sm"><i class="fa fa-save"></i> Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+
+

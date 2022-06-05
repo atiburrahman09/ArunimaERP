@@ -1,0 +1,95 @@
+﻿@model ScopoERP.Production.ViewModel.SewingPlanViewModel
+@{
+    ViewBag.Title = "Production Plan";
+}
+
+<div class="col-sm-12">
+    <section class="panel">
+        <header class="panel-heading">
+            Production Plan
+        </header>
+        <div class="panel-body">
+
+            @using (Html.BeginForm("Save", "SewingPlan", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary(true)
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Floor</label>
+                    <div class="col-lg-4">
+                        @Html.DropDownListFor(model => model.Floor, ViewBag.factoryList as SelectList, "", new { @class = "combo-box" })
+                        @Html.ValidationMessageFor(model => model.Floor)
+                    </div>
+
+                    <label class="col-sm-2 control-label">Line</label>
+                    <div class="col-lg-4">
+                        @Html.DropDownListFor(model => model.Line, Enumerable.Empty<SelectListItem>(), "", new { @class = "combo-box" })
+                        @Html.ValidationMessageFor(model => model.Line)
+                    </div>
+                </div>
+                
+                <hr />
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Style</label>
+                    <div class="col-lg-4">
+                        @Html.DropDownList("StyleID", ViewBag.styleList as SelectList, "", new { @class = "combo-box" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Exit Date: From</label>
+                    <div class="col-lg-4">
+                        @Html.TextBox("FromDate", null, new { @class = "form-control default-date-picker" })
+                    </div>
+
+                    <label class="col-sm-2 control-label">To</label>
+                    <div class="col-lg-4">
+                        @Html.TextBox("ToDate", null, new { @class = "form-control default-date-picker" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-8 col-sm-4">
+                        <input type="button" id="btn-search" class="btn btn-block btn-success" value="Search" />
+                    </div>
+                </div>
+
+                <hr />
+                
+                <div class="table-responsive">
+                    <table class="table table-bordered table-stripped">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>PO No</th>
+                                <th>Order Quantity</th>
+                                <th>Exit Date</th>
+                                <th>Line Quantity</th>
+                                <th>Line Capacity</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <hr />
+                
+                <div class="form-group">
+                    <div class="col-lg-offset-8 col-lg-2">
+                        <input type="reset" class="btn btn-block btn-default" value="Reset" />
+                    </div>
+                    <div class="col-lg-2">
+                        <input type="submit" class="btn btn-block btn-primary" value="Save" />
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+</div>

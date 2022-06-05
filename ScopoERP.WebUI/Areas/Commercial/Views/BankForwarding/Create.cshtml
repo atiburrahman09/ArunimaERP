@@ -1,0 +1,160 @@
+﻿@model ScopoERP.Commercial.ViewModel.BankForwardingViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<div class="col-sm-offset-1 col-sm-10">
+    <section class="panel">
+        <header class="panel-heading">
+            Create New Bank Forwarding
+        </header>
+        <div class="panel-body">
+
+            @using (Html.BeginForm("Create", "BankForwarding", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary(true)
+
+                <div class="form-group">
+                    <label class="col-lg-3 col-sm-3 control-label">Job</label>
+                    <div class="col-lg-4">
+                        @Html.DropDownListFor(model => model.JobID, ViewBag.Job as SelectList, "", new { @class = "combo-box" })
+                        @Html.ValidationMessageFor(model => model.JobID)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-3 col-sm-3 control-label">Bank Forwarding Date</label>
+                    <div class="col-lg-4">
+                        @Html.TextBoxFor(model => model.BankForwardingDate, new { @class = "form-control default-date-picker" })
+                        @Html.ValidationMessageFor(model => model.BankForwardingDate)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-3 col-sm-3 control-label">Invoice No</label>
+                    <div class="col-lg-4">
+                        <select id="invoiceDropDown" class="combo-box"></select>
+                    </div>
+                    <div class="col-lg-1">
+                        <button type="button" class="btn btn-success btn-add">+</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-offset-3 col-lg-6">
+                        <table class="table table-bordered" id="invoice-table">
+                            <thead>
+                                <tr>
+                                    <th>Invoice No</th>
+                                    @*<th>Invoice Date</th>*@
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="form-group">
+                    <div class="col-lg-offset-5 col-lg-2">
+                        @Html.ActionLink("Cancel", "Index", "BankForwarding", null, new { @class = "btn btn-block btn-default" })
+                    </div>
+                    <div class="col-lg-2">
+                        <input type="submit" class="btn btn-block btn-primary" value="Save" />
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+</div>
+
+<script type="text/javascript">
+    var formIndexing = function () {
+        for (var i = 0; i < $('#invoice-table tbody tr').length; i++) {
+            $('#invoice-table tbody').children().eq(i).children().children()
+            .each(function () {
+                if (this.name) {
+                    this.name = this.name.replace(/\[(\d+)\]/, function (str, p1) {
+                        return '[' + i + ']';
+                    });
+                }
+            });
+        }
+    };
+
+    $(document).ready(function () {
+        $("#JobID").on('change', function () {
+
+            var jobID = $(this).val();
+            var invoiceID = $('#invoiceDropDown');
+
+            $.get("/Commercial/BankForwarding/GetInvoiceDropDownByJob", { jobID: jobID },
+                function (data) {
+
+                    invoiceID.empty();
+                    invoiceID.append($('<option/>', {
+                        value: "",
+                        text: ""
+                    }));
+                    $.each(data, function (index, itemData) {
+                        invoiceID.append($('<option/>', {
+                            value: itemData.Value,
+                            text: itemData.Text
+                        }));
+
+                    })
+
+                });
+        });
+
+        $(".btn-add").on('click', function () {
+            var invoiceID = $('#invoiceDropDown');
+            var invoiceNo = $("#invoiceDropDown option:selected").text();
+            var tableVale = "";
+            var checkinvoiceExistsInTable = false;
+
+            if (invoiceID.val()) {
+                $('#invoice-table tbody tr .invoiceIDRow').each(function () {
+                    if ($(this).val() == invoiceID.val()) {
+                        checkinvoiceExistsInTable = true;
+                    }
+                });
+                if (checkinvoiceExistsInTable) {
+                    alertify.alert("This invoice is already in the grid");
+                    return;
+                }
+
+                $.ajax({
+                    url: '/Commercial/BankForwarding/GetExportInvoiceByID',
+                    data: { invoiceID: invoiceID.val() },
+                    success: function (res) {
+                        if (res != null) {
+                            tableVale = "<tr><td>";
+                            tableVale += "<input class='invoiceIDRow' type='hidden' name='invoiceList[0].invoiceID' value='" + invoiceID.val() + "' />";
+                            tableVale += "<input type='text' class='form-control' name='invoiceList[0].invoiceNo' value='" + invoiceNo + "' disabled='' />";
+                            tableVale += "</td>";
+                            //tableVale += "<td><input type='text' class='form-control' name='invoiceList[0].invoiceDate' value='" + res.invoiceDate + "' disabled='' /></td>";
+                            tableVale += "<td><a href='javascript:void(0);' id='btnRemove'><i class='fa fa-trash-o fa-2x'></i></a></td>";
+                            tableVale += "</tr>";
+
+                            $('#invoice-table tbody').append(tableVale);
+                        }
+                    }
+                }).promise().done(function () {
+                    formIndexing();
+                });
+            } else {
+                alertify.alert("Please select Invoice");
+            }
+        });
+
+        $('#btnRemove').live('click', function () {
+            $(this).parent().parent().remove();
+            formIndexing();
+        });
+    });
+</script>

@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<div class="col-sm-12">
+    <section class="panel">
+        <header class="panel-heading">
+            Search Criteria
+        </header>
+        <div class="panel-body">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label left-label">Job No</label>
+                    <div class="col-sm-3">
+                        @Html.DropDownList("JobID", ViewBag.jobList as SelectList, "Select Job", new { @class = "combo-box" })
+                    </div>
+
+                    <label class="col-sm-2 control-label left-label">Item Category</label>
+                    <div class="col-sm-3">
+                        @Html.DropDownList("ItemCategoryID", ViewBag.itemCategoryList as SelectList, "Select Item Category", new { @class = "combo-box" })
+                    </div>
+
+                    <div class="col-sm-2">
+                        <input type="button" id="btn-search" class="btn btn-block btn-info" value="Search" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="panel">
+        <header class="panel-heading">
+            Bill of Materials
+        </header>
+
+        <div id="booking-selection"></div>
+    </section>
+        
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#btn-search').on('click', function () {
+            $('#booking-selection').html('<center><img src="~/../../Content/images/Preloader.gif" /></center>');
+            $.get('/Bookings/GetBillOfMaterials', { jobID: $('#JobID').val(), itemCategoryID: $('#ItemCategoryID').val() }, function (res) {
+                $('#booking-selection').html(res);
+            });
+        })
+    })
+</script>

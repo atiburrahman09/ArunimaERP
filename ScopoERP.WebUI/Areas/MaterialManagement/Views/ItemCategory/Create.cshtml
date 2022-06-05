@@ -1,0 +1,51 @@
+﻿@model ScopoERP.MaterialManagement.ViewModel.ItemCategoryViewModel
+@{
+    ViewBag.Title = "Create ItemCategory";
+}
+
+<div class="col-sm-12">
+    <section class="panel">
+        <header class="panel-heading">
+            Create New Item Category
+        </header>
+        <div class="panel-body">
+
+            @using (Ajax.BeginForm("Create", "ItemCategory", new AjaxOptions 
+            {
+                HttpMethod = "POST",
+                UpdateTargetId = "itemCategoryDialog",
+                OnBegin = "onBeginRequest()",
+                OnSuccess = "onSuccess(data, 'ItemCategory')"
+            }, new { @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary(true)
+
+                <div class="form-group">
+                    <label class="col-lg-4 col-sm-4 control-label">Parent Category</label>
+                    <div class="col-lg-8">
+                        @Html.DropDownListFor(model => model.ParentCategoryID, ViewBag.ParentCategory as SelectList, "", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ParentCategoryID)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-4 col-sm-4 control-label">Category Name</label>
+                    <div class="col-lg-8">
+                        @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Name)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-offset-4 col-lg-4">
+                        @Html.ActionLink("Cancel", "Index", "ItemCategory", null, new { @class = "btn btn-block btn-default btn-cancel" })
+                    </div>
+                    <div class="col-lg-4">
+                        <input type="submit" class="btn btn-block btn-primary" value="Save" />
+                    </div>
+                </div>
+            }
+
+        </div>
+    </section>
+</div>

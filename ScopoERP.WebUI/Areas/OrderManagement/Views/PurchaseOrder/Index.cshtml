@@ -1,0 +1,92 @@
+﻿@{
+    ViewBag.Title = "Purchase Order";
+}
+
+<div class="col-sm-12">
+
+    <p>
+        @Html.ActionLink("Create New PurchaseOrder", "Create", "PurchaseOrder", null,
+        new
+        {
+            @id = "purchaseOrderCreateDialogCall",
+            data_dialog_id = "purchaseOrderDialog",
+            @class = "btn btn-primary btn-lg"
+        })
+    </p>
+
+    @using Telerik.Web.Mvc.UI
+
+    @( Html.Telerik().Grid<ScopoERP.OrderManagement.ViewModel.PurchaseOrderViewModel>()
+    .Name("PurchaseOrderGrid")
+    .DataKeys(dataKeys => dataKeys.Add(k => k.PurchaseOrderID))
+                    .DataBinding(dataBinding => dataBinding.Ajax().Select("GetAllPurchaseOrder", "PurchaseOrder"))
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.PurchaseOrderID).ClientTemplate(
+            Html.ActionLink("Edit", "Edit", new { id = "<#= PurchaseOrderID #>" },
+                new
+                {
+                    @class = "t-button purchaseOrderEditDialogCall",
+                    data_dialog_id = "purchaseOrderDialog"
+                })
+            + " " +
+            Html.ActionLink("Copy", "Copy", new { id = "<#= PurchaseOrderID #>" },
+                new
+                {
+                    @class = "t-button purchaseOrderCopyDialogCall",
+                    data_dialog_id = "purchaseOrderDialog"
+                })
+            + " " +
+            Html.ActionLink("Size Color", "Index", "SizeColor", new { id = "<#= PurchaseOrderID #>" },
+            new
+            {
+                @target = "_blank",
+                @class = "t-button"
+            })
+            + " " +
+            Html.ActionLink("SubContract", "Index", "SubContract", new { id = "<#= PurchaseOrderID #>" },
+            new
+            {
+                @target = "_blank",
+                @class = "t-button"
+            }).ToHtmlString()
+        )
+        .Width(340).Title("").Filterable(false);
+
+        columns.Bound(c => c.JobNo).Width(200);
+        columns.Bound(c => c.StyleNo).Width(200);
+
+        columns.Bound(c => c.PurchaseOrderNo).Width(200);
+        columns.Bound(c => c.Remarks).Width(150);
+        columns.Bound(c => c.FOB).Width(100);
+        columns.Bound(c => c.AgreedCM).Width(120);
+        columns.Bound(c => c.OrderQuantity).Width(100)
+            .Aggregate(a => a.Sum())
+            .ClientGroupFooterTemplate("Total: <#= Sum #>")
+            .ClientFooterTemplate("Total: <#= Sum #>");
+        columns.Bound(c => c.ExitDate).Format("{0:dd-MMM-yyyy}").Width(100);
+
+        columns.Bound(c => c.CostSheetNo).Width(200);
+        
+        columns.Bound(c => c.OriginalCRD).Format("{0:dd-MMM-yyyy}").Width(100);
+
+        columns.Bound(c => c.FactoryName).Width(120);
+
+        columns.Bound(c => c.SubContractRate).Width(150);
+        columns.Bound(c => c.FactoryCM).Width(120);
+
+        columns.Bound(c => c.ShipModeName).Width(120);
+        columns.Bound(c => c.DCCode).Width(120);
+        
+        columns.Bound(c => c.SeasonName).Width(120);
+        columns.Bound(c => c.CurrentStatus).Width(100);
+    })
+    .Resizable(r => r.Columns(true))
+    .Filterable()
+    .Pageable(p => p.PageSize(10))
+    .Selectable()
+    .Sortable()
+    .Scrollable(x => x.Height("auto"))
+    )
+
+</div>

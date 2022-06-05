@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="col-sm-12">
+
+    <p>
+        @Html.ActionLink("Create New Bank Forwarding", "Create", "BankForwarding", null, new { @class = "btn btn-lg btn-primary" })
+    </p>
+
+    @using Telerik.Web.Mvc.UI
+
+    @( Html.Telerik().Grid<ScopoERP.Commercial.ViewModel.BankForwardingViewModel>()
+    .Name("BankForwardingGrid")
+    .DataKeys(dataKeys => dataKeys.Add(k => k.BankForwardingID))
+    .DataBinding(dataBinding => dataBinding.Ajax().Select("GetAllBankForwarding", "BankForwarding"))
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.BankForwardingID).ClientTemplate(
+            Html.ActionLink("Edit", "Edit", new { id = "<#= BankForwardingID #>" }, new { @class = "t-button" })
+            .ToHtmlString()
+        )
+        .Width(80).Title("").Filterable(false);
+
+        columns.Bound(c => c.JobNo).Width(100);
+        columns.Bound(c => c.BankForwardingNo).Width(100);
+        columns.Bound(c => c.BankForwardingDate).Format("{0:dd-MMM-yyyy}").Width(100);
+        columns.Bound(c => c.FDBPNo).Width(100);
+    })
+    .ColumnContextMenu()
+    .Resizable(r => r.Columns(true))
+    .Reorderable(r => r.Columns(true))
+    .Scrollable(x => x.Height("auto"))
+    .Filterable()
+    .Pageable(p => p.PageSize(10))
+    .Selectable()
+    .Sortable()
+    )
+
+</div>

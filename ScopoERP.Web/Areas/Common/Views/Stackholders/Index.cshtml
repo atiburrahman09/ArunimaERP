@@ -1,0 +1,270 @@
+﻿
+@{
+    ViewBag.Title = "Stackholders";
+}
+
+<div class="row" ng-app="scopoApp" ng-controller="stackholdersCtrl" ng-init="init()" ng-cloak>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body" style="height:790px;">
+                <div class="form-group row">
+                    <div class="col-sm-3">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary btn-block dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                New Stackholder
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#" ng-click="createTypeSelector('buyer')">Buyer</a></li>
+                                <li><a href="#" ng-click="createTypeSelector('customer')">Customer</a></li>
+                                <li><a href="#" ng-click="createTypeSelector('supplier')">Supplier</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-4">
+                        <select class="form-control row" ng-options="type.type as type.name for type in types"
+                                ng-model="listType"
+                                ng-change="reload(listType)">
+                            <option value="">Select Stackholder</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-3 has-feedback">
+                        <input type="text" ng-model="search" class="form-control" placeholder="Search Stackholder" />
+                    </div>
+                </div>
+
+                <hr />
+                <form name="buyerForm" ng-show="createType=='buyer' || detailType=='buyer'" novalidate ng-submit="createStackholder()">
+                    <div class="form-group row">
+                        <label class="col-sm-6">Buyer Name</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control"
+                                   ng-disabled="createType!='buyer'"
+                                   ng-model="instance.BuyerName" required />
+                        </div>
+                    </div>
+                    @*<div class="form-group row">
+                        <label class="col-sm-6">Shipped To</label>
+                        <div class="col-sm-6">
+                            <textarea rows="4" class="form-control"
+                                      ng-disabled="createType!='buyer'"
+                                      ng-model="instance.ShippedTo"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-6">Notify Party</label>
+                        <div class="col-sm-6">
+                            <textarea rows="4" class="form-control"
+                                      ng-disabled="createType!='buyer'"
+                                      ng-model="instance.NotifyParty"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-6">Also Notify Party</label>
+                        <div class="col-sm-6">
+                            <textarea rows="4" class="form-control"
+                                      ng-disabled="createType!='buyer'"
+                                      ng-model="instance.AlsoNotifyParty"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-6">CAT No</label>
+                        <div class="col-sm-6">
+                            <input rows="4" class="form-control"
+                                   ng-disabled="createType!='buyer'"
+                                   ng-model="instance.CATNO" />
+                        </div>
+                    </div>*@
+                    <div class="form-group row">
+                        <div class="col-sm-offset-9 col-sm-3">
+                            <button class="btn btn-primary btn-block"
+                                    type="button"
+                                    ng-show="createType!='buyer'"
+                                    ng-click="editInstance('buyer')">
+                                {{submitButton}}
+                            </button>
+                        </div>
+                        <div class="col-sm-offset-3 col-sm-3">
+                            <input type="button" class="btn btn-default btn-block"
+                                   value="Cancel"
+                                   ng-show="createType=='buyer'"
+                                   ng-click="cancelForm()" />
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="reset" class="btn btn-primary btn-block"
+                                   value="Reset"
+                                   ng-show="createType=='buyer'" />
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="submit" class="btn btn-success btn-block"
+                                   value="Save"
+                                   ng-show="createType=='buyer'" />
+                        </div>
+
+                    </div>
+
+                </form>
+                <form name="customerForm" ng-show="createType=='customer'||detailType=='customer'" novalidate ng-submit="createStackholder()">
+
+                    <div class="form-group row">
+                        <label class="col-sm-6">Customer Name</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control"
+                                   ng-disabled="createType!='customer'"
+                                   ng-model="instance.CustomerName" required />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-offset-9 col-sm-3">
+                            <button class="btn btn-primary btn-block"
+                                    type="button"
+                                    ng-show="createType!='customer'"
+                                    ng-click="editInstance('customer')">
+                                {{submitButton}}
+                            </button>
+                        </div>
+                        <div class="col-sm-offset-3 col-sm-3">
+                            <input type="button" class="btn btn-default btn-block"
+                                   value="Cancel"
+                                   ng-show="createType=='customer'"
+                                   ng-click="cancelForm()" />
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="reset" class="btn btn-primary btn-block"
+                                   value="Reset"
+                                   ng-show="createType=='customer'" />
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="submit" class="btn btn-success btn-block"
+                                   value="Save"
+                                   ng-show="createType=='customer'" />
+                        </div>
+
+                    </div>
+
+                </form>
+                <form name="supplierForm" ng-show="createType=='supplier' || detailType=='supplier'" ng-submit="createStackholder()" novalidate>
+
+                    <div class="form-group row">
+                        <label class="col-sm-6">Supplier Name</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control"
+                                   ng-disabled="createType!='supplier'"
+                                   ng-model="instance.SupplierName" required />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-6">Email</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control"
+                                   ng-disabled="createType!='supplier'"
+                                   ng-model="instance.Email" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-6">Contact No</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control"
+                                   ng-disabled="createType!='supplier'"
+                                   ng-model="instance.ContactNumber" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-6">Address</label>
+                        <div class="col-sm-6">
+                            <textarea class="form-control" rows="4"
+                                      ng-disabled="createType!='supplier'"
+                                      ng-model="instance.Address"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-offset-9 col-sm-3">
+                            <button class="btn btn-primary btn-block"
+                                    type="button"
+                                    ng-show="createType!='supplier'"
+                                    ng-click="editInstance('supplier')">
+                                {{submitButton}}
+                            </button>
+                        </div>
+                        <div class="col-sm-offset-3 col-sm-3">
+                            <input type="button" class="btn btn-default btn-block"
+                                   value="Cancel"
+                                   ng-show="createType=='supplier'"
+                                   ng-click="cancelForm()" />
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="reset" class="btn btn-primary btn-block"
+                                   value="Reset"
+                                   ng-show="createType=='supplier'" />
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="submit" class="btn btn-success btn-block"
+                                   value="Save"
+                                   ng-show="createType=='supplier'" />
+                        </div>
+
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6" ng-show="listType=='buyer'">
+        <div class="card">
+            <header class="card-header with-border">
+                <h3 class="card-title">Buyer</h3>
+            </header>
+            <div class="card-body no-padding" style="height:790px;overflow:auto">
+                <ul class="list-group">
+                    <li class="list-group-item" ng-repeat="buyer in stackholders.allBuyer  | filter:search">
+                        <a href="#" ng-click="selectionControl($index, 'allBuyer')"
+                           ng-class="{selected:buyer.selected}">
+                            <i class="fa fa-file-text-o"></i> {{buyer.BuyerName}}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6" ng-show="listType=='customer'">
+        <div class="card">
+            <header class="card-header with-border">
+                <h3 class="card-title">Customer</h3>
+            </header>
+            <div class="card-body no-padding" style="height:790px;overflow:auto">
+                <ul class="list-group">
+                    <li class="list-group-item" ng-repeat="customer in stackholders.allCustomer | filter:search">
+                        <a href="#" ng-click="selectionControl($index, 'allCustomer')"
+                           ng-class="{selected:customer.selected}">
+                            <i class="fa fa-file-text-o"></i> {{customer.CustomerName}}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-6" ng-show="listType=='supplier'">
+        <div class="card">
+            <header class="card-header with-border">
+                <h3 class="card-title">Supplier</h3>
+            </header>
+            <div class="card-body no-padding" style="height:790px;overflow:auto">
+                <ul class="list-group">
+                    <li class="list-group-item" ng-repeat="supplier in stackholders.allSupplier | filter:search">
+                        <a href="#" ng-click="selectionControl($index, 'allSupplier')"
+                           ng-class="{selected:supplier.selected}">
+                            <i class="fa fa-file-text-o"></i> {{supplier.SupplierName}}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+

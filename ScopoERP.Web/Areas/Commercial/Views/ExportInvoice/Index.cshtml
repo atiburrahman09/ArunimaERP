@@ -1,0 +1,339 @@
+﻿@{
+    ViewBag.Title = "Export Invoice";
+}
+
+<div class="row" ng-app="scopoApp" ng-controller="exportInvoiceCtrl" ng-init="init()" ng-cloak>
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <select class="form-control select2" ng-model="selectedJob" ng-change="onJobChange(selectedJob)">
+                            <option value="">Select Job</option>
+                            <option ng-repeat="job in jobList" value="{{job.Value}}">{{job.Text}}</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-5">
+                        <select class="form-control select2" ng-model="selectedInvoice" ng-change="selectExportInvoice(selectedInvoice)">
+                            <option value="">Select Invoice</option>
+                            <option ng-repeat="exp in exportInvoiceList" value="{{exp}}">{{exp.InvoiceNo}}</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <button class="btn btn-success btn-block waves-effect waves-light" ng-click="newClicked()">Create New</button>
+                    </div>
+
+                    <div class="col-md-1">
+                        <button type="button" class="btn btn-info waves-effect waves-light" ng-click="toggleView()"><i class="fa fa-th"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12" ng-if="!exportInvoiceReport">
+        <form class="form-horizontal" name="forms.exportInvoiceForm" ng-submit="saveExportInvoice()" novalidate>
+            <div class="card">
+                <div class="card-body">
+                    <ul class="nav nav-tabs customtab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#exportInvoiceTab" role="tab" aria-expanded="true">
+                                <span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">General Info</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#shipmentTab" role="tab" aria-expanded="false">
+                                <span class="hidden-sm-up"><i class="ti-user"></i></span> <span class="hidden-xs-down">Shipment Info</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane p-20 active" id="exportInvoiceTab">
+                            <div class="form-group row">
+                                <label class="col-sm-3 ">Invoice No</label>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" 
+                                           ng-model="exportInvoice.InvoiceNo" required />
+                                </div>
+
+                                <label class="col-sm-3">Invoice Date</label>
+                                <div class="col-sm-3">
+                                    <input id="InvoiceDate" type="text" class="form-control datepicker"
+                                           ng-model="exportInvoice.InvoiceDate" required />
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-3 ">Booking Factory Date</label>
+                                <div class="col-sm-3">
+                                    <input id="BookingExFactoryDate" type="text" class="form-control datepicker"
+                                           ng-model="exportInvoice.BookingExFactoryDate" />
+                                </div>
+                                <label class="col-sm-3">Ex Factory Date</label>
+                                <div class="col-sm-3">
+                                    <input id="ExFactoryDate" type="text" class="form-control datepicker"
+                                           ng-model="exportInvoice.ExFactoryDate" />
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-3 ">Exp</label>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" 
+                                           ng-model="exportInvoice.EXP" />
+                                </div>
+
+                                <label class="col-sm-3">Exp Date</label>
+                                <div class="col-sm-3">
+                                    <input id="EXPDate" type="text" class="form-control datepicker"
+                                           ng-model="exportInvoice.EXPDate" />
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-3 ">I C Date</label>
+                                <div class="col-sm-3">
+                                    <input id="ICDate" type="text" class="form-control datepicker"
+                                           ng-model="exportInvoice.ICDate" />
+                                </div>
+
+                                <label class="col-sm-3">On Board Date</label>
+                                <div class="col-sm-3">
+                                    <input id="OnBoardDate" type="text" class="form-control datepicker"
+                                           ng-model="exportInvoice.OnBoardDate" />
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-3">Shipping Bill</label>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" ng-model="exportInvoice.ShippingBill" />
+                                </div>
+
+                                <label class="col-sm-3 ">Shippig Bill Date</label>
+                                <div class="col-sm-3">
+                                    <input id="ShippingBillDate" type="text" class="form-control datepicker"
+                                           ng-model="exportInvoice.ShippingBillDate" />
+                                </div>
+
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-3 ">BL</label>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" ng-model="exportInvoice.BL" />
+                                </div>
+
+                                <label class="col-sm-3">B/L Release Date</label>
+                                <div class="col-sm-3">
+                                    <input id="BLRealeaseDate" type="text" class="form-control datepicker"
+                                           ng-model="exportInvoice.BLRealeaseDate" />
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-3 ">BL To Be Endorsed To</label>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" 
+                                           ng-model="exportInvoice.BLToBeEndorsedTo" />
+                                </div>
+
+                                <label class="col-sm-3">C/O Date</label>
+                                <div class="col-sm-3">
+                                    <input id="CODate" type="text" class="form-control datepicker"
+                                           ng-model="exportInvoice.CODate" />
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-3 ">FCR</label>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" ng-model="exportInvoice.FCR" />
+                                </div>
+
+                                <label class="col-sm-3">FCR Date</label>
+                                <div class="col-sm-3">
+                                    <input id="FCRDate" type="text" class="form-control datepicker"
+                                           ng-model="exportInvoice.FCRDate" />
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-3">Trade Card Input Date</label>
+                                <div class="col-sm-3">
+                                    <input id="TradeCardInPutDate" type="text" class="form-control datepicker"
+                                           ng-model="exportInvoice.TradeCardInPutDate" />
+                                </div>
+
+                                <label class="col-sm-3 ">Doc Dispatch Date</label>
+                                <div class="col-sm-3">
+                                    <input id="DocDespatchDate" type="text" class="form-control datepicker"
+                                           ng-model="exportInvoice.DocDespatchDate" />
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-3 ">Doc Payment App. Date</label>
+                                <div class="col-sm-3">
+                                    <input id="DocDespatchDate" type="text" class="form-control datepicker"
+                                           ng-model="exportInvoice.DocsPaymentApprovalDate" />
+                                </div>
+                                <label class="col-sm-3 ">Bank Nego Date</label>
+                                <div class="col-sm-3">
+                                    <input id="BankNegoDate" type="text" class="form-control datepicker"
+                                           ng-model="exportInvoice.BankNegoDate" />
+                                </div>                               
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-3 ">Payment Receive Date</label>
+                                <div class="col-sm-3">
+                                    <input id="PaymentReceiveDate" type="text" class="form-control datepicker"
+                                           ng-model="exportInvoice.PaymentReceiveDate" />
+                                </div>
+                                <label class="col-sm-3 ">Country Name</label>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" 
+                                           ng-model="exportInvoice.CountryName" />
+                                </div>                               
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-3 ">Port Of Loading</label>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control"
+                                           ng-model="exportInvoice.PortOfLoading" />
+                                </div>
+                                <label class="col-sm-3">Final Destination</label>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" 
+                                           ng-model="exportInvoice.FinalDestination" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane p-20" id="shipmentTab">
+                            <div class="form-horizontal">
+                                <div class="col-md-12">
+                                    <div class="form-group row">
+                                        <div class="col-md-5">
+                                            <select class="form-control select2" ng-model="selectedPO" style="width:100%;">
+                                                <option value="">Select Purchase Order</option>
+                                                <option ng-repeat="po in PODropDownList" value={{po}}>{{po.Text}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <button type="button" class="btn btn-success" ng-click="addShipment(selectedPO)">
+                                                <i class="fa fa-plus-circle"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <table class="table table-condensed table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>Purchase Order No</th>
+                                                    <th>Shipment Qty</th>
+                                                    <th>Shipped FOB</th>
+                                                    <th>Invoice FOB</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="sh in shipmentList">
+                                                    <td><button type="button" class="btn btn-sm btn-warning btn-flat" ng-click="removeShipment(sh, $index)"><i class="fa fa-trash" aria-hidden="true"></i></button></td>
+                                                    <td>{{sh.PONo}}</td>
+                                                    <td>{{sh.ChalanQuantity}}</td>
+                                                    <td>{{sh.ShippedFOB}}</td>
+                                                    <td><input type="text" class="form-control" ng-model="sh.InvoiceFOB" /></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-dark waves-effect waves-light" ng-click="resetForm()"><i class="fa fa-close "></i> Reset</button>
+                        <button type="submit" class="btn btn-info waves-effect waves-light" ng-disabled="!selectedJob"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-sm-12" ng-if="exportInvoiceReport">
+        <div class="card">
+            <div class="card-body">
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped table-fixed-header no-wrap">
+                            <thead>
+                                <tr>
+                                    <th>Invoice No</th>
+                                    <th>Invoice Date</th>
+                                    <th>Booking Factory Date</th>
+                                    <th>Ex Factory Date</th>
+                                    <th>Exp</th>
+                                    <th>Exp Date</th>
+                                    <th>I C Date</th>
+                                    <th>On Board Date</th>
+                                    <th>Shipping Bill</th>
+                                    <th>Shipping Bill Date</th>
+                                    <th>BL</th>
+                                    <th>B/L Release Date</th>
+                                    <th>BL To Be Endorsed To</th>
+                                    <th>C/O Date</th>
+                                    <th>FCR</th>
+                                    <th>FCR Date</th>
+                                    <th>Trade Card Input Date</th>
+                                    <th>Doc Dispatch Date</th>
+                                    <th>Bank Nego Date</th>
+                                    <th>Country Name</th>
+                                    <th>Port Of Loading</th>
+                                    <th>Final Destination</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="inv in reportList">
+                                    <td>{{inv.InvoiceNo}}</td>
+                                    <td>{{inv.InvoiceDate | date}}</td>
+                                    <td>{{inv.BookingExFactoryDate | date}}</td>
+                                    <td>{{inv.ExFactoryDate | date}}</td>
+                                    <td>{{inv.EXP}}</td>
+                                    <td>{{inv.EXPDate | date}}</td>
+                                    <td>{{inv.ICDate | date}}</td>
+                                    <td>{{inv.OnBoardDate | date }}</td>
+                                    <td>{{inv.ShippingBill}}</td>
+                                    <td>{{inv.ShippingBillDate | date}}</td>
+                                    <td>{{inv.BL}}</td>
+                                    <td>{{inv.BLReleaseDate | date}}</td>
+                                    <td>{{inv.BLToBeEndorsedTo}}</td>
+                                    <td>{{inv.CODate | date}}</td>
+                                    <td>{{inv.FCR}}</td>
+                                    <td>{{inv.FCRDate | date}}</td>
+                                    <td>{{inv.TradeCardInPutDate | date}}</td>
+                                    <td>{{inv.DocDespatchDate | date}}</td>
+                                    <td>{{inv.BankNegoDate | date}}</td>
+                                    <td>{{inv.CountryName}}</td>
+                                    <td>{{inv.PortOfLoading}}</td>
+                                    <td>{{inv.FinalDestination}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>

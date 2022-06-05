@@ -1,0 +1,156 @@
+﻿@model ScopoERP.Production.ViewModel.ProductionStatusViewModel
+@{
+    ViewBag.Title = "Update Production Status";
+}
+
+<div class="col-sm-12">
+    <section class="panel">
+        <header class="panel-heading">
+            Update Production Status
+        </header>
+        <div class="panel-body">
+
+            @using (Ajax.BeginForm("Edit", "ProductionStatus", new AjaxOptions
+            {
+                HttpMethod = "POST",
+                UpdateTargetId = "productionStatusDialog",
+                OnBegin = "onBeginRequest()",
+                OnSuccess = "onSuccess(data, 'Production Status')"
+            }, new { @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary(true)
+                @Html.HiddenFor(model => model.ProductionDailyReportID)
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">Date</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.Date, new { @class = "default-date-picker form-control" })
+                        @Html.ValidationMessageFor(model => model.Date)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">Floor</label>
+                    <div class="col-lg-3">
+                        @Html.DropDownListFor(model => model.Floor, ViewBag.Floors as SelectList, "", new { @class = "combo-box" })
+                        @Html.ValidationMessageFor(model => model.Floor)
+                    </div>
+
+                    <label class="col-lg-offset-1 col-lg-2 col-sm-2 control-label">Line</label>
+                    <div class="col-lg-3">
+                        @Html.DropDownListFor(model => model.Line, ViewBag.Lines as SelectList, "", new { @class = "combo-box" })
+                        @Html.ValidationMessageFor(model => model.Line)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">Color</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.Color, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Color)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">Style No</label>
+                    <div class="col-lg-3">
+                        @Html.DropDownListFor(model => model.StyleID, ViewBag.Style as SelectList, "", new { @class = "combo-box" })
+                        @Html.ValidationMessageFor(model => model.StyleID)
+                    </div>
+
+                    <label class="col-lg-offset-1 col-lg-2 col-sm-2 control-label">PO No</label>
+                    <div class="col-lg-3">
+                        @Html.DropDownListFor(model => model.PurchaseOrderID, ViewBag.PurchaseOrder as SelectList, "", new { @class = "combo-box" })
+                        @Html.ValidationMessageFor(model => model.PurchaseOrderID)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">Cutting</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.Cutting, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Cutting)
+                    </div>
+                    <span class="label label-primary label-dpr col-lg-1 col-sm-1">.</span>
+
+                    <label class="col-lg-2 col-sm-2 control-label">Today Finish</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.TodayFinish, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.TodayFinish)
+                    </div>
+                    <span class="label label-primary label-dpr col-lg-1 col-sm-1">.</span>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">Sewing Input</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.SewingInput, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.SewingInput)
+                    </div>
+                    <span class="label label-primary label-dpr col-lg-1 col-sm-1">.</span>
+
+                    <label class="col-lg-2 col-sm-2 control-label">Today Sewing</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.TodaySewing, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.TodaySewing)
+                    </div>
+                    <span class="label label-primary label-dpr col-lg-1 col-sm-1">.</span>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">Sent Print/Emb</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.SentPrintEmb, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.SentPrintEmb)
+                    </div>
+                    <span class="label label-primary label-dpr col-lg-1 col-sm-1">.</span>
+
+                    <label class="col-lg-2 col-sm-2 control-label">Received Print/Emb</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.ReceivedPrintEmb, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ReceivedPrintEmb)
+                    </div>
+                    <span class="label label-primary label-dpr col-lg-1 col-sm-1">.</span>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">Sent Wash</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.SentWash, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.SentWash)
+                    </div>
+                    <span class="label label-primary label-dpr col-lg-1 col-sm-1">.</span>
+
+                    <label class="col-lg-2 col-sm-2 control-label">Received Wash</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.ReceivedWash, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ReceivedWash)
+                    </div>
+                    <span class="label label-primary label-dpr col-lg-1 col-sm-1">.</span>
+                </div>
+
+                <hr />
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">Order Quantity</label>
+                    <div class="col-lg-2">
+                        @Html.TextBox("OrderQuantity", null, new { @class = "form-control", @readonly = true })
+                    </div>
+                    <label class="col-lg-2 col-sm-2 control-label">Exit Date</label>
+                    <div class="col-lg-2">
+                        @Html.TextBox("ExitDate", null, new { @class = "form-control", @readonly = true })
+                    </div>
+                    <div class="col-lg-2">
+                        <button class="btn btn-block btn-default btn-cancel">Cancel</button>
+                    </div>
+                    <div class="col-lg-2">
+                        <input type="submit" class="btn btn-block btn-primary" value="Update" />
+                    </div>
+                </div>
+            }
+
+        </div>
+    </section>
+</div>
+
+<script src="~/Areas/Production/Scripts/productionStatus.js"></script>

@@ -1,0 +1,162 @@
+﻿
+@{
+    ViewBag.Title = "Voucher";
+}
+
+<div class="col-sm-12">
+    <section class="panel">
+        <header class="panel-heading">
+            Add New Voucher
+        </header>
+
+        <div class="panel-body">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Date</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" />
+                    </div>
+
+                    <label class="col-sm-2 control-label">Type</label>
+                    <div class="col-sm-3">
+                        <select class="form-control">
+                            <option></option>
+                            <option>All Common</option>
+                            <option>VF Common</option>
+                            <option>Arunima Common</option>
+                            <option>Direct</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Parent Account No</label>
+                    <div class="col-sm-3">
+                        <select class="form-control">
+                            <option>P-0000000000000001</option>
+                            <option>P-0000000000000002</option>
+                        </select>
+                    </div>
+
+                    <label class="col-sm-2 control-label">Account Name</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" value="Conveyance" readonly />
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="form-group">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>SL</th>
+                                <th>Sub Account No</th>
+                                <th>Account Name</th>
+                                <th>Card No</th>
+                                <th>Floor</th>
+                                <th>Amount</th>
+                                <th>Remarks</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>
+                                    <select class="form-control">
+                                        <option>0001-0000000000000001</option>
+                                        <option>0002-0000000000000002</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="text" readonly class="form-control" value="CNG Bill"/>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" />
+                                </td>
+                                <td>
+                                    <select class="form-control">
+                                        <option></option>
+                                        <option>3rd Way-1</option>
+                                        <option>3rd Way-2</option>
+                                        <option>3rd Way-3</option>
+                                        <option>3rd Way-4</option>
+                                        <option>ASWL 4-A</option>
+                                        <option>ASWL 4-B</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" />
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" />
+                                </td>
+                                <td>
+                                    <button class="btn btn-round btn-primary">+</button>
+                                </td>
+                                <td>
+                                    <button class="btn btn-round btn-danger">-</button>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>2</td>
+                                <td>
+                                    <select class="form-control">
+                                        <option>0001-0000000000000001</option>
+                                        <option selected>0002-0000000000000002</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="text" readonly class="form-control" value="Truck Bill" />
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" />
+                                </td>
+                                <td>
+                                    <select class="form-control">
+                                        <option></option>
+                                        <option>3rd Way-1</option>
+                                        <option>3rd Way-2</option>
+                                        <option>3rd Way-3</option>
+                                        <option>3rd Way-4</option>
+                                        <option>ASWL 4-A</option>
+                                        <option>ASWL 4-B</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" />
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" />
+                                </td>
+                                <td>
+                                    <button class="btn btn-round btn-primary">+</button>
+                                </td>
+                                <td>
+                                    <button class="btn btn-round btn-danger">-</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th>Total</th>
+                                <th><input type="text" readonly class="form-control" /></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+

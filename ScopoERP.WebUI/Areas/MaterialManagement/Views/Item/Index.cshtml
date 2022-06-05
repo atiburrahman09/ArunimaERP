@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Title = "Item";
+}
+
+<div class="col-sm-12">
+
+    <p>
+        @Html.ActionLink("Create New Item", "Create", "Item", null, new { 
+       @class = "btn btn-lg btn-primary",
+       @id = "itemCreateDialogCall",
+       data_dialog_id = "itemDialog",
+   })
+    </p>
+
+    @using Telerik.Web.Mvc.UI
+
+    @( Html.Telerik().Grid<ScopoERP.MaterialManagement.ViewModel.ItemViewModel>()
+    .Name("ItemGrid")
+    .DataKeys(dataKeys => dataKeys.Add(k => k.ItemID))
+                            .DataBinding(dataBinding => dataBinding.Ajax().Select("GetAllItem", "Item"))
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.ItemID).ClientTemplate(
+            Html.ActionLink("Edit", "Edit", new { id = "<#= ItemID #>" }, new { @class = "t-button itemEditDialogCall", data_dialog_id = "itemDialog" }).ToHtmlString()
+        )
+        .Width(80).Title("").Filterable(false);
+
+        columns.Bound(c => c.ItemCategoryName).Width(150);
+
+        columns.Bound(c => c.ItemCode).Width(200);
+        columns.Bound(c => c.ItemDescription).Width(200);
+
+    })
+    .Resizable(r => r.Columns(true))
+    .Filterable()
+    .Pageable(p => p.PageSize(10))
+    .Selectable()
+    .Sortable()
+    .Scrollable(x => x.Height("auto"))
+    )
+</div>

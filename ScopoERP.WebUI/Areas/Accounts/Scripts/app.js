@@ -1,0 +1,1 @@
+﻿var purchaseRequisition = angular.module('purchaseRequisition', ['purchaseRequisition.controllers', 'globalModule']);

@@ -1,0 +1,53 @@
+﻿@model ScopoERP.Finance.ViewModel.RealizationAccountViewModel
+
+@{
+    ViewBag.Title = "Update Realization Account";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        @using (Html.BeginForm("Edit", "RealizationAccount", FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            <div class="card">
+                <div class="card-body">
+                    @Html.ValidationSummary(true)
+
+                    @Html.HiddenFor(model => model.RealizationAccountID)
+
+                    <div class="form-group row">
+                        <label class="col-md-4">Account No</label>
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.RealizationAccountNo, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.RealizationAccountNo)
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4">Account Name</label>
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.RealizationAccountName, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.RealizationAccountName)
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4">Account Type</label>
+                        <div class="col-md-8">
+                            @Html.DropDownListFor(model => model.RealizationAccountType, ViewBag.accountTypeList as SelectList, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.RealizationAccountType)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <div class="form-group row">
+                        <div class="col-md-2">
+                            @Html.ActionLink("Cancel", "Index", "RealizationAccount", null, new { @class = "btn btn-block btn-dark waves-effect waves-light" })
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-success btn-block waves-effect waves-light"> Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

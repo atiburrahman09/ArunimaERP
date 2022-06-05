@@ -1,0 +1,335 @@
+﻿@{
+    ViewBag.Title = "Import Invoice(BL)";
+}
+
+<div class="row" ng-app="scopoApp" ng-controller="blCtrl" ng-init="init()" ng-cloak>
+  
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <select class="form-control select2" ng-model="selectedJob" ng-change="onJobChange(selectedJob)" style="width: 100%">
+                            <option value="">Select Job</option>
+                            <option ng-repeat="job in jobList" value="{{job.Value}}">{{job.Text}}</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <select class="form-control select2" ng-model="selectedB2B" ng-change="onBackToBackChange(selectedB2B)">
+                            <option value="">Select Back To Back</option>
+                            <option ng-repeat="b2b in backToBackLCList" value="{{b2b.Value}}">{{b2b.Text}}</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <select class="form-control select2" ng-model="selectedBL" ng-change="onBLChange(selectedBL)">
+                            <option value="">Select BL</option>
+                            <option ng-repeat="bl in blList" value="{{bl.BLID}}">{{bl.BLNo}}</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-success btn-block" ng-click="resetForm()">
+                            Create New
+                        </button>
+                    </div>
+
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-info btn-block" ng-click="toggleView()">
+                            {{blSummary ? 'Back':'Report' }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12" ng-show="!blSummary">
+        <form class="form-horizontal" name="blForm" id="blForm" ng-submit="saveBL()" novalidate>
+            <div class="card">
+                <div class="card-body">
+                    <ul class="nav nav-tabs customtab" role="tablist">
+                        <li class="nav-item" ng-click="detectFormToSave(false)">
+                            <a class="nav-link active" data-toggle="tab" href="#tabGeneral" role="tab" aria-expanded="true">
+                                <span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">General Info</span>
+                            </a>
+                        </li>
+                        <li class="nav-item" ng-click="detectFormToSave(true)">
+                            <a class="nav-link" data-toggle="tab" href="#tabBLDetails" role="tab" aria-expanded="false">
+                                <span class="hidden-sm-up"><i class="ti-user"></i></span> <span class="hidden-xs-down">BL Details</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane p-20 active" id="tabGeneral">
+                            <div class="form-group row">
+                                <label class="col-md-3 text-left">BL No</label>
+                                <div class="col-md-3">
+                                    <input class="form-control" type="text" ng-model="blInstance.BLNo"
+                                           required />
+                                </div>
+
+
+
+                                <label class="col-md-3 text-left">BL Date</label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control datepicker" 
+                                           ng-model="blInstance.BLDate" is-open="dt.blDate" datepicker-options="dateOptions" close-text="Close"
+                                           required />
+
+                                    @*<input id="BLDate" class="form-control datepicker" type="text"
+                                           ng-model="blInstance.BLDate"
+                                           ng-blur="getDateValue('BLDate', 'blInstance')"
+                                           required />*@
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-3 text-left">Invoice No</label>
+                                <div class="col-md-3">
+                                    <input class="form-control" type="text" ng-model="blInstance.InvoiceNo" />
+                                </div>
+
+                                <label class="col-md-3 text-left">Invoice Date</label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control datepicker" 
+                                           ng-model="blInstance.InvoiceDate" is-open="dt.invoiceDate" datepicker-options="dateOptions" close-text="Close" />
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-3 text-left">Original Document Recieved Date</label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control datepicker"  
+                                           ng-model="blInstance.OriginalDocumentReceivedDate" is-open="dt.originDocDate" datepicker-options="dateOptions" close-text="Close" />
+
+                                    @*<input id="OriginalDocumentReceivedDate" class="form-control datepicker" type="text"
+        ng-model="blInstance.OriginalDocumentReceivedDate"
+        ng-blur="getDateValue('OriginalDocumentReceivedDate', 'blInstance')" />*@
+                                </div>
+                                <label class="col-md-3 text-left">Copy Document Recieved Date</label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control datepicker" 
+                                           ng-model="blInstance.CopyDocumentReceivedDate" is-open="dt.copyDocDate" datepicker-options="dateOptions" close-text="Close" />
+                                    @*<input id="CopyDocumentReceivedDate" class="form-control datepicker" type="text"
+                                           ng-model="blInstance.CopyDocumentReceivedDate"
+                                           ng-blur="getDateValue('CopyDocumentReceivedDate', 'blInstance')" />*@
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-3 text-left">Goods Delivery Date By CNF</label>
+                                <div class="col-md-3">
+
+                                    <input type="text" class="form-control datepicker" 
+                                           ng-model="blInstance.GoodsDeliveryDateByCNF" is-open="dt.goodsDelDate" datepicker-options="dateOptions" close-text="Close" />
+
+                                    @*<input id="GoodsDeliveryDateByCNF" class="form-control datepicker" type="text"
+                                           ng-model="blInstance.GoodsDeliveryDateByCNF"
+                                           ng-blur="getDateValue('GoodsDeliveryDateByCNF', 'blInstance')" />*@
+                                </div>
+                                <label class="col-md-3 text-left">Document Sent To CNF</label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control datepicker" 
+                                           ng-model="blInstance.DocumentSentToCNF" is-open="dt.cnfDate" datepicker-options="dateOptions" close-text="Close" />
+
+                                    @*<input id="DocumentSentToCNF" class="form-control datepicker" type="text"
+                                           ng-model="blInstance.DocumentSentToCNF"
+                                           ng-blur="getDateValue('DocumentSentToCNF', 'blInstance')" />*@
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-3 text-left">Acceptance Value</label>
+                                <div class="col-md-3">
+                                    <input class="form-control" type="text"
+                                           ng-model="blInstance.AcceptanceValue" />
+                                </div>
+                                <label class="col-md-3 text-left">Goods In House Date</label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control datepicker"
+                                           ng-model="blInstance.GoodsInHouseDate" is-open="dt.inhouseDate" datepicker-options="dateOptions" close-text="Close" />
+
+                                    @*<input id="GoodsInHouseDate" class="form-control datepicker" type="text"
+                                           ng-model="blInstance.GoodsInHouseDate"
+                                           ng-blur="getDateValue('GoodsInHouseDate', 'blInstance')" />*@
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-3 text-left">Acceptance Date</label>
+                                <div class="col-md-3"><input type="text" class="form-control datepicker" 
+       ng-model="blInstance.AcceptanceDate" is-open="dt.acceptanceDate" datepicker-options="dateOptions" close-text="Close" />
+
+                                    @*<input id="AcceptanceDate" class="form-control datepicker" type="text"
+                                           ng-model="blInstance.AcceptanceDate"
+                                           ng-blur="getDateValue('AcceptanceDate', 'blInstance')"
+                                           required />*@
+                                </div>
+
+                                <label class="col-md-3 text-left">Port</label>
+                                <div class="col-md-3">
+                                    <select class="form-control" ng-model="blInstance.Port">
+                                        <option></option>
+                                        <option value="Chittagong">Chittagong</option>
+                                        <option value="Benapole">Benapole</option>
+                                        <option value="Airport">Airport</option>
+                                        <option value="EPZ">EPZ</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-3 text-left">Bill Entry No</label>
+                                <div class="col-md-3">
+                                    <input class="form-control" type="text" ng-model="blInstance.BillEntryNo" />
+                                </div>
+
+                                <label class="col-md-3 text-left">Bill Entry Date</label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control datepicker" 
+                                           ng-model="blInstance.BillEntryDate" is-open="dt.billDate" datepicker-options="dateOptions" close-text="Close" />
+
+                                    @*<input id="InvoiceDate" class="form-control datepicker" type="text"
+                                           ng-model="blInstance.BillEntryDate"
+                                           ng-blur="getDateValue('BillEntryDate', 'blInstance')" />*@
+                                </div>
+                            </div>
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane p-20" id="tabBLDetails">
+                            <div class="form-group row">
+                                <label class="col-lg-2">PI</label>
+                                <div class="col-lg-4">
+                                    <select class="form-control select2" ng-model="selectedPI"
+                                            ng-options="pi.Value as pi.Text for pi in piDropDownList"
+                                            ng-change="getItemDropDownByPIID(selectedPI)" style="width:100%;">
+                                        <option value="">Select PI</option>
+                                    </select>
+                                </div>
+
+                                <label class="col-lg-2">Item</label>
+                                <div class="col-lg-4">
+                                    <select class="form-control select2" ng-model="selectedItem"
+                                            ng-options="item.Value as item.Text for item in itemDropDownList"
+                                            ng-change="onItemChange(selectedBL, selectedPI, selectedItem)" style="width:100%;">
+                                        <option value="">Select Item</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="form-horizontal">
+                                    <div class="form-group row">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-striped no-wrap">
+                                                <thead>
+                                                    <tr>
+                                                        <th>PO No</th>
+                                                        <th>Item Description</th>
+                                                        <th>B/E Description</th>
+                                                        <th>Item Color</th>
+                                                        <th>Item Size</th>
+                                                        <th>Booking Qty</th>
+                                                        <th>Unit</th>
+                                                        <th>BL Balance Qty</th>
+                                                        <th>Invoice Qty</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="bld in blDetailsList">
+                                                        <td>{{bld.PONo}}</td>
+                                                        <td>{{bld.ItemDescription}}</td>
+                                                        <td>
+                                                            <input type="text" class="form-control"
+                                                                   ng-model="bld.ActualItemDescription" />
+                                                        </td>
+                                                        <td>{{bld.ItemColor}}</td>
+                                                        <td>{{bld.ItemSize}}</td>
+                                                        <td>{{bld.BookingQuantity}}</td>
+                                                        <td>{{bld.ConsumptionUnit}}</td>
+                                                        <td>{{bld.BLBalanceQuantity}}</td>
+                                                        <td>
+                                                            <input type="number" class="form-control"
+                                                                   ng-model="bld.InvoiceQuantity"
+                                                                   ng-change="getTotalInvoiceQty()" />
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                                <tfoot ng-if="blDetailsList.length">
+                                                    <tr>
+                                                        <td colspan="7" class="text-right text-bold">Total Invoice Quantity</td>
+                                                        <td><input type="text" class="form-control" disabled ng-model="totalInvoiceQty" /></td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <button type="reset" class="btn btn-dark" ng-click="resetForm()"><i class="fa fa-close "></i> Reset</button>
+                    <button type="submit" class="btn btn-success" form="blForm"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-md-12" ng-show="blSummary">
+        <div class="card">
+            <div class="card-header">
+                <div class="pull-right">
+                    <button type="button" class="btn btn-outline-red btn-xs btn-export" ng-show="blSummary" ng-click="exportExcel()">
+                        <i class="fa fa-file-excel-o"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12 col-xs-12 col-sm-12">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped no-wrap">
+                                <thead>
+                                    <tr>
+                                        <th>Back To Back LC No</th>
+                                        <th>BL No</th>
+                                        <th>BL Date</th>
+                                        <th>Maturity Date</th>
+                                        <th>Invoice No</th>
+                                        <th>Invoice Date</th>
+                                        <th>Copy Document Sent To CNF</th>
+                                        <th>Goods Delivery Date By CNF</th>
+                                        <th>Goods In House Date</th>
+                                        <th>Acceptance Value</th>
+                                        <th>Acceptance Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="bs in blSummaryList">
+                                        <td>{{bs.BackToBackLCNo}}</td>
+                                        <td>{{bs.BLNo}}</td>
+                                        <td>{{bs.BLDate | date:'yyyy-MM-dd'}}</td>
+                                        <td>{{bs.MaturityDate| date:'yyyy-MM-dd'}}</td>
+                                        <td>{{bs.InvoiceNo}}</td>
+                                        <td>{{bs.InvoiceDate | date:'yyyy-MM-dd'}}</td>
+                                        <td>{{bs.DocumentSentToCNF | date:'yyyy-MM-dd'}}</td>
+                                        <td>{{bs.GoodsDeliveryDateByCNF | date:'yyyy-MM-dd'}}</td>
+                                        <td>{{bs.GoodsInHouseDate | date:'yyyy-MM-dd'}}</td>
+                                        <td>{{bs.AcceptanceValue}}</td>
+                                        <td>{{bs.AcceptanceDate | date:'yyyy-MM-dd'}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

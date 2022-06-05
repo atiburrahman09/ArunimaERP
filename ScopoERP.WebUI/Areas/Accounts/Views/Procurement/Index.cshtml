@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "Procurement";
+}
+
+<div class="col-sm-12">
+    <p>
+        @Html.ActionLink("Create New Procurement", "Create", "Procurement", null, new { @class = "btn btn-lg btn-primary" })
+    </p>
+
+    @using Telerik.Web.Mvc.UI
+
+    @( Html.Telerik().Grid<ScopoERP.Accounts.ViewModel.ProcurementViewModel>()
+        .Name("ProcurementGrid")
+        .DataKeys(dataKeys => dataKeys.Add(k => k.ProcurementID))
+        .DataBinding(dataBinding => dataBinding.Ajax().Select("GetAllProcurement", "Procurement"))
+        .Columns(columns =>
+        {
+            columns.Bound(c => c.ProcurementID).ClientTemplate(
+                Html.ActionLink("Edit", "Create", new { id = "<#= ProcurementID #>" }, new { @class = "t-button" }).ToHtmlString()
+            )
+            .Width(50).Title("").Filterable(false);
+
+            columns.Bound(c => c.TrackingNo).Width(200);
+            columns.Bound(c => c.Item).Width(200);
+            columns.Bound(c => c.AssignedTo).Width(200);
+            columns.Bound(c => c.AssignedDate).Format("{0:dd-MMM-yyyy}").Width(200);
+            columns.Bound(c => c.StatusTitle).Width(200);
+        })
+        .ColumnContextMenu()
+        .Resizable(r => r.Columns(true))
+        .Reorderable(r => r.Columns(true))
+        .KeyboardNavigation()
+        .Filterable()
+        .Pageable(p => p.PageSize(10))
+        .Selectable()
+        .Sortable()
+    )
+</div>

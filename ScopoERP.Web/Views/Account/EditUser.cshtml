@@ -1,0 +1,59 @@
+﻿@model ScopoERP.UserManagement.ViewModel.UserViewModel
+@{
+    ViewBag.Title = "EditUser";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+
+                @using (Html.BeginForm())
+                {
+                    @Html.HiddenFor(m => m.UserID)
+                    <div class="form-group row">
+                        @Html.LabelFor(m => m.UserName, "User Name", new { @class = "col-sm-2" })
+                        <div class="col">
+                            @Html.TextBoxFor(m => m.UserName, new
+                            {
+                                @class = "form-control",
+                                @placeholder = "Username",
+                                @autofocus = "",
+                                @required = "",
+                                @readonly = "readonly"
+                            })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        @Html.LabelFor(m => m.Email, "Email", new { @class = "col-sm-2" })
+                        <div class="col">
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Email", @autofocus = "", @required = "" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        @Html.LabelFor(m => m.Email, "Email", new { @class = "col-sm-2" })
+                        <div class="col">
+                            @Html.ListBoxFor(x => x.RoleNames, ViewBag.Roles as MultiSelectList, new { @class = "form-control select2", @type = "text" })
+                        </div>
+                        
+                    </div>
+
+                    <div class="form-group row">
+                        @Html.LabelFor(m => m.AccountId, "Account", new { @class = "col-sm-2" })
+                        <div class="col">
+                            @Html.DropDownListFor(m => m.AccountId, ViewBag.Accounts as SelectList, "Select User Account", new { @class = "form-control", @readonly="readonly" })
+                        </div>
+                    </div>
+                    <div class="form-group pull-right">
+                        <a class="btn btn-warning" href="/Account/Users">Cancel</a>
+                        <button class="btn btn-success" type="submit">Update</button>
+                    </div>
+
+                }
+            </div>
+        </div>
+    </div>
+</div>
+

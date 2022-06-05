@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1F1D5C8F-E763-4F6D-B7CB-FEA49ABD4412}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ScopoERP.Reports</RootNamespace>
+    <AssemblyName>ScopoERP.Reports</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BLL\ReportLogic.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\AdvancedCMViewModel.cs" />
+    <Compile Include="ViewModel\BackToBackLCCrisisReportViewModel.cs" />
+    <Compile Include="ViewModel\BGMEUDSystemAuditReportVM.cs" />
+    <Compile Include="ViewModel\BillOfEntryReportViewModel.cs" />
+    <Compile Include="ViewModel\CommercialInvoiceReportVM.cs" />
+    <Compile Include="ViewModel\ComparativeStatementViewModel.cs" />
+    <Compile Include="ViewModel\ExpenseBudgetReportViewModel.cs" />
+    <Compile Include="ViewModel\ImportStatusViewModel.cs" />
+    <Compile Include="ViewModel\InventoryViewModel.cs" />
+    <Compile Include="ViewModel\JobItemReportViewModel.cs" />
+    <Compile Include="ViewModel\PostSheetViewModel.cs" />
+    <Compile Include="ViewModel\RealizationCrisisReportViewModel.cs" />
+    <Compile Include="ViewModel\BankForwardingReportViewModel.cs" />
+    <Compile Include="ViewModel\ContractPaperViewModel.cs" />
+    <Compile Include="ViewModel\DocDispatchInvoiceReportViewModel.cs" />
+    <Compile Include="ViewModel\IncentiveReportViewModel.cs" />
+    <Compile Include="ViewModel\JobStatusReportViewModel.cs" />
+    <Compile Include="ViewModel\JobSummaryReportViewModel.cs" />
+    <Compile Include="ViewModel\MonthlyFinancialReportViewModel.cs" />
+    <Compile Include="ViewModel\OrderFinancialSummaryViewModel.cs" />
+    <Compile Include="ViewModel\ProductionCrisisViewModel.cs" />
+    <Compile Include="ViewModel\ProductionStatusReportViewModel.cs" />
+    <Compile Include="ViewModel\ProformaInvoiceViewModel.cs" />
+    <Compile Include="ViewModel\PurchaseRequisitionReportViewModel.cs" />
+    <Compile Include="ViewModel\RealizationReportViewModel.cs" />
+    <Compile Include="ViewModel\ReportFilteringViewModel.cs" />
+    <Compile Include="ViewModel\RequisitionPIViewModel.cs" />
+    <Compile Include="ViewModel\RequisitionViewModel.cs" />
+    <Compile Include="ViewModel\SewingShipmentSummaryReportViewModel.cs" />
+    <Compile Include="ViewModel\ShipmentCrisisViewModel.cs" />
+    <Compile Include="ViewModel\ShipmentDetailsReportViewModel.cs" />
+    <Compile Include="ViewModel\ShipmentDetailsViewModel.cs" />
+    <Compile Include="ViewModel\ShipmentSummaryViewModel.cs" />
+    <Compile Include="ViewModel\PurchaseOrderCrisisViewModel.cs" />
+    <Compile Include="ViewModel\SubContractReportViewModel.cs" />
+    <Compile Include="ViewModel\VATReportViewModel.cs" />
+    <Compile Include="ViewModel\WeeklyReportsViewModel.cs" />
+    <Compile Include="ViewModel\WIPViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ScopoERP.Domain\ScopoERP.Domain.csproj">
+      <Project>{d20f07c5-c03a-4aee-a034-744e830c45e7}</Project>
+      <Name>ScopoERP.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ScopoERP.ProductionStatus\ScopoERP.Production.csproj">
+      <Project>{5E5C794E-CBA4-4B32-94E2-4BEDAA899694}</Project>
+      <Name>ScopoERP.Production</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

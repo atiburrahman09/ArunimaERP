@@ -1,0 +1,144 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<div class="col-md-12">
+    <section class="panel">
+        <header class="panel-heading">
+            Search Criteria
+        </header>
+        <div class="panel-body">
+            <form action="javascript:void(0);" class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label class="col-md-1 control-label" for="ChalanID">Chalan</label>
+                    <div class="col-md-3">
+                        @Html.DropDownList("ChalanID", ViewBag.Chalan as SelectList, "", new { @class = "combo-box" })
+                    </div>
+                    <div class="col-md-1">
+                        <a id="createChalanPopup" href="~/Store/InventoryReceive/Create"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+                    </div>
+                </div>
+
+                <hr />
+                
+                <div class="form-group">
+                    <label class="col-md-1 control-label" for="PIID">Style No</label>
+                    <div class="col-md-3">
+                        @Html.DropDownList("StyleID", ViewBag.Style as SelectList, "", new { @class = "combo-box" })
+                    </div>
+
+                    <label class="col-md-1 control-label" for="PIID">PO No</label>
+                    <div class="col-md-3">
+                        @Html.DropDownList("PurchaseOrderID", Enumerable.Empty<SelectListItem>(), "", new { @class = "combo-box" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-1 control-label" for="ItemID">Item</label>
+                    <div class="col-md-7">
+                        @Html.DropDownList("ItemID", Enumerable.Empty<SelectListItem>(), new { @class = "combo-box" })
+                    </div>
+                    <div class="col-md-2">
+                        <button id="searchChalanDetails" class="btn btn-success btn-block">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+    <section class="panel">
+        <header class="panel-heading">
+            Chalan Details
+        </header>
+        <div class="panel-body">
+            <div id="ChalanDetailsGrid">
+
+            </div>
+        </div>
+    </section>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#StyleID').on('change', function () {
+            var purchaseOrderDropDown = $('#PurchaseOrderID');
+            if ($(this).val()) {
+                $.get("/Store/InventoryReceive/GetPurchaseOrderByStyle", { styleID: $(this).val() }, function (data) {
+                    purchaseOrderDropDown.empty();
+                    purchaseOrderDropDown.append($('<option/>', {
+                        value: "",
+                        text: ""
+                    }));
+
+                    $.each(data, function (index, itemData) {
+                        purchaseOrderDropDown.append($('<option/>', {
+                            value: itemData.Value,
+                            text: itemData.Text
+                        }));
+                    });
+                });
+            } else {
+                purchaseOrderDropDown.empty();
+            }
+        });
+
+        $('#PurchaseOrderID').on('change', function () {
+            var ItemDropDown = $('#ItemID');
+            if ($(this).val()) {
+                $.get("/Store/InventoryReceive/GetItemByPurchaseOrder", { purchaseOrderID: $(this).val() }, function (data) {
+                    ItemDropDown.empty();
+                    ItemDropDown.append($('<option/>', {
+                        value: "",
+                        text: ""
+                    }));
+
+                    $.each(data, function (index, itemData) {
+                        ItemDropDown.append($('<option/>', {
+                            value: itemData.Value,
+                            text: itemData.Text
+                        }));
+                    });
+                });
+            } else {
+                ItemDropDown.empty();
+                $('#ChalanDetailsGrid').html('');
+            }
+        });
+
+        $('#searchChalanDetails').on('click', function () {
+            $.ajax({
+                url: '/Store/InventoryReceive/GetChalanDetails',
+                data: {
+                    blID: $('#ChalanID').val(),
+                    purchaseOrderID: $('#PurchaseOrderID').val(),
+                    itemID: $('#ItemID').val()
+                },
+                type: 'GET',
+                success: function (res) {
+                    $('#ChalanDetailsGrid').html(res);
+                }
+            });
+        });
+
+        $('#blDetailsFormSubmit').live('click', function () {
+            toastr.info('Please Wait');
+            $.ajax({
+                url: '/Store/InventoryReceive/SaveChalanDetails',
+                type: 'POST',
+                data: $('#blDetailsForm').serializeArray(),
+                success: function (res) {
+                    if (res) {
+                        $('#searchChalanDetails').trigger('click');
+                        toastr.clear();
+                        toastr.success("Chalan Details is Saved Successfully");
+                    } else {
+                        toastr.clear();
+                        toastr.error("Server Might be Facing Some Problem. Please Wait and Try Later Or Contact With Administrator");
+                    }
+                },
+                error: function () {
+                    toastr.clear();
+                }
+            });
+        });
+    })
+</script>

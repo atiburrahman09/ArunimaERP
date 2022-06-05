@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = "Proforma Invoice";
+}
+
+<div class="col-sm-12">
+
+    @*<p>
+        @Html.ActionLink("Create New PI", "Create", "PI", null, new { @class = "btn btn-lg btn-primary" })
+    </p>*@
+
+    @using Telerik.Web.Mvc.UI
+
+    @( Html.Telerik().Grid<ScopoERP.MaterialManagement.ViewModel.PIViewModel>()
+    .Name("PIGrid")
+    .DataKeys(dataKeys => dataKeys.Add(k => k.PIID))
+    .DataBinding(dataBinding => dataBinding.Ajax().Select("GetAllPI", "PI"))
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.PIID).ClientTemplate(
+            Html.ActionLink("Edit", "Edit", new { id = "<#= PIID #>" }, new { @class = "t-button" })
+            + " " +
+            Html.ActionLink("Delete", "Delete", new { id = "<#= PIID #>" }, new { @class = "t-button" })
+        )
+        .Width(160).Title("").Filterable(false);
+
+        columns.Bound(c => c.JobNo).Width(150);
+        columns.Bound(c => c.SupplierName).Width(200);
+        columns.Bound(c => c.RequisitionNo).Width(200);
+        columns.Bound(c => c.RequisitionDate).Format("{0:dd-MMM-yy}").Width(100);
+
+        columns.Bound(c => c.PINo).Width(200);
+        columns.Bound(c => c.PIDate).Format("{0:dd-MMM-yy}").Width(100);
+        columns.Bound(c => c.PIValue).Width(200);
+
+        columns.Bound(c => c.BackToBackLCNo).Width(150);
+        columns.Bound(c => c.ReferenceNo).Width(150);
+
+        columns.Bound(c => c.DeliveryDate).Format("{0:dd-MMM-yy}").Width(100);
+        columns.Bound(c => c.ApproximateInHouseDate).Format("{0:dd-MMM-yy}").Width(100);
+        columns.Bound(c => c.LoanFromJobNo).Width(150);
+
+
+    })
+    .Resizable(r => r.Columns(true))
+    .Filterable()
+    .Pageable(p => p.PageSize(10))
+    .Selectable()
+    .Sortable()
+    .Scrollable(x=>x.Height("auto"))
+    )
+
+</div>

@@ -1,0 +1,157 @@
+﻿@model ScopoERP.OrderManagement.ViewModel.PurchaseOrderViewModel
+
+@{
+    ViewBag.Title = "Create Purchase Order";
+}
+
+<div class="col-sm-12">
+    <section class="panel">
+        <header class="panel-heading">
+            Create New PurchaseOrder
+        </header>
+        <div class="panel-body">
+
+            @using (Ajax.BeginForm("Create", "PurchaseOrder", new AjaxOptions 
+            {
+                HttpMethod = "POST",
+                UpdateTargetId = "purchaseOrderDialog",
+                OnBegin = "onBeginRequest()",
+                OnSuccess = "onSuccess(data, 'Purchase Order')"
+            }, new { @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary(true)
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">Job No</label>
+                    <div class="col-lg-4">
+                        @Html.DropDownListFor(model => model.JobID, ViewBag.Job as SelectList, "", new { @class = "combo-box" })
+                        @Html.ValidationMessageFor(model => model.JobID)
+                    </div>
+
+                    <label class="col-lg-2 col-sm-2 control-label">Style No</label>
+                    <div class="col-lg-4">
+                        @Html.DropDownListFor(model => model.StyleID, ViewBag.Style as SelectList, "", new { @class = "combo-box" })
+                        @Html.ValidationMessageFor(model => model.StyleID)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">Purchase Order No</label>
+                    <div class="col-lg-4">
+                        @Html.TextBoxFor(model => model.PurchaseOrderNo, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.PurchaseOrderNo)
+                    </div>
+
+                    <label class="col-lg-2 col-sm-2 control-label">Order Quantity</label>
+                    <div class="col-lg-4">
+                        @Html.TextBoxFor(model => model.OrderQuantity, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.OrderQuantity)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">FOB</label>
+                    <div class="col-lg-4">
+                        @Html.TextBoxFor(model => model.FOB, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.FOB)
+                    </div>
+
+                    <label class="col-lg-2 col-sm-2 control-label">Agreed CM</label>
+                    <div class="col-lg-4">
+                        @Html.TextBoxFor(model => model.AgreedCM, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.AgreedCM)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">SubContract Rate</label>
+                    <div class="col-lg-4">
+                        @Html.TextBoxFor(model => model.SubContractRate, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.SubContractRate)
+                    </div>
+
+                    <label class="col-lg-2 col-sm-2 control-label">Factory CM</label>
+                    <div class="col-lg-4">
+                        @Html.TextBoxFor(model => model.FactoryCM, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.FactoryCM)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">Exit Date</label>
+                    <div class="col-lg-4">
+                        @Html.TextBoxFor(model => model.ExitDate, new { @class = "form-control default-date-picker" })
+                        @Html.ValidationMessageFor(model => model.ExitDate)
+                    </div>
+
+                    <label class="col-lg-2 col-sm-2 control-label">Original CRD</label>
+                    <div class="col-lg-4">
+                        @Html.TextBoxFor(model => model.OriginalCRD, new { @class = "form-control default-date-picker" })
+                        @Html.ValidationMessageFor(model => model.OriginalCRD)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">Factory</label>
+                    <div class="col-lg-4">
+                        @Html.DropDownListFor(model => model.FactoryID, ViewBag.Factory as SelectList, "", new { @class = "combo-box" })
+                        @Html.ValidationMessageFor(model => model.FactoryID)
+                    </div>
+
+                    <label class="col-lg-2 col-sm-2 control-label">Season</label>
+                    <div class="col-lg-4">
+                        @Html.DropDownListFor(model => model.SeasonID, ViewBag.Season as SelectList, "", new { @class = "combo-box" })
+                        @Html.ValidationMessageFor(model => model.SeasonID)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">Current Status</label>
+                    <div class="col-lg-4">
+                        @Html.DropDownListFor(model => model.CurrentStatus, ViewBag.PurchaseOrderStatus as SelectList, "", new { @class = "combo-box" })
+                        @Html.ValidationMessageFor(model => model.CurrentStatus)
+                    </div>
+
+                    <label class="col-lg-2 col-sm-2 control-label">Remarks</label>
+                    <div class="col-lg-4">
+                        @Html.TextAreaFor(model => model.Remarks, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Remarks)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">Ship Mode</label>
+                    <div class="col-lg-4">
+                        @Html.RadioButtonFor(model => model.ShipMode, "1") Sea
+                        @Html.RadioButtonFor(model => model.ShipMode, "2") Air
+
+                        @Html.ValidationMessageFor(model => model.ShipMode)
+                    </div>
+
+                    <label class="col-lg-2 col-sm-2 control-label">DC Code</label>
+                    <div class="col-lg-4">
+                        @Html.TextBoxFor(model => model.DCCode, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.DCCode)
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="form-group">
+                    <div class="col-lg-offset-8 col-lg-2">
+                        <button class="btn btn-block btn-default btn-cancel">Cancel</button>
+                    </div>
+                    <div class="col-lg-2">
+                        <input type="submit" class="btn btn-block btn-primary" value="Save" />
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+</div>
+
+<script type="text/javascript">
+    $('.default-date-picker').datepicker({
+        format: 'mm/dd/yyyy'
+    });
+</script>

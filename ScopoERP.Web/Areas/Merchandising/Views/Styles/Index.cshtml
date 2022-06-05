@@ -1,0 +1,182 @@
+﻿@{
+    ViewBag.Title = "Style";
+}
+
+<div class="row" ng-app="scopoApp" ng-controller="stylesCtrl" ng-init="init()" ng-cloak>
+    <div class="col-md-12">
+        <div class="card card-solid">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-5">
+                        <select class="form-control select2" ng-model="selectedBuyer" ng-change="onBuyerChange(selectedBuyer)">
+                            <option value="">Select Buyer</option>
+                            <option ng-repeat="buyer in buyerList" value="{{buyer.BuyerID}}">{{buyer.BuyerName}}</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-5">
+                        <select id="styleDropdown"class="form-control select2" ng-model="selectedStyle" 
+                                ng-change="showStyleDetails(selectedStyle)">
+                            <option value="">Select Style</option>
+                            <option ng-repeat="style in styleList" value="{{style}}">{{style.StyleNo}}</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <button class="btn btn-success btn-block waves-effect waves-light" ng-click="createStyle()">Create New</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <ul class="nav nav-tabs customtab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#tabStyle" role="tab" aria-expanded="true">
+                            <span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">General Info</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#tabBOM" role="tab" aria-expanded="false">
+                            <span class="hidden-sm-up"><i class="ti-user"></i></span> <span class="hidden-xs-down">Cost Sheet</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane p-20 active" id="tabStyle">
+                        <form name="styleForm" class="form-horizontal" ng-submit="saveStyle(style)" novalidate>
+                            <div class="form-group row">
+                                <label class="col-sm-3 control-label">Style No</label>
+                                <div class="col-sm-3">
+                                    <input type="text" ng-model="style.StyleNo" class="form-control" required />
+                                </div>
+
+                                <label class="col-sm-3 control-label">Capacity</label>
+                                <div class="col-sm-3">
+                                    <input type="number" ng-model="style.Capacity" class="form-control" required />
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-3 control-label">Style Description</label>
+                                <div class="col-sm-3">
+                                    <textarea ng-model="style.StyleDescription" class="form-control" required></textarea>
+                                </div>
+
+                                <label class="col-sm-3 control-label">Fabrication</label>
+                                <div class="col-sm-3">
+                                    <textarea ng-model="style.Febrication" class="form-control" required></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">                               
+                                <label class="col-sm-3 control-label">Division</label>
+                                <div class="col-sm-3">  
+                                    <select ng-options="division.Value as division.Text for division in divisionList"
+                                            ng-model="style.DivisionID" class="form-control select2" required >
+                                        <option value={{style.DivisionID}}>Select Division</option>
+                                    </select>
+                                </div>
+                            
+                                <label class="col-sm-3 control-label">Customer</label>
+                                <div class="col-sm-3">
+                                    <select ng-options="customer.Value as customer.Text for customer in customerList | orderBy:'CustomerName'"
+                                            ng-model="style.CustomerID" class="form-control select2" required>
+                                        <option value={{style.CustomerID}}>Select Customer</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <hr />
+
+                            <div class="form-group">
+                                <button class="btn btn-dark" type="reset">Reset</button>
+                                <button class="btn btn-success pull-right" type="submit">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane p-20" id="tabBOM">
+                        <form name="costForm" class="form-horizontal" ng-submit="saveCostSheet()" novalidate>
+                            <div class="form-group row">
+                                <div class="col-md-5">
+                                    <select ng-options="costSheet as costSheet for costSheet in costSheetList"
+                                            ng-model="costSheet" class="form-control select2" ng-change="onCostSheetChange(costSheet)" style="width:250px;">
+                                        <option value="">Select Cost Sheet</option>
+                                    </select>
+                                </div>
+                                @*<div class="col-md-6">
+                                   
+                                </div>*@
+                            </div>
+
+                            <div class="table-responsive" style="overflow:auto;">
+                                <table class="table table-bordered no-wrap">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th style="width:300px">Item Category</th>
+                                            <th style="width:300px">Item</th>
+                                            <th>Consum</th>
+                                            <th>Unit</th>
+                                            <th>Conversion Qty</th>
+                                            <th>Actual Consump</th>
+                                            <th>Unit</th>
+                                            <th>Wastg %</th>
+                                            <th style="width:100px;">Total Raw Materials</th>
+                                            <th style="width:100px;">Unit Cost</th>
+                                            <th style="width:100px;">Total Cost</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="costSheetDetails in costSheetDetailsList track by $id($index)">
+                                            <td>
+                                                <span ng-click="removeCostSheetItem($index)" style="color:red;padding-top:8px;"><i class="fa fa-trash" aria-hidden="true"></i></span>
+                                                {{$index + 1}}
+                                            </td>
+                                            <td>
+                                                <select ng-options="itemCategory.ValueInt as itemCategory.Text for itemCategory in itemCategoryList"
+                                                        ng-model="costSheetDetails.ItemCategoryID" class="form-control input-sm" ng-change="onItemCategoryChange(costSheetDetails.ItemCategoryID,{{$index}})" style="width:150px!important;" required></select>
+                                            </td>
+                                            <td>
+                                                <select ng-options="item.Value as item.Text for item in itemList[{{$index}}]"
+                                                        ng-model="costSheetDetails.ItemID" class="form-control input-sm" style="width:150px!important;" required></select>
+                                            </td>
+                                            <td><input type="text" ng-model="costSheetDetails.Consumption" class="form-control input-sm" ng-blur="onCostSheetRowValueChange($index)" style="width:100px!important;" required /></td>
+                                            <td>
+                                                <select ng-options="consumptionUnit.ValueInt as consumptionUnit.Text for consumptionUnit in consumptionUnitList"
+                                                        ng-model="costSheetDetails.ConsumptionUnitID" class="form-control input-sm" style="width:100px!important;" required></select>
+                                            </td>
+                                            <td><input type="text" ng-model="costSheetDetails.ConversionQuantity" class="form-control input-sm" ng-blur="onCostSheetRowValueChange($index)" style="width:100px!important;" required /></td>
+                                            <td><input type="text" ng-model="costSheetDetails.ActualConsumption" class="form-control input-sm" style="width:100px!important;" required /></td>
+                                            <td>
+                                                <select ng-options="consumptionUnit.ValueInt as consumptionUnit.Text for consumptionUnit in consumptionUnitList"
+                                                        ng-model="costSheetDetails.ConversionUnitID" class="form-control input-sm" style="width:100px!important;" required></select>
+                                            </td>
+                                            <td><input type="text" ng-model="costSheetDetails.Wastage" class="form-control input-sm" ng-blur="onCostSheetRowValueChange($index)" style="width:100px!important;" required /></td>
+                                            <td><input type="text" ng-model="costSheetDetails.TotalRawMaterials" class="form-control input-sm" style="width:100px!important;" required /></td>
+                                            <td><input type="text" ng-model="costSheetDetails.UnitPrice" class="form-control input-sm" ng-blur="onCostSheetRowValueChange($index)" style="width:100px!important;" required /></td>
+                                            <td><input type="text" ng-model="costSheetDetails.TotalActualCost" class="form-control input-sm" style="width:100px!important;" required /></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <hr />
+
+                            <div class="form-group">
+                                <button class="btn btn-warning" type="button" ng-click="addRowToCostSheetDetailsList()"><i class="fa fa-plus"> </i> Add Row</button>
+
+                                <button class="btn btn-success pull-right" type="submit"><i class="fa fa-floppy-o"> </i> Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+</div>

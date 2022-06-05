@@ -1,0 +1,101 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<div class="col-sm-12" ng-app="worksheet.controllers" ng-controller="worksheetController" ng-init="init()">
+    <toaster-container toaster-options="{ 'close-button':true}"></toaster-container>
+
+    <section class="panel">
+        <header class="panel-heading"> Search Criteria </header>
+        <div class="panel-body">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="cboStyle">Style</label>
+                    <div class="col-md-2">
+                        <select ui-select2="styleOptions" ng-model="searchCriteria.styleDropDownVal" ng-options="style.Value as style.Text for style in searchCriteria.styleDropDown track by style.Value" ng-change="styleDropDownChange()" class="" style="width:146%;">
+                            <option value="">Select Style</option>
+                        </select>
+                    </div>
+
+                    <label class="control-label col-md-2" for="cboCostsheetNo">Costsheet</label>
+                    <div class="col-md-2">
+                        <select ui-select2 data-placeholder="Select Costsheets" ng-options="costsheet as costsheet for costsheet in searchCriteria.costsheetDropDown track by costsheet" ng-model="searchCriteria.costsheetDropDownVal" ng-change="costsheetDropDownChange()" class="" style="width:146%;">
+                            <option value="">Select Costsheet</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">Purchase Order</label>
+                    <div class="col-md-2">
+                        <select ui-select2 data-placeholder="Select Purchase Orders" ng-options="po.Value as po.Text for po in searchCriteria.poDropDown track by po.Value" ng-model="searchCriteria.poDropDownVal" class="" style="width:146%;">
+                            <option value="">Select Purchase Order</option>
+                        </select>
+                    </div>
+
+                    <label class="control-label col-md-2">Item</label>
+                    <div class="col-md-6">
+                        <select ui-select2 ng-options="item.Value as item.Text for item in searchCriteria.itemDropDown track by item.Value" ng-model="searchCriteria.itemDropDownVal" class="" style="width:100%;">
+                            <option value="">Select Item</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label">Refernce No:</label>
+                    <label class="col-md-5 control-label">{{ referenceNo }}</label>
+                    <div class="col-md-2">
+                        <a href="/OrderManagement/SizeColor/Index/{{ searchCriteria.poDropDownVal }}" target="_blank" class="btn btn-block btn-warning"> Size Color</a>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="button" class="btn btn-block btn-primary" ng-click="searchWorksheetButtonClick()" value="Search Worksheet" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="panel">
+        <header class="panel-heading"> Worksheet Details </header>
+        <div class="panel-body">
+
+            <div class="form-group">
+                <div class="worksheetGrid">
+                    <div class="gridStyle" ng-grid="worksheetGrid">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @*<div class="col-md-3">
+                        <h3 class="label label-info">Last Revised Number:</h3>
+                    </div>*@
+                <div class="col-md-offset-4 col-md-4">
+                    <input type="button" class="btn btn-block btn-danger" value="Delete Worksheet" ng-click="deleteWorksheetButtonClick()" />
+                </div>
+                <div class="col-md-4">
+                    <input type="button" class="btn btn-block btn-primary" value="Update Worksheet" ng-click="updateWorksheetButtonClick()" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script type="text/ng-template" id="FormulaModal.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Please Select Formula</h3>
+        </div>
+        <div class="modal-body">
+            <select ui-select2 ng-model="formulaDropDownVal" class="" style="width:200px;">
+                <option value="">Select Formula</option>
+                <option ng-repeat="c in formulaDropDown" value="{{ c.Value }}">{{ c.Text }}</option>
+            </select>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="formulaModalOkButton()">OK</button>
+            <button class="btn btn-warning" ng-click="formulaModalCancelButton()">Cancel</button>
+        </div>
+    </script>
+</div>
+@Html.Partial("_angular")
+<script src="~/Scripts/app/services/worksheet.services.js"></script>
+<script src="~/Scripts/app/controllers/worksheet.controllers.js"></script>

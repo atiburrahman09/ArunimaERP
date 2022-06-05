@@ -1,0 +1,64 @@
+﻿@model ScopoERP.Stackholder.ViewModel.SupplierViewModel
+
+@{
+    ViewBag.Title = "Update Supplier";
+}
+
+<div class="col-sm-offset-3 col-sm-6">
+    <section class="panel">
+        <header class="panel-heading">
+            Update New Supplier
+        </header>
+        <div class="panel-body">
+
+            @using (Html.BeginForm("Edit", "Supplier", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary(true)
+                
+                @Html.HiddenFor(model => model.SupplierID)
+
+                <div class="form-group">
+                    <label class="col-lg-4 col-sm-4 control-label">Supplier Name</label>
+                    <div class="col-lg-8">
+                        @Html.TextBoxFor(model => model.SupplierName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.SupplierName)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-4 col-sm-4 control-label">Email</label>
+                    <div class="col-lg-8">
+                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Email)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-4 col-sm-4 control-label">Contact Number</label>
+                    <div class="col-lg-8">
+                        @Html.TextAreaFor(model => model.ContactNumber, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ContactNumber)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-4 col-sm-4 control-label">Address</label>
+                    <div class="col-lg-8">
+                        @Html.TextAreaFor(model => model.Address, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Address)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-offset-4 col-lg-4">
+                        @Html.ActionLink("Cancel", "Index", "Supplier", null, new { @class = "btn btn-block btn-default" })
+                    </div>
+                    <div class="col-lg-4">
+                        <input type="submit" class="btn btn-block btn-primary" value="Update" />
+                    </div>
+                </div>
+            }
+
+        </div>
+    </section>
+</div>

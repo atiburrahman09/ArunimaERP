@@ -1,0 +1,118 @@
+﻿@{
+    ViewBag.Title = "Sub Contract";
+}
+<div class="row" ng-app="scopoApp" ng-controller="subContractCtrl" ng-init="init()" ng-cloak>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <select class="form-control select2" ng-model="selectedStyle"
+                                ng-options="s.Value as s.Text for s in styleList"
+                                ng-change="onStyleChange(selectedStyle)">
+                            <option value="">Select Style</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <select class="form-control select2" ng-model="selectedPO" ng-change="onPurchaseOrderChange(selectedPO)">
+                            <option value="">Select Purchase Order</option>
+                            <option ng-repeat="pod in purchaseOrderList" value="{{pod}}">{{pod.PurchaseOrderNo}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="col-md-12">
+                    <div class="form-group row">
+                        <label class="col-md-2">Agreed CM</label>
+                        <div class="col-md-4">
+                            <input type="text" ng-model="puchaseOrderDetails.AgreedCM" class="form-control" readonly />
+                        </div>
+                        <label class="col-md-2">Order Quantity</label>
+                        <div class="col-md-4">
+                            <input type="text" ng-model="puchaseOrderDetails.OrderQuantity" class="form-control" readonly />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2">Exit Date</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" ng-model="puchaseOrderDetails.ExitDate" readonly />
+                        </div>
+                        <div class="col-md-offset-2 col-md-2">
+                            <input type="button" class="btn btn-block btn-success" value="Add New" ng-click="addNew()" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-condensed table-fixed-header no-wrap">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>SubContract No</th>
+                                <th>Sub Qty</th>
+                                <th>Sub Exit Date</th>
+                                <th>Sub Rate</th>
+                                <th>Comm %</th>
+                                <th>Factory</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in subContractList">
+                                <td>
+                                    <button type="button" class="btn btn-danger" ng-click="deleteRow($index)">
+                                        <span class="fa fa-trash"></span>
+                                    </button>
+                                    <input type="hidden" ng-model="item.SubContractID" />
+                                    <input type="hidden" ng-model="item.PurchaseOrderID" />
+                                </td>
+                                <td>
+                                    <input type="text" ng-model="item.SubContractNo" class="form-control" readonly />
+                                </td>
+                                <td>
+                                    <input type="text" ng-model="item.SubContractQuantity" class="form-control" />
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control datepicker"
+                                           ng-model="item.SubContractExitDate" required />
+                                </td>
+                                <td>
+                                    <input type="text" ng-model="item.SubContractRate" class="form-control" />
+                                </td>
+                                <td>
+                                    <input type="text" ng-model="item.CommercialPercentage" class="form-control" />
+                                </td>
+                                <td>
+                                    <select ng-model="item.FactoryID" ng-options="factory.Value as factory.Text for factory in factoryList"
+                                            class="form-control select2"></select>
+                                </td>
+                                <td>
+                                    <input type="text" ng-model="item.Remarks" class="form-control" required />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2">
+                        <input type="reset" class="btn btn-block btn-dark" value="Reset" />
+                    </div>
+                    <div class="col-md-2">
+                        <input type="submit" class="btn btn-block btn-success" value="Save" ng-click="save(subContractList)" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

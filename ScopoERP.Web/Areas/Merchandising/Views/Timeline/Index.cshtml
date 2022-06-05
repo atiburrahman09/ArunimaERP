@@ -1,0 +1,87 @@
+﻿
+@{
+    ViewBag.Title = "Timeline";
+}
+
+
+<div class="row" ng-app="scopoApp" ng-controller="timelineCtrl" ng-init="init()">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <select class="form-control select2" ng-model="selectedStyle"
+                                ng-change="onStyleChange(selectedStyle)"
+                                ng-options="s.Value as s.Text for s in styleList">
+                            <option value="">Select Style</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <select class="form-control select2" ng-model="selectedPO" ng-change="onPurchaseOrderChange(selectedPO)" required>
+                            <option value="">Select Purchase Order</option>
+                            <option ng-repeat="pod in purchaseOrderList" value="{{pod}}">{{pod.PurchaseOrderNo}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="card">
+            <form name="timelineForm" class="form-horizontal" novalidate>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-condensed table-fixed-header no-wrap" style="overflow:auto;">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th style="width:50%;">Description</th>
+                                    <th>Provable Date</th>
+                                    <th>Expected Date</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="timeline in timelineList track by $id($index)">
+                                    <td>
+                                        <button class="btn btn-sm btn-flat btn-danger" type="button" ng-click="removeRow($index)">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </td>
+                                    <td><textarea class="form-control" rows="2" cols="55" ng-model="timeline.Description" ng-disabled="timeline.disable"></textarea></td>
+                                    <td>
+                                        <input id="ProvableDate" type="date"
+                                               class="form-control"
+                                               ng-model="timeline.ProvableDate"
+                                               placeholder="" ng-disabled="timeline.disable"/>
+
+                                    </td>
+                                    <td>
+                                        <input id="ExpectedDate" type="date"
+                                               class="form-control"
+                                               ng-model="timeline.ExpectedDate"
+                                               placeholder="" ng-disabled="timeline.disable"/>
+
+                                    </td>      
+                                    <td><button class="btn btn-dark btn-flat" type="button" ng-click="edit($index)"><i class="fa fa-edit"> </i></button></td>    
+                                    <td><button class="btn btn-info btn-flat" type="button" ng-click="saveTimeline($index)">Save</button></td> 
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+                <div class="card-footer">
+                    <div class="pull-right">
+                        <button class="btn btn-warning btn-flat" type="button" ng-click="addRow()"><i class="fa fa-plus"> </i> Add Row</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+

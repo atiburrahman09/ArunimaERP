@@ -1,0 +1,649 @@
+﻿<aside>
+    <div id="sidebar" class="nav-collapse">
+        <!-- sidebar menu start-->
+        <div class="leftside-navigation">
+            <ul class="sidebar-menu" id="nav-accordion">
+                <li>
+                    <a href="/Home/Index">
+                        <i class="fa fa-dashboard"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+
+                @if (User.IsInRole("Admin"))
+                {
+                    <li class="sub-menu">
+                        <a href="javascript:;">
+                            <i class="fa fa-users"></i>
+                            <span>Stackholder</span>
+                        </a>
+                        <ul class="sub">
+                            <li>
+                                <a href="/Stackholder/Buyer/Index">
+                                    <i class="fa fa-user"></i><span>Buyer</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Stackholder/Customer/Index">
+                                    <i class="fa fa-user"></i><span>Customer</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Stackholder/Supplier/Index">
+                                    <i class="fa fa-user"></i><span>Supplier</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="sub-menu">
+                        <a href="javascript:;">
+                            <i class="fa fa-users"></i>
+                            <span>Accessories and Others</span>
+                        </a>
+                        <ul class="sub">
+                            <li>
+                                <a href="/LC/Job/UpdateAdvancedCM">
+                                    <i class="fa fa-user"></i><span>Update</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Report/Report/AdvancedCMReport">
+                                    <i class="fa fa-user"></i><span>Report</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="sub-menu">
+                        <a href="javascript:;">
+                            <i class="fa fa-wrench"></i>
+                            <span>Configuration</span>
+                        </a>
+                        <ul class="sub">
+                            <li>
+                                <a href="/MaterialManagement/ItemCategory/Index">
+                                    <i class="fa fa-flask"></i>
+                                    <span>Item Category</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/MaterialManagement/Item/Index">
+                                    <i class="fa fa-flask"></i>
+                                    <span>Item</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="/Common/Factory/Index">
+                                    <i class="fa fa-building-o"></i>
+                                    <span>Factory</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="/Common/Division/Index">
+                                    <i class="fa fa-building-o"></i>
+                                    <span>Division</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+
+                @if (User.IsInRole("ItemEntry"))
+                {
+                    <li class="sub-menu">
+                        <a href="javascript:;">
+                            <i class="fa fa-wrench"></i>
+                            <span>Configuration</span>
+                        </a>
+                        <ul class="sub">
+                            <li>
+                                <a href="/MaterialManagement/ItemCategory/Index">
+                                    <i class="fa fa-flask"></i>
+                                    <span>Item Category</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/MaterialManagement/Item/Index">
+                                    <i class="fa fa-flask"></i>
+                                    <span>Item</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+
+                @if (User.IsInRole("Merchant"))
+                {
+                    <li class="sub-menu">
+                        <a href="javascript:;">
+                            <i class="fa fa-book"></i>
+                            <span>Order Management</span>
+                        </a>
+                        <ul class="sub">
+                            <li>
+                                <a href="/OrderManagement/Style/Index">
+                                    <i class="fa fa-book"></i>
+                                    <span>Style</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/OrderManagement/PurchaseOrder/Index">
+                                    <i class="fa fa-book"></i>
+                                    <span>Purchase Order</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/OrderManagement/PurchaseOrder/Split">
+                                    <i class="fa fa-cut"></i>
+                                    <span>Split</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/OrderManagement/SizeColor/SizeWiseFOB">
+                                    <i class="fa fa-book"></i>
+                                    <span>Size Wise FOB</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/OrderManagement/Funding/Index">
+                                    <i class="fa fa-flask"></i>
+                                    <span>Funding</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="sub-menu">
+                        <a href="javascript:;">
+                            <i class="fa fa-flask"></i>
+                            <span>Material Management</span>
+                        </a>
+                        <ul class="sub">
+                            <li>
+                                <a href="/MaterialManagement/Costsheet">
+                                    <i class="fa fa-flask"></i>
+                                    <span>Costsheet</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/MaterialManagement/Worksheet">
+                                    <i class="fa fa-flask"></i>
+                                    <span>Worksheet</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/MaterialManagement/Booking">
+                                    <i class="fa fa-flask"></i>
+                                    <span>Booking</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/MaterialManagement/ExcessBooking">
+                                    <i class="fa fa-flask"></i>
+                                    <span>Excess Booking</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/MaterialManagement/PI/Index">
+                                    <i class="fa fa-flask"></i>
+                                    <span>Proforma Invoice</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/MaterialManagement/Requisition/Index">
+                                    <i class="fa fa-flask"></i>
+                                    <span>Requisition</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="sub-menu">
+                        <a href="javascript:;">
+                            <i class="fa fa-book"></i>
+                            <span>LC Management</span>
+                        </a>
+                        <ul class="sub">
+                            <li>
+                                <a href="/LC/Job/Index">
+                                    <i class="fa fa-book"></i>
+                                    <span>Job</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="/LC/Bank/Index">
+                                    <i class="fa fa-book"></i>
+                                    <span>Bank</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="sub-menu">
+                        <a href="javascript:;">
+                            <i class="fa fa-money"></i>
+                            <span>Sample Approval</span>
+                        </a>
+                        <ul class="sub">
+                            <li>
+                                <a href="/OrderManagement/SampleType/Index">
+                                    <i class="fa fa-book"></i>
+                                    <span>Sample Type</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/OrderManagement/SampleApproval/Index">
+                                    <i class="fa fa-money"></i>
+                                    <span>Sample Approval</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+
+                @if (User.IsInRole("Commercial"))
+                {
+                    <li class="sub-menu">
+                        <a href="javascript:;">
+                            <i class="fa fa-money"></i>
+                            <span>Commercial</span>
+                        </a>
+                        <ul class="sub">
+                            <li>
+                                <a href="/Commercial/ExportInvoice/Index">
+                                    <i class="fa fa-money"></i>
+                                    <span>Export Invoice</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Commercial/BackToBackLC/Index">
+                                    <i class="fa fa-credit-card"></i>
+                                    <span>Back To Back LC</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Commercial/BL/Index">
+                                    <i class="fa fa-money"></i>
+                                    <span>Bill of Lading</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Commercial/BankForwarding/Index">
+                                    <i class="glyphicon glyphicon-send"></i>
+                                    <span>Bank Forwarding</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+
+                @if (User.IsInRole("Finance"))
+                {
+                    <li class="sub-menu">
+                        <a href="javascript:;">
+                            <i class="fa fa-money"></i>
+                            <span>Finance</span>
+                        </a>
+                        <ul class="sub">
+                            <li>
+                                <a href="/Finance/RealizationAccount/Index">
+                                    <i class="fa fa-book"></i>
+                                    <span>Realization Account</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Finance/Realization/Index">
+                                    <i class="fa fa-money"></i>
+                                    <span>Realization</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="~/Report/Report/RealizationReport">
+                                    <i class="fa fa-print"></i>
+                                    <span>Realization Report</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+                
+                @*@if (User.IsInRole("Accounts"))
+                {*@
+                    <li class="sub-menu">
+                        <a href="javascript:;">
+                            <i class="fa fa-money"></i>
+                            <span>Accounts</span>
+                        </a>
+                        <ul class="sub">
+                            <li>
+                                <a href="/Accounts/PurchaseRequisition/Index">
+                                    <i class="fa fa-book"></i>
+                                    <span>Purchase Requisition</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Accounts/PurchaseRequisitionInstallment/Index">
+                                    <i class="fa fa-book"></i>
+                                    <span>Purchase Requisition Installment</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Accounts/Procurement/Index">
+                                    <i class="fa fa-book"></i>
+                                    <span>Procurement</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @*}*@
+
+                @if (User.IsInRole("Production"))
+                {
+                    <li class="sub-menu">
+                        <a href="javascript:;">
+                            <i class="fa fa-gears"></i>
+                            <span>Production</span>
+                        </a>
+                        <ul class="sub">
+                            <li>
+                                <a href="/Production/MachineCategory/Index">
+                                    <i class="fa fa-gear"></i>
+                                    <span>Machine Category</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Production/Machine/Index">
+                                    <i class="fa fa-gear"></i>
+                                    <span>Machine</span>
+                                </a>
+                            </li>
+                            @*<li>
+                                <a href="/Production/ProductionPlan/Index">
+                                    <i class="fa fa-gear"></i>
+                                    <span>Production Plan</span>
+                                </a>
+                            </li>*@
+                            <li>
+                                <a href="/Production/SewingPlan/Index">
+                                    <i class="fa fa-gear"></i>
+                                    <span>Production Plan</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Production/ProductionStatistics/Index">
+                                    <i class="fa fa-gear"></i>
+                                    <span>Production Statistics</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+
+                @if (User.IsInRole("Dpr-Entry"))
+                {
+                    <li class="sub-menu">
+                        <a href="javascript:;">
+                            <i class="fa fa-gears"></i>
+                            <span>Production</span>
+                        </a>
+                        <ul class="sub">
+                            <li>
+                                <a href="/Production/ProductionFloor/Index">
+                                    <i class="fa fa-gear"></i>
+                                    <span>Production Floor</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Production/ProductionStatus/Index">
+                                    <i class="fa fa-gear"></i>
+                                    <span>Production Status</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+
+                @if (User.IsInRole("Shipment"))
+                {
+                    <li class="sub-menu">
+                        <a href="javascript:;">
+                            <i class="fa fa-building-o"></i>
+                            <span>Store</span>
+                        </a>
+                        <ul class="sub">
+                            <li>
+                                <a href="/Store/Chalan/Index">
+                                    <i class="fa fa-anchor"></i>
+                                    <span>Chalan</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+
+                @if (User.IsInRole("Inventory"))
+                {
+                    <li class="sub-menu">
+                        <a href="javascript:;">
+                            <i class="fa fa-building-o"></i>
+                            <span>Inventory</span>
+                        </a>
+                        <ul class="sub">
+                            <li>
+                                <a href="/Store/InventoryReceive/Index">
+                                    <i class="fa fa-anchor"></i>
+                                    <span>Chalan</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+
+                @if (User.IsInRole("HR"))
+                {
+                    <li class="sub-menu">
+                        <a href="javascript:;">
+                            <i class="fa fa-certificate"></i>
+                            <span>HR Management</span>
+                        </a>
+                        <ul class="sub">
+                            <li>
+                                <a href="/HR/Holiday/Index">
+                                    <i class="fa fa-calendar"></i>
+                                    <span>Holiday</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+
+                @if (User.IsInRole("AdvancedCM"))
+                {
+                    <li class="sub-menu">
+                        <a href="javascript:;">
+                            <i class="fa fa-building-o"></i>
+                            <span>Accessories & Others</span>
+                        </a>
+                        <ul class="sub">
+                            <li>
+                                <a href="/MaterialManagement/AdvancedCM/Index">
+                                    <i class="fa fa-flask"></i>
+                                    <span>Accessories & Others</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+
+                <li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-warning"></i>
+                        <span>Crisis</span>
+                    </a>
+                    <ul class="sub">
+                        <li>
+                            <a href="/Report/Report/ShipmentCrisis">
+                                <i class="fa fa-warning"></i>
+                                <span>Shipment Crisis</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/Report/Report/BackToBackCrisis">
+                                <i class="fa fa-warning"></i>
+                                <span>Back To Back LC Crisis</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/Report/Report/PurchaseOrderCrisis">
+                                <i class="fa fa-warning"></i>
+                                <span>PurchaseOrder Crisis</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/Report/Report/RealizationCrisisReport">
+                                <i class="fa fa-warning"></i>
+                                <span>Realization Crisis</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-print"></i>
+                        <span>Reports</span>
+                    </a>
+                    <ul class="sub">
+                        <li>
+                            <a href="/Report/Report/ContractPaper">
+                                <i class="fa fa-print"></i>
+                                <span>Contract Paper</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/Report/Report/ProductionReport">
+                                <i class="fa fa-print"></i>
+                                <span>Production Report</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/Report/Report/SewingShipmentSummaryReport">
+                                <i class="fa fa-print"></i>
+                                <span>Sewing Shipment Summary Report</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/Report/Report/RequisitionReport">
+                                <i class="fa fa-print"></i>
+                                <span>Requisition Report</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/Report/Report/SubContractReport">
+                                <i class="fa fa-print"></i>
+                                <span>Sub Contract Report</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/Report/Report/WIP">
+                                <i class="fa fa-print"></i>
+                                <span>Work In Progress</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/Report/Report/MonthlyFinancialReport">
+                                <i class="fa fa-print"></i>
+                                <span>Monthly Financial Report</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/Report/Report/ShipmentDetails">
+                                <i class="fa fa-print"></i>
+                                <span>Shipment Details(WIP)</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/Report/Report/ShipmentReport">
+                                <i class="fa fa-print"></i>
+                                <span>Shipment Status</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/Report/Report/BankForwardingReport">
+                                <i class="fa fa-print"></i>
+                                <span>Bank Forwarding Report</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="~/Report/Report/ProformaInvoiceReport">
+                                <i class="fa fa-print"></i>
+                                <span>Proforma Invoice</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="~/Report/Report/JobStatusReport">
+                                <i class="fa fa-print"></i>
+                                <span>Job Status Report</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="~/Report/Report/JobSummaryReport">
+                                <i class="fa fa-print"></i>
+                                <span>Job Summary Report</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="~/Report/Report/JobItemReport">
+                                <i class="fa fa-print"></i>
+                                <span>Job Item Report</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="~/Report/Report/OrderFinancialSummary">
+                                <i class="fa fa-print"></i>
+                                <span>Order Financial Summary</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="~/Report/Report/DocDispatchInvoiceReport">
+                                <i class="fa fa-print"></i>
+                                <span>Doc Dispatch Invoice Report</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="~/Report/Report/VATReport">
+                                <i class="fa fa-print"></i>
+                                <span>VAT Report</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="~/Report/Report/IncentiveReport">
+                                <i class="fa fa-print"></i>
+                                <span>Incentive Report</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="~/Report/Report/PurchaseRequisitionReport">
+                                <i class="fa fa-print"></i>
+                                <span>Purchase Requisition Report</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="~/Report/Report/ImportStatusReport">
+                                <i class="fa fa-print"></i>
+                                <span>Import Status Report</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
+        </div>
+        <!-- sidebar menu end-->
+    </div>
+</aside>

@@ -1,0 +1,210 @@
+﻿@model IEnumerable<ScopoERP.MaterialManagement.ViewModel.AdvancedCMViewModel>
+
+@{
+    ViewBag.Title = "Advanced CM";
+}
+
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        @Html.ActionLink("Create New Advanced CM", "Create", "AdvancedCM", null, new { @class = "btn btn-success btn-block waves-effect waves-light" })
+                    </div>
+                </div>
+
+                <div class="form-group" style="overflow-y:auto;overflow-x:auto;">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th class="text-center"></th>
+                                <th class="text-center">JobNo</th>
+                                <th class="text-center">SupplierName</th>
+                                <th class="text-center">PINo</th>
+                                <th class="text-center">PIValue</th>
+                                <th class="text-center">PIDate</th>
+                                <th class="text-center">UDStatus</th>
+                                <th class="text-center">BackToBackLC</th>
+                                <th class="text-center">BackToBackLCDate</th>
+                                <th class="text-center">ReceivableAmount</th>
+                                <th class="text-center">ReceivedAmount</th>
+                                <th class="text-center">ReceivedDate</th>
+                                <th class="text-center">DifferenceFromReceivable</th>
+                                <th class="text-center">Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <a href="/Misc/AdvancedCM/Edit/@item.AdvancedCMID" class="btn btn-primary waves-effect waves-light">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                    </td>
+                                    <td>@item.JobNo</td>
+                                    <td>@item.SupplierName</td>
+                                    <td>@item.PINo</td>
+                                    <td>@item.PIValue</td> 
+                                    @if (@item.PIDate == null)
+                                    {
+                                        <td>@item.PIDate</td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                           @item.PIDate.Value.ToString("dd/MMM/yyyy")
+                                        </td>
+                                    }
+
+
+                                    <td>@item.UDStatus</td>
+                                    <td>@item.BackToBackLC</td>
+                                    @if (@item.BackToBackLCDate == null)
+                                    {
+                                        <td>@item.BackToBackLCDate</td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                           @item.BackToBackLCDate.Value.ToString("dd/MMM/yyyy")
+                                        </td>
+                                    }
+                                    <td>@item.ReceivableAmount</td>
+                                    <td>@item.ReceivedAmount</td>
+                                    @if (@item.ReceivedDate == null)
+                                    {
+                                        <td>@item.ReceivedDate</td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                           @item.ReceivedDate.Value.ToString("dd/MMM/yyyy")
+                                        </td>
+                                    }
+                                    <td>@item.DifferenceFromReceivable</td>
+                                    <td>@item.Remarks</td>
+                                    
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*<div class="box box-solid">
+        <header class="box-header with-border">
+            <h3 class="box-title">Advanced CM</h3>
+
+
+
+            <h3 class="box-title pull-right">
+                @Html.ActionLink("Create New Advanced CM", "Create", "AdvancedCM", null, new { @class = "btn btn-md btn-primary pull-right" })
+            </h3>
+        </header>
+        <div class="box-body">
+            <div class="col-sm-12">
+
+
+
+
+                <div class="form-group">
+
+
+                    @using Telerik.Web.Mvc.UI
+
+                    @( Html.Telerik().Grid<ScopoERP.MaterialManagement.ViewModel.AdvancedCMViewModel>()
+            .Name("AdvancedCMGrid")
+                .ToolBar(commands => commands
+                        .Custom()
+                            .HtmlAttributes(new { id = "exportLink" })
+                            .Text("Export")
+                                .Action("AdvancedCMExport", "AdvancedCM", new { column = "~", orderBy = "~", filter = "~" }))
+        .DataKeys(dataKeys => dataKeys.Add(k => k.AdvancedCMID))
+        .DataBinding(dataBinding => dataBinding.Ajax().Select("GetAllAdvancedCM", "AdvancedCM"))
+        .Columns(columns =>
+        {
+            columns.Bound(c => c.AdvancedCMID).ClientTemplate(
+               Html.ActionLink(" ", "Edit", new { id = "<#= AdvancedCMID #>" }, new { @class = "glyphicon glyphicon-edit" }).ToHtmlString()
+           ).Width(80).Title("").Filterable(false);
+
+            columns.Bound(c => c.JobNo).Width(150);
+            columns.Bound(c => c.SupplierName).Width(250);
+
+            columns.Bound(c => c.PINo).Width(200);
+            columns.Bound(c => c.PIValue).Width(100);
+            columns.Bound(c => c.PIDate).Format("{0:dd-MMM-yy}").Width(100);
+
+            columns.Bound(c => c.UDStatus).Width(100);
+
+            columns.Bound(c => c.BackToBackLC).Width(150);
+            columns.Bound(c => c.BackToBackLCDate).Format("{0:dd-MMM-yy}").Width(150);
+
+            columns.Bound(c => c.ReceivableAmount).Width(100);
+            columns.Bound(c => c.ReceivedAmount).Width(100);
+            columns.Bound(c => c.ReceivedDate).Format("{0:dd-MMM-yy}").Width(150);
+            columns.Bound(c => c.DifferenceFromReceivable).Width(100);
+            columns.Bound(c => c.Remarks).Width(300);
+        })
+        .ColumnContextMenu()
+        .Resizable(r => r.Columns(true))
+        .Reorderable(r => r.Columns(true))
+        .Scrollable(x => x.Height("auto"))
+        .Filterable()
+        .Pageable(p => p.PageSize(10))
+        .Selectable()
+        .Sortable()
+        .ClientEvents(events => events.OnDataBound("onDataBound"))
+                    )
+
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+
+@*<script type="text/javascript">
+
+        var $exportLink = $('#exportLink');
+        var href = $exportLink.attr('href');
+
+        function onDataBound() {
+            var grid = $(this).data('tGrid');
+
+            href = href.replace(/column=([^&]*)/, 'column=' + unCheckedList);
+            href = href.replace(/orderBy=([^&]*)/, 'orderBy=' + (grid.orderBy || '~'));
+            href = href.replace(/filter=(.*)/, 'filter=' + (grid.filterBy || '~'));
+            $exportLink.attr('href', href);
+        }
+
+        var unCheckedList = new Array();
+
+        $(document).ready(function () {
+
+            $(document).delegate('#AdvancedCMGrid_contextMenu [type=checkbox]', 'click', function () {
+
+                var index = $(this).data("field");
+                var column = $("#AdvancedCMGrid").data("tGrid").columns[index];
+                if (!$(this).is(':checked')) {
+                    if ($.inArray(column.member, unCheckedList) == -1)
+                        unCheckedList.push(column.member);
+                }
+                else {
+                    $.each(unCheckedList, function (key, value) {
+                        if (value == column.member) {
+                            unCheckedList.splice(key, 1);
+                        }
+                    });
+                }
+
+                href = href.replace(/column=([^&]*)/, 'column=' + unCheckedList);
+                $exportLink.attr('href', href);
+            })
+        });
+
+    </script>*@

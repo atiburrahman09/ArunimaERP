@@ -1,0 +1,107 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="col-md-12">
+    
+
+    @*<div class="col-sm-3">
+        <section class="panel">
+            <div class="panel-body">
+                <a href="mail_compose.html" class="btn btn-compose">
+                    Compose Mail
+                </a>
+                <ul class="nav nav-pills nav-stacked mail-nav">
+                    <li class="active"><a href="mail.html"> <i class="fa fa-inbox"></i> Inbox  <span class="label label-danger pull-right inbox-notification">9</span></a></li>
+                    <li><a href="#"> <i class="fa fa-envelope-o"></i> Send Mail</a></li>
+                    <li><a href="#"> <i class="fa fa-certificate"></i> Important</a></li>
+                    <li><a href="#"> <i class="fa fa-file-text-o"></i> Drafts <span class="label label-info pull-right inbox-notification">123</span></a></li>
+                    <li><a href="#"> <i class="fa fa-trash-o"></i> Trash</a></li>
+                </ul>
+            </div>
+        </section>
+        <section class="panel">
+            <div class="panel-body">
+                <ul class="nav nav-pills nav-stacked labels-info ">
+                    <li> <h4>Buddy online</h4> </li>
+                    <li> <a href="#"> <i class="fa fa-comments-o text-success"></i> Jonathan Smith <p>I do not think</p></a>  </li>
+                    <li> <a href="#"> <i class="fa fa-comments-o text-danger"></i> iRon <p>Busy with coding</p></a> </li>
+                    <li> <a href="#"> <i class="fa fa-comments-o text-muted "></i> Anjelina Joli <p>I out of control</p></a></li>
+                    <li> <a href="#"> <i class="fa fa-comments-o text-muted "></i> Samual Daren <p>I am not here</p></a></li>
+                    <li> <a href="#"> <i class="fa fa-comments-o text-muted "></i> Tis man <p>I do not think</p></a>  </li>
+                </ul>
+                <a href="#"> + Add More</a>
+                <div class="inbox-body text-center inbox-action">
+                    <div class="btn-group">
+                        <a class="btn mini btn-default" href="javascript:;">
+                            <i class="fa fa-power-off"></i>
+                        </a>
+                    </div>
+                    <div class="btn-group">
+                        <a class="btn mini btn-default" href="javascript:;">
+                            <i class="fa fa-cog"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="col-sm-9">
+        <section class="panel">
+            <header class="panel-heading wht-bg">
+                <h4 class="gen-case">
+                    Compose Mail
+                    <form action="#" class="pull-right mail-src-position">
+                        <div class="input-append">
+                            <input class="form-control " placeholder="Search Mail" type="text">
+                        </div>
+                    </form>
+                </h4>
+            </header>
+            <div class="panel-body">
+                <div class="compose-btn pull-right">
+                    <button class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Send</button>
+                    <button class="btn btn-sm"><i class="fa fa-times"></i> Discard</button>
+                    <button class="btn btn-sm">Draft</button>
+                </div>
+                <div class="compose-mail">
+                    <form role="form-horizontal" method="post">
+                        <div class="form-group">
+                            <label for="to" class="">To:</label>
+                            <input tabindex="1" id="to" class="form-control" type="text">
+                            <div class="compose-options">
+                                <a onclick="$(this).hide(); $('#cc').parent().removeClass('hidden'); $('#cc').focus();" href="javascript:;">Cc</a>
+                                <a onclick="$(this).hide(); $('#bcc').parent().removeClass('hidden'); $('#bcc').focus();" href="javascript:;">Bcc</a>
+                            </div>
+                        </div>
+                        <div class="form-group hidden">
+                            <label for="cc" class="">Cc:</label>
+                            <input tabindex="2" id="cc" class="form-control" type="text">
+                        </div>
+                        <div class="form-group hidden">
+                            <label for="bcc" class="">Bcc:</label>
+                            <input tabindex="2" id="bcc" class="form-control" type="text">
+                        </div>
+                        <div class="form-group">
+                            <label for="subject" class="">Subject:</label>
+                            <input tabindex="1" id="subject" class="form-control" type="text">
+                        </div>
+                        <div class="compose-editor">
+                            <ul style="" class="wysihtml5-toolbar"><li class="dropdown"><a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-font"></i>&nbsp;<span class="current-font">Normal text</span>&nbsp;<i class="fa fa-angle-down"></i></a><ul class="dropdown-menu"><li><a unselectable="on" href="javascript:;" data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="div" tabindex="-1">Normal text</a></li><li><a unselectable="on" href="javascript:;" data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h1" tabindex="-1">Heading 1</a></li><li><a unselectable="on" href="javascript:;" data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h2" tabindex="-1">Heading 2</a></li><li><a unselectable="on" href="javascript:;" data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h3" tabindex="-1">Heading 3</a></li><li><a unselectable="on" href="javascript:;" data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h4">Heading 4</a></li><li><a unselectable="on" href="javascript:;" data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h5">Heading 5</a></li><li><a unselectable="on" href="javascript:;" data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h6">Heading 6</a></li></ul></li><li><div class="btn-group"><a unselectable="on" href="javascript:;" class="btn btn-default" data-wysihtml5-command="bold" title="CTRL+B" tabindex="-1">Bold</a><a unselectable="on" href="javascript:;" class="btn btn-default" data-wysihtml5-command="italic" title="CTRL+I" tabindex="-1">Italic</a><a unselectable="on" href="javascript:;" class="btn btn-default" data-wysihtml5-command="underline" title="CTRL+U" tabindex="-1">Underline</a></div></li><li><div class="btn-group"><a unselectable="on" href="javascript:;" class="btn btn-default" data-wysihtml5-command="insertUnorderedList" title="Unordered list" tabindex="-1"><i class="fa fa-list-ul"></i></a><a unselectable="on" href="javascript:;" class="btn btn-default" data-wysihtml5-command="insertOrderedList" title="Ordered list" tabindex="-1"><i class="fa fa-list-ol"></i></a><a unselectable="on" href="javascript:;" class="btn btn-default" data-wysihtml5-command="Outdent" title="Outdent" tabindex="-1"><i class="fa fa-indent"></i></a><a unselectable="on" href="javascript:;" class="btn btn-default" data-wysihtml5-command="Indent" title="Indent" tabindex="-1"><i class="fa fa-dedent"></i></a></div></li><li><div class="bootstrap-wysihtml5-insert-link-modal modal fade"> <div class="modal-dialog"> <div class="modal-content"><div class="modal-header"><a class="close" data-dismiss="modal"></a><h4 class="modal-title">Insert link</h4></div><div class="modal-body"><input value="http://" class="bootstrap-wysihtml5-insert-link-url1 form-control large" type="text"><label style="margin-top:5px;"> <input class="bootstrap-wysihtml5-insert-link-target" checked="" type="checkbox">Open link in new window</label></div><div class="modal-footer"><a href="#" class="btn btn-default" data-dismiss="modal">Cancel</a><a href="#" class="btn btn-primary" data-dismiss="modal">Insert link</a></div></div></div></div><a unselectable="on" href="javascript:;" class="btn btn-default" data-wysihtml5-command="createLink" title="Insert link" tabindex="-1"><i class="fa fa-share-square-o"></i></a></li><li><div class="bootstrap-wysihtml5-insert-image-modal modal fade"> <div class="modal-dialog"> <div class="modal-content"><div class="modal-header"><a class="close" data-dismiss="modal"></a><h4 class="modal-title">Insert image</h4></div><div class="modal-body"><input value="http://" class="bootstrap-wysihtml5-insert-image-url form-control large" type="text"></div><div class="modal-footer"><a href="#" class="btn btn-default" data-dismiss="modal">Cancel</a><a href="#" class="btn btn-primary" data-dismiss="modal">Insert image</a></div></div></div></div><a unselectable="on" href="javascript:;" class="btn btn-default" data-wysihtml5-command="insertImage" title="Insert image" tabindex="-1"><i class="fa fa-picture-o"></i></a></li></ul><textarea style="display: none;" class="wysihtml5 form-control" rows="9"></textarea><input value="1" name="_wysihtml5_mode" type="hidden"><iframe style="display: block; background-color: rgb(255, 255, 255); border-collapse: separate; border-color: rgb(226, 226, 228); border-style: solid; border-width: 1px; clear: none; float: none; margin: 0px; outline: 0px none rgb(194, 194, 194); outline-offset: 0px; padding: 6px 12px; position: static; z-index: auto; vertical-align: text-bottom; text-align: start; box-sizing: border-box; box-shadow: none; border-radius: 4px; width: 771.75px; height: 194px; top: auto; left: auto; right: auto; bottom: auto;" marginheight="0" marginwidth="0" allowtransparency="true" security="restricted" class="wysihtml5-sandbox" frameborder="0" height="0" width="0"></iframe>
+                            <input class="default" type="file">
+                        </div>
+                        <div class="compose-btn">
+                            <button class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Send</button>
+                            <button class="btn btn-sm"><i class="fa fa-times"></i> Discard</button>
+                            <button class="btn btn-sm">Draft</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>*@
+   
+    @Html.ActionLink("Send Mail", "SendMail", null, new { @class="btn btn-success" })
+</div>
+

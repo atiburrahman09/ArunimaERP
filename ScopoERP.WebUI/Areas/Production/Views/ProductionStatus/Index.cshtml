@@ -1,0 +1,135 @@
+﻿@{
+    ViewBag.Title = "Production Status";
+}
+
+<div class="col-sm-12">
+
+    <p>
+        @Html.ActionLink("Create New Production Status", "Create", "ProductionStatus", null,
+        new
+        {
+            @id = "productionStatusCreateDialogCall",
+            data_dialog_id = "productionStatusDialog",
+            @class = "btn btn-lg btn-primary"
+        })
+    </p>
+
+    @using Telerik.Web.Mvc.UI
+
+    @( Html.Telerik().Grid<ScopoERP.Production.ViewModel.ProductionStatusViewModel>()
+        .Name("ProductionStatusGrid")
+        .ToolBar(commands => commands.Custom().HtmlAttributes(new { id = "exportLink" })
+                    .Text("Export").Action("Export", "ProductionStatus", new { column = "~", orderBy = "~", filter = "~" }))
+        .DataKeys(dataKeys => dataKeys.Add(k => k.ProductionDailyReportID))
+                        .DataBinding(dataBinding => dataBinding.Ajax().Select("GetAllProductionStatus", "ProductionStatus"))
+        .Columns(columns =>
+        {
+            columns.Bound(c => c.ProductionDailyReportID).ClientTemplate(
+                Html.ActionLink("Edit", "Edit", new { id = "<#= ProductionDailyReportID #>" }, new
+                {
+                    @class = "t-button productionStatusEditDialogCall",
+                    data_dialog_id = "productionStatusDialog"
+                }).ToHtmlString()
+            )
+            .Width(80).Title("").Filterable(false);
+
+            columns.Bound(c => c.BuyerName).Width(200);
+            columns.Bound(c => c.StyleNo).Width(150);
+            columns.Bound(c => c.PONo).Width(150);
+            columns.Bound(c => c.Date).Format("{0:dd-MMM-yyyy}").Width(150);
+            columns.Bound(c => c.Floor).Width(150);
+            columns.Bound(c => c.Line).Width(150);
+            columns.Bound(c => c.Color).Width(150);
+
+            columns.Bound(c => c.Cutting).Width(150)
+                .Aggregate(a => a.Sum())
+                .ClientGroupFooterTemplate("Total: <#= Sum #>")
+                .ClientFooterTemplate("Total: <#= Sum #>");
+
+            columns.Bound(c => c.SewingInput).Width(150)
+                .Aggregate(a => a.Sum())
+                .ClientGroupFooterTemplate("Total: <#= Sum #>")
+                .ClientFooterTemplate("Total: <#= Sum #>");
+
+            columns.Bound(c => c.TodaySewing).Width(150)
+                .Aggregate(a => a.Sum())
+                .ClientGroupFooterTemplate("Total: <#= Sum #>")
+                .ClientFooterTemplate("Total: <#= Sum #>");
+
+            columns.Bound(c => c.SentPrintEmb).Width(150)
+                .Aggregate(a => a.Sum())
+                .ClientGroupFooterTemplate("Total: <#= Sum #>")
+                .ClientFooterTemplate("Total: <#= Sum #>");
+
+            columns.Bound(c => c.ReceivedPrintEmb).Width(150)
+                .Aggregate(a => a.Sum())
+                .ClientGroupFooterTemplate("Total: <#= Sum #>")
+                .ClientFooterTemplate("Total: <#= Sum #>");
+
+            columns.Bound(c => c.SentWash).Width(150)
+                .Aggregate(a => a.Sum())
+                .ClientGroupFooterTemplate("Total: <#= Sum #>")
+                .ClientFooterTemplate("Total: <#= Sum #>");
+
+            columns.Bound(c => c.ReceivedWash).Width(150)
+                .Aggregate(a => a.Sum())
+                .ClientGroupFooterTemplate("Total: <#= Sum #>")
+                .ClientFooterTemplate("Total: <#= Sum #>");
+
+            columns.Bound(c => c.TodayFinish).Width(150)
+                .Aggregate(a => a.Sum())
+                .ClientGroupFooterTemplate("Total: <#= Sum #>")
+                .ClientFooterTemplate("Total: <#= Sum #>");
+        })
+        .ColumnContextMenu()
+        .Filterable()
+        .Sortable()
+        .Selectable()
+        .Scrollable(x => x.Height("auto"))
+        .Resizable(x => x.Columns(true))
+        .Reorderable(x => x.Columns(true))
+        .Pageable(x => x.PageSize(10))
+        .ClientEvents(events => events.OnDataBound("onDataBound"))
+    )
+</div>
+
+<script type="text/javascript">
+
+    var $exportLink = $('#exportLink');
+    var href = $exportLink.attr('href');
+
+    function onDataBound() {
+        var grid = $(this).data('tGrid');
+
+        href = href.replace(/column=([^&]*)/, 'column=' + unCheckedList);
+        href = href.replace(/orderBy=([^&]*)/, 'orderBy=' + (grid.orderBy || '~'));
+        href = href.replace(/filter=(.*)/, 'filter=' + (grid.filterBy || '~'));
+        $exportLink.attr('href', href);
+    }
+
+    var unCheckedList = new Array();
+
+    $(document).ready(function () {
+
+        $(document).delegate('#ProductionStatusGrid_contextMenu [type=checkbox]', 'click', function () {
+
+            var index = $(this).data("field");
+            var column = $("#ProductionStatusGrid").data("tGrid").columns[index];
+            if (!$(this).is(':checked')) {
+                if ($.inArray(column.member, unCheckedList) == -1)
+                    unCheckedList.push(column.member);
+            }
+            else {
+                $.each(unCheckedList, function (key, value) {
+                    if (value == column.member) {
+                        unCheckedList.splice(key, 1);
+                    }
+                });
+            }
+
+            href = href.replace(/column=([^&]*)/, 'column=' + unCheckedList);
+            $exportLink.attr('href', href);
+        });
+    });
+
+</script>

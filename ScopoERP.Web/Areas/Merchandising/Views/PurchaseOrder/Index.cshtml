@@ -1,0 +1,290 @@
+﻿
+@{
+    ViewBag.Title = "Purchase Order";
+}
+<div class="row" ng-app="scopoApp" ng-controller="purchaseOrderCtrl" ng-init="init()" ng-cloak>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <select class="form-control select2" ng-model="selectedStyle" 
+                                ng-change="onStyleChange(selectedStyle)"
+                                ng-options="s.Value as s.Text for s in styleList">
+                            <option value="">Select Style</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-control select2" ng-model="selectedPO" ng-change="onPurchaseOrderChange(selectedPO)">
+                            <option value="">Select Purchase Order</option>
+                            <option ng-repeat="pod in purchaseOrderList" value="{{pod}}">{{pod.PurchaseOrderNo}}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" ng-click="newPurchaseOrder()" class="btn btn-block btn-success">
+                            Create PO
+                        </button>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" ng-click="getWorkSheetsByCostSheetAndPurchaseOrderId(pod)" ng-disabled="!pod.PurchaseOrderID"
+                                class="btn btn-block btn-success">
+                            Bill Of Materials
+                        </button>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" ng-click="sizeOfColor(pod.PurchaseOrderNo)" ng-disabled="!pod.PurchaseOrderID"
+                                class="btn btn-block btn-success">
+                            Size Color
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Purchase Order-->
+    <div class="col-md-12" ng-show="context.get('newPO') || context.get('editPO')">
+        <form name="forms.podForm" class="form-horizontal" ng-submit="savePod(pod)">
+            <div class="card">
+                <div class="card-body">
+                    <div class="col-sm-12">
+                        <div class="form-group row">
+                            <label class="col-sm-2 control-label">Job No</label>
+                            <div class="col-sm-4">
+                                <select ng-options="job.Value as job.Text for job in jobList"
+                                        ng-model="pod.JobID" class="form-control" ng-change="onJobSelect(pod)">
+                                    <option value="">Select Job</option>
+                                </select>
+                                @*<select class="form-control select2" ng-model="jobId">
+                                    <option value="">Select Job</option>
+                                    <option ng-repeat="job in jobList" value="{{job.Value}}">{{job.Text}}</option>
+                                </select>*@
+                            </div>
+
+                            <label class="col-sm-2 control-label">Purchase Order No</label>
+                            <div class="col-sm-4">
+                                <input type="text" ng-model="pod.PurchaseOrderNo" class="form-control" required />
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 control-label">Order Quantity</label>
+                            <div class="col-sm-4">
+                                <input type="number" ng-model="pod.OrderQuantity" class="form-control" required />
+                            </div>
+
+                            <label class="col-sm-2 control-label">Exit Date</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control datepicker" ng-model="pod.ExitDate" />
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 control-label">FOB</label>
+                            <div class="col-sm-4">
+                                <input type="number" ng-model="pod.FOB" class="form-control" required />
+                            </div>
+
+                            <label class="col-sm-2 control-label">Agreed CM</label>
+                            <div class="col-sm-4">
+                                <input type="number" ng-model="pod.AgreedCM" class="form-control" required />
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 control-label">Season</label>
+                            <div class="col-sm-4">
+                                <select ng-options="season.Value as season.Text for season in seasonList"
+                                        ng-model="pod.SeasonID" class="form-control" required></select>
+                            </div>
+                            <label class="col-sm-2 control-label">Ship Mode</label>
+                            <div class="col-sm-4">
+                                <select ng-model="pod.ShipMode" ng-options="sh.id as sh.ShipMode for sh in shipModes" class="form-control" required>
+                                    <option value="">Select Ship Mode</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 control-label">Factory</label>
+                            <div class="col-sm-4">
+                                <select ng-options="factory.Value as factory.Text for factory in factoryList"
+                                        ng-model="pod.FactoryID" class="form-control" required></select>
+                            </div>
+                            <label class="col-sm-2 control-label">Current Status</label>
+                            <div class="col-sm-4">
+                                <select ng-options="currentStatus.Value as currentStatus.Text for currentStatus in currentStatusList"
+                                        ng-model="pod.CurrentStatus" class="form-control" required></select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 control-label">Factory CM</label>
+                            <div class="col-sm-4">
+                                <input type="number" ng-model="pod.FactoryCM" class="form-control" />
+                            </div>
+                            <label class="col-sm-2 control-label">Original CRD</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control datepicker" ng-model="po.OriginalCRD" />
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 control-label">Remarks</label>
+                            <div class="col-sm-4">
+                                <input type="text" ng-model="pod.Remarks" class="form-control" />
+                            </div>
+
+                            <label class="col-sm-2 control-label">SubContract Rate</label>
+                            <div class="col-sm-4">
+                                <input type="number" ng-model="pod.SubContractRate" class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 control-label">Dc Code</label>
+                            <div class="col-sm-4">
+                                <input type="text" ng-model="pod.DCCode" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="pull-right">
+                        <button type="reset" class="btn btn-success"><i class="fa fa-close "></i> Reset</button>
+                        <button type="submit" class="btn btn-success"><i class="fa fa-save "></i> Save</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!--Bill Of Materials-->
+    <div class="col-md-12" ng-if="context.get('workSheetsView')">
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <select ng-options="cs.ValueString as cs.Text for cs in csList"
+                                class="form-control"
+                                ng-model="pod.CostSheetNo">
+                            <option value="">Select Cost Sheet</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" ng-click="getWorkSheetsByCostSheetAndPurchaseOrderId(pod)" class="btn btn-block btn-success">
+                           Show
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <tbody>
+                            <tr>
+                                <th>#</th>
+                                <th>Item Category</th>
+                                <th>Item Description</th>
+                                <th>Consumption</th>
+                                <th>Unit</th>
+                                <th>Wastage %</th>
+                                <th>Total Quantity</th>
+                                <th>Unit Cost</th>
+                                <th>Total Cost</th>
+                            </tr>
+                            <tr ng-repeat="ws in workSheetList | filter:searchWS">
+                                <td>{{$index + 1}}.</td>
+                                <td>{{ws.ItemCategory}}</td>
+                                <td style="width:150px; word-wrap:break-word">{{ws.ItemDescription}}</td>
+                                <td><input type="text" ng-model="ws.Consumption" class="form-control input-sm" disabled /></td>
+                                <td>{{ws.ConsumptionUnit}}</td>
+                                <td><input type="text" ng-model="ws.Wastage" class="form-control input-sm" disabled /></td>
+                                <td>{{ws.TotalQuantity}}</td>
+                                <td><input type="text" ng-model="ws.UnitPrice" class="form-control input-sm" required /></td>
+                                <td>{{ws.TotalQuantity * ws.UnitPrice}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="col-md-2 pull-right">
+                        <button type="button" ng-click="updateWorkSheets(workSheetList)" class="btn btn-block btn-success">
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*<div class="card-footer">
+            <div class="col-md-2">
+                <button type="button" ng-click="updateWorkSheets(workSheetList)" class="btn btn-block btn-success">
+                    Save
+                </button>
+            </div>
+        </div>*@
+    </div>
+
+    <!--Size Color-->
+    <div class="col-md-12" ng-if="context.get('sizeOfColorView')" ng-controller="sizeColorController" ng-init="init(pod.PurchaseOrderID)">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-condensed table-fixed-header no-wrap">
+                        <tr>
+                            <td>
+                                <button style="width:75px;" class="btn btn-success" ng--click="addRow()">+ Color</button>
+                                <button style="width:75px;" class="btn btn-success" ng--click="addColumn()">+ Size</button>
+                            </td>
+                            <td ng-repeat="columns in sizeColorList[0].SizeQuantity">
+                                <input style="width:100px;" type="text" value="{{columns.Size}}" ng-model="columns.Size" class="form-control" />
+                            </td>
+                            <td><center>Total</center></td>
+                        </tr>
+                        <tr ng-repeat="rows in sizeColorList">
+                            <td>
+                                <input style="width:100px;" type="text" value="{{rows.Color}}" ng-model="rows.Color" class="form-control" />
+                            </td>
+                            <td ng-repeat="columns in rows.SizeQuantity">
+                                <input style="width:100px;" type="text" value="{{columns.Quantity}}" ng-model="columns.Quantity" class="form-control" />
+                            </td>
+                            <td>
+                                <center>{{getRowTotal($index)}}</center>
+                            </td>
+                            <td>
+                                <center><a href="javascript:void(0);" id="btnRemove" ng-click="removeRow($index)"><i class="fa fa-trash-o fa-2x"></i></a></center>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Total</td>
+                            <td ng-repeat="columns in sizeColorList[0].SizeQuantity">
+                                <center>{{getColumnTotal($index)}}</center>
+                            </td>
+                            <td>
+                                <center>{{getGrandTotal()}}</center>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td ng-repeat="columns in sizeColorList[0].SizeQuantity">
+                                <center><a href="javascript:void(0);" id="btnRemove" ng-click="removeColumn($index)"><i class="fa fa-trash-o fa-2x"></i></a></center>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="row">
+                    <label class="col-md-2">Copy From:</label>
+                    <div class="col-md-3">
+                        <select ui-select2="dropDownOptions" data-placeholder="Select PO" ng-options="po.Value as po.Text for po in poDropDown track by po.Value" ng-model="copyFromPO" class="form-control select2">
+                            <option value="">Select PO</option>
+                        </select>
+                    </div>
+                    <div class="col-md-1"></div>
+                    <div class="col-md-3">
+                        <input type="button" class="btn btn-success btn-block" value="Copy" ng-click="copyButtonClick()" />
+                    </div>
+                    <div class="col-md-3">
+                        <input type="button" class="btn btn-primary btn-block" value="Save" ng-click="saveButtonClick(sizeColorList)" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

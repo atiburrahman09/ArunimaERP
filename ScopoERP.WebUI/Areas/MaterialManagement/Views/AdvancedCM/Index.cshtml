@@ -1,0 +1,99 @@
+﻿@{
+    ViewBag.Title = "Advanced CM";
+}
+
+<div class="col-sm-12">
+
+    <p>
+        @Html.ActionLink("Create New Advanced CM", "Create", "AdvancedCM", null, new { @class = "btn btn-lg btn-primary" })
+    </p>
+
+    @using Telerik.Web.Mvc.UI
+
+    @( Html.Telerik().Grid<ScopoERP.MaterialManagement.ViewModel.AdvancedCMViewModel>()
+        .Name("AdvancedCMGrid")
+            .ToolBar(commands => commands
+                    .Custom()
+                        .HtmlAttributes(new { id = "exportLink" })
+                        .Text("Export")
+                            .Action("AdvancedCMExport", "AdvancedCM", new { column = "~", orderBy = "~", filter = "~" }))
+    .DataKeys(dataKeys => dataKeys.Add(k => k.AdvancedCMID))
+    .DataBinding(dataBinding => dataBinding.Ajax().Select("GetAllAdvancedCM", "AdvancedCM"))
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.AdvancedCMID).ClientTemplate(
+            Html.ActionLink("Edit", "Edit", new { id = "<#= AdvancedCMID #>" }, new { @class = "t-button" }).ToHtmlString()
+        )
+        .Width(80).Title("").Filterable(false);
+
+        columns.Bound(c => c.JobNo).Width(150);
+        columns.Bound(c => c.SupplierName).Width(250);
+
+        columns.Bound(c => c.PINo).Width(200);
+        columns.Bound(c => c.PIValue).Width(100);
+        columns.Bound(c => c.PIDate).Format("{0:dd-MMM-yy}").Width(100);
+
+        columns.Bound(c => c.UDStatus).Width(100);
+
+        columns.Bound(c => c.BackToBackLC).Width(150);
+        columns.Bound(c => c.BackToBackLCDate).Format("{0:dd-MMM-yy}").Width(150);
+
+        columns.Bound(c => c.ReceivableAmount).Width(100);
+        columns.Bound(c => c.ReceivedAmount).Width(100);
+        columns.Bound(c => c.ReceivedDate).Format("{0:dd-MMM-yy}").Width(150);
+        columns.Bound(c => c.DifferenceFromReceivable).Width(100);
+        columns.Bound(c => c.Remarks).Width(300);
+    })
+    .ColumnContextMenu()
+    .Resizable(r => r.Columns(true))
+    .Reorderable(r => r.Columns(true))
+    .Scrollable(x => x.Height("auto"))
+    .Filterable()
+    .Pageable(p => p.PageSize(10))
+    .Selectable()
+    .Sortable()
+    .ClientEvents(events => events.OnDataBound("onDataBound"))
+    )
+
+</div>
+
+<script type="text/javascript">
+
+    var $exportLink = $('#exportLink');
+    var href = $exportLink.attr('href');
+
+    function onDataBound() {
+        var grid = $(this).data('tGrid');
+
+        href = href.replace(/column=([^&]*)/, 'column=' + unCheckedList);
+        href = href.replace(/orderBy=([^&]*)/, 'orderBy=' + (grid.orderBy || '~'));
+        href = href.replace(/filter=(.*)/, 'filter=' + (grid.filterBy || '~'));
+        $exportLink.attr('href', href);
+    }
+
+    var unCheckedList = new Array();
+
+    $(document).ready(function () {
+
+        $(document).delegate('#AdvancedCMGrid_contextMenu [type=checkbox]', 'click', function () {
+            
+            var index = $(this).data("field");
+            var column = $("#AdvancedCMGrid").data("tGrid").columns[index];
+            if (!$(this).is(':checked')) {
+                if ($.inArray(column.member, unCheckedList) == -1)
+                    unCheckedList.push(column.member);
+            }
+            else {
+                $.each(unCheckedList, function (key, value) {
+                    if (value == column.member) {
+                        unCheckedList.splice(key, 1);
+                    }
+                });
+            }
+
+            href = href.replace(/column=([^&]*)/, 'column=' + unCheckedList);
+            $exportLink.attr('href', href);
+        })
+    });
+
+</script>

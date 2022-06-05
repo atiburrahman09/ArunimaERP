@@ -1,0 +1,50 @@
+﻿@model ScopoERP.Reports.ViewModel.ReportFilteringViewModel
+
+@{
+    ViewBag.Title = "Incentive Report";
+}
+
+<div class="col-sm-offset-3 col-sm-6">
+    <section class="panel">
+        <header class="panel-heading">
+            Search Criteria
+        </header>
+        <div class="panel-body">
+
+            @using (Html.BeginForm("IncentiveReport", "Report", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary(true)
+                @Html.HiddenFor(model => model.JobNo)
+
+                <div class="form-group">
+                    <label class="col-lg-4 col-sm-4 control-label">Job No</label>
+                    <div class="col-lg-8">
+                        @Html.DropDownListFor(model => model.JobID, ViewBag.Job as SelectList, "", new { @class = "combo-box" })
+                        @Html.ValidationMessageFor(model => model.JobID)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-offset-4 col-lg-4">
+                        <input type="reset" class="btn btn-block btn-default" />
+                    </div>
+                    <div class="col-lg-4">
+                        <input type="submit" class="btn btn-block btn-primary" value="Preview" />
+                    </div>
+                </div>
+            }
+
+        </div>
+    </section>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var jobID = $('#JobID');
+
+        jobID.change(function () {
+
+            $('#JobNo').val($('#JobID option:selected').text());
+        })
+    })
+</script>

@@ -1,0 +1,68 @@
+﻿@model List<ScopoERP.Store.ViewModel.ChalanViewModel>
+@{
+    ViewBag.Title = "Chalan";
+}
+
+<script src="~/Areas/Store/Scripts/controllers/chalan.js"></script>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                @using (Html.BeginForm())
+                {
+                    <div class="form-group row">
+                        <div class="col-md-2">
+                            @Html.ActionLink("Create New Chalan", "Create", "Chalan", null, new { @class = "btn btn-block btn-success  waves-effect waves-light" })
+                        </div>
+                        <div class="col-md-5"></div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" name="searchString" placeholder="Chalan No" />
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-success btn-block waves-effect waves-light"> Search</button>
+                        </div>
+                    </div>
+                }
+
+                <div class="form-group">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Chalan No</th>
+                                <th>Chalan Date</th>
+                                <th>Vehicle No</th>
+                                <th>Driver Name</th>
+                                <th>Mobile No</th>
+                                <th>Shipped By</th>
+                                <th>Seal No</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <a href="/Store/Chalan/Edit/@item.ChalanID" class="btn btn-info waves-effect waves-light">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                    </td>
+                                    <td>@item.ChalanNo</td>
+                                    <td>@item.ChalanDate.ToShortDateString()</td>
+                                    <td>@item.VehicleNo</td>
+                                    <td>@item.DriverName</td>
+                                    <td>@item.MobileNo</td>
+                                    <td>@item.ShippedBy</td>
+                                    <td>@item.SealNo</td>
+                                   
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

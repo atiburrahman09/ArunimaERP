@@ -1,0 +1,62 @@
+﻿@model ScopoERP.LC.ViewModel.JobViewModel
+
+@{
+    ViewBag.Title = "Create Job";
+}
+
+<div class="col-sm-offset-3 col-sm-6">
+    <section class="panel">
+        <header class="panel-heading">
+            Create New Job
+        </header>
+        <div class="panel-body">
+
+            @using (Html.BeginForm("Create", "Job", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary(true)
+
+                <div class="form-group">
+                    <label class="col-lg-4 col-sm-4 control-label">Job No</label>
+                    <div class="col-lg-8">
+                        @Html.TextBoxFor(model => model.JobNo, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.JobNo)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-4 col-sm-4 control-label">Contract No</label>
+                    <div class="col-lg-8">
+                        @Html.TextBoxFor(model => model.ContractNo, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ContractNo)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-4 col-sm-4 control-label">Extra Contract No</label>
+                    <div class="col-lg-8">
+                        @Html.TextBoxFor(model => model.ExtraContractNo, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ExtraContractNo)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-4 col-sm-4 control-label">Bank</label>
+                    <div class="col-lg-8">
+                        @Html.DropDownListFor(model => model.BankID, ViewBag.BankList as SelectList, "", new { @class = "combo-box" })
+                        @Html.ValidationMessageFor(model => model.BankID)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-offset-4 col-lg-4">
+                        @Html.ActionLink("Cancel", "Index", "Job", null, new { @class = "btn btn-block btn-default" })
+                    </div>
+                    <div class="col-lg-4">
+                        <input type="submit" class="btn btn-block btn-primary" value="Save" />
+                    </div>
+                </div>
+            }
+
+        </div>
+    </section>
+</div>

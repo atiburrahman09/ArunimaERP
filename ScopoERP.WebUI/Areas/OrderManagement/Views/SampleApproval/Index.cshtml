@@ -1,0 +1,100 @@
+﻿@model ScopoERP.OrderManagement.ViewModel.SampleApprovalViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="col-sm-12" ng-app="sampleApproval" ng-controller="sampleApprovalCtrl" ng-init="init()">
+    <toaster-container toaster-options="{ 'close-button':true}"></toaster-container>
+    <section class="panel">
+        <header class="panel-heading">
+            Approval Request
+        </header>
+        <div class="panel-body">
+            @using (Html.BeginForm("Create", "Style", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary(true)
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label left-label">Style No</label>
+                    <div class="col-lg-3">
+                        @Html.DropDownListFor(model => model.StyleID, ViewBag.styleList as SelectList, new { @class = "combo-box" })
+                        @Html.ValidationMessageFor(model => model.StyleID)
+                    </div>
+
+                    <label class="col-lg-2 col-sm-2 control-label left-label">Validity Time</label>
+                    <div class="col-lg-2">
+                        @Html.TextBoxFor(model => model.ApprovalSerialNo, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ApprovalSerialNo)
+                    </div>
+
+                    <label class="col-lg-2 col-sm-2 control-label left-label">Approval Serial No</label>
+                    <div class="col-lg-1">
+                        @Html.TextBoxFor(model => model.ApprovalSerialNo, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ApprovalSerialNo)
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="form-group">
+                    <div class="table-responsive" style="overflow:scroll">
+                        <table class="table table-advance table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Sample</th>
+                                    <th>Color</th>
+                                    <th>Size</th>
+                                    <th>Quantity</th>
+                                    <th>Appr. Sent Date</th>
+                                    <th>Sent Date</th>
+                                    <th>Approval Date</th>
+                                    <th>Approval Status</th>
+                                    <th>Courier Name</th>
+                                    <th>Courier No</th>
+                                    <th>Approval Through</th>
+                                    <th>Remarks</th>
+                                    <th>Attachments</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>@Html.DropDownListFor(model => model.ApprovalList[0].SampleTypeID, Enumerable.Empty<SelectListItem>(), new { @class = "combo-box" })</td>
+                                    <td>@Html.TextBoxFor(model => model.ApprovalList[0].Quantity, new { @class = "form-control" })</td>
+                                    <td>@Html.TextBoxFor(model => model.ApprovalList[0].Quantity, new { @class = "form-control" })</td>
+                                    <td>@Html.TextBoxFor(model => model.ApprovalList[0].Quantity, new { @class = "form-control" })</td>
+                                    <td>@Html.TextBoxFor(model => model.ApprovalList[0].ApproximateSentDate, new { @class = "form-control default-date-picker" })</td>
+                                    <td>@Html.TextBoxFor(model => model.ApprovalList[0].SentDate, new { @class = "form-control default-date-picker" })</td>
+                                    <td>@Html.TextBoxFor(model => model.ApprovalList[0].ApproveDate, new { @class = "form-control default-date-picker" })</td>
+                                    <td>@Html.TextBoxFor(model => model.ApprovalList[0].ApprovalStatus, new { @class = "form-control" })</td>
+                                    <td>@Html.TextBoxFor(model => model.ApprovalList[0].Quantity, new { @class = "form-control" })</td>
+                                    <td>@Html.TextBoxFor(model => model.ApprovalList[0].Quantity, new { @class = "form-control" })</td>
+                                    <td>@Html.TextBoxFor(model => model.ApprovalList[0].Quantity, new { @class = "form-control" })</td>
+                                    <td>@Html.TextBoxFor(model => model.ApprovalList[0].Quantity, new { @class = "form-control" })</td>
+                                    <td><input type="file" /></td>
+                                    <td>
+                                        <button type="button" class="btn btn-round btn-primary">+</button>
+                                        <button type="button" class="btn btn-round btn-danger">X</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="form-group">
+                    <div class="col-lg-offset-8 col-lg-2">
+                        <input type="reset" class="btn btn-block btn-default" value="Cancel" />
+                    </div>
+
+                    <div class="col-lg-2">
+                        <input type="submit" class="btn btn-block btn-primary" value="Save" />
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+</div>

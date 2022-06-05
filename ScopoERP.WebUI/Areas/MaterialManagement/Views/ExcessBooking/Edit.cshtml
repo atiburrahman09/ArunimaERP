@@ -1,0 +1,86 @@
+﻿@model ScopoERP.MaterialManagement.ViewModel.ExcessBookingViewModel
+@{
+    ViewBag.Title = "Update ExcessBooking";
+}
+
+<div class="col-sm-12">
+    <section class="panel">
+        <header class="panel-heading">
+            Update Excess Booking
+        </header>
+        <div class="panel-body">
+
+            @using (Html.BeginForm("Edit", "ExcessBooking", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary(true)
+
+                @Html.HiddenFor(model => model.ExcessBookingID);
+                @Html.HiddenFor(model => model.ProformaInvoiceID);
+                
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">Job</label>
+                    <div class="col-lg-4">
+                        @Html.DropDownListFor(model => model.JobID, ViewBag.Job as SelectList, "", new { @class = "combo-box" })
+                        @Html.ValidationMessageFor(model => model.JobID)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">PI No</label>
+                    <div class="col-lg-4">
+                        @Html.TextBoxFor(model => model.ProformaInvoiceNo, new { @class = "form-control", @readonly = "true" })
+                        @Html.ValidationMessageFor(model => model.ProformaInvoiceNo)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">Item</label>
+                    <div class="col-lg-4">
+                        @Html.DropDownListFor(model => model.ItemID, ViewBag.Item as SelectList, "", new { @class = "combo-box" })
+                        @Html.ValidationMessageFor(model => model.ItemID)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">Item Color</label>
+                    <div class="col-lg-4">
+                        @Html.TextBoxFor(model => model.ItemColor, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ItemColor)
+                    </div>
+
+                    <label class="col-lg-2 col-sm-2 control-label">Item Size</label>
+                    <div class="col-lg-4">
+                        @Html.TextBoxFor(model => model.ItemSize, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ItemSize)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">Total Quantity</label>
+                    <div class="col-lg-4">
+                        @Html.TextBoxFor(model => model.TotalQuantity, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.TotalQuantity)
+                    </div>
+
+                    <label class="col-lg-2 col-sm-2 control-label">Total Price</label>
+                    <div class="col-lg-4">
+                        @Html.TextBoxFor(model => model.TotalPrice, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.TotalPrice)
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="form-group">
+                    <div class="col-lg-offset-8 col-lg-2">
+                        @Html.ActionLink("Cancel", "Index", "ExcessBooking", null, new { @class = "btn btn-block btn-default" })
+                    </div>
+                    <div class="col-lg-2">
+                        <input type="submit" class="btn btn-block btn-primary" value="Update" />
+                    </div>
+                </div>
+            }
+
+        </div>
+    </section>
+</div>

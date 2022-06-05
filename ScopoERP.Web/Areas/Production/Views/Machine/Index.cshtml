@@ -1,0 +1,69 @@
+﻿
+@model IEnumerable<ScopoERP.Production.ViewModel.MachineViewModel>
+
+@{
+    ViewBag.Title = "Machine";
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-solid">
+            <header class="card-header with-border">
+                <h3 class="card-title pull-right">@Html.ActionLink("Create New Machine", "Create", "Machine", null, new { @class = "btn btn-success btn-block waves-effect waves-light" })</h3>
+            </header>
+            <div class="card-body">
+                <div class="col-sm-12">
+                    <div class="form-group row">
+                        <table class="table table-bordered table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Unit</th>
+                                    <th>AG</th>
+                                    <th>Brand Name</th>
+                                    <th>Type of Machine</th>
+                                    <th>Mobile No.</th>
+                                    <th>Machine Number</th>
+                                    <th>Machine Condition</th>
+                                    <th>Loan To</th>
+                                    <th>Loan From</th>
+                                    <th>M/C Value</th>
+                                    <th>Book Value</th>
+                                    <th>Remarks</th>
+
+                                    @*<th>Machine Category Name</th>
+                                        <th>Machine Code</th>
+                                        <th>Machine Description</th>*@
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                            {
+                                    <tr>
+                                        <td>
+                                            <a href="@Url.Action("Edit" , new { id = item.MachineID})"><span class="fa fa-edit"></span></a>
+                                        </td>
+                                        <td>@item.Unit</td>
+                                        <td>@item.AG</td>
+                                        <td>@item.BrandName</td>
+                                        <td>@item.MachineCategoryName</td>
+                                        <td>@item.MobileNo</td>
+                                        <td>@item.MachineCode</td>
+                                        <td>@item.MachineCondition</td>
+                                        <td>@item.LoanTo</td>
+                                        <td>@item.LoanFrom</td>
+                                        <td>@item.MCValue</td>
+                                        <td>@item.BookValue</td>
+                                        <td>@item.Remarks</td>
+
+                                    </tr>
+                            }
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

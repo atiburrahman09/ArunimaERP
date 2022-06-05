@@ -1,0 +1,106 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+@using Telerik.Web.Mvc.UI
+
+<div class="col-sm-12">
+
+    <p>
+        @Html.ActionLink("Create New Invoice", "Create", "ExportInvoice", null, new { @class = "btn btn-lg btn-primary" })
+    </p>
+
+    @(Html.Telerik().Grid<ScopoERP.Commercial.ViewModel.ExportInvoiceViewModel>()
+        .Name("ExportInvoiceGrid")
+        .DataKeys(datakeys => datakeys.Add(k => k.InvoiceId))
+        .DataBinding(dataBinding => dataBinding.Ajax().Select("GetAllExportInvoice", "ExportInvoice"))
+        .Columns(columns =>
+        {
+            columns.Bound(c => c.InvoiceId).ClientTemplate(
+                Html.ActionLink("Edit", "Edit", new { id = "<#= InvoiceId #>" }, new
+                {
+                    @class = "t-button"
+                }).ToHtmlString()
+                )
+                .Width(80).Title("").Filterable(false);
+
+            columns.Bound(c => c.BookingExFactoryDate).Format("{0:dd-MMM-yyyy}").Width(150);
+            columns.Bound(c => c.ExFactoryDate).Format("{0:dd-MMM-yyyy}").Width(120);
+
+            columns.Bound(c => c.InvoiceNo).Width(180);
+            columns.Bound(c => c.InvoiceDate).Format("{0:dd-MMM-yyyy}").Width(120);
+
+            columns.Bound(c => c.EXP).Width(180);
+            columns.Bound(c => c.EXPDate).Format("{0:dd-MMM-yyyy}").Width(120);
+
+            columns.Bound(c => c.ICDate).Format("{0:dd-MMM-yyyy}").Width(120);
+
+            columns.Template(c => c.ShippingBill).Title("Shipping Bill").Width(120);
+            columns.Bound(c => c.ShippingBillDate).Format("{0:dd-MMM-yyyy}").Width(120);
+
+            columns.Bound(c => c.OnBoardDate).Format("{0:dd-MMM-yyyy}").Width(120);
+            columns.Bound(c => c.BL).Width(180);
+            columns.Bound(c => c.BLRealeaseDate).Format("{0:dd-MMM-yyyy}").Width(120);
+            columns.Bound(c => c.BLToBeEndorsedTo).Width(180);
+
+            columns.Bound(c => c.CODate).Format("{0:dd-MMM-yyyy}").Width(120);
+
+            columns.Bound(c => c.FCR).Width(180);
+            columns.Bound(c => c.FCRDate).Format("{0:dd-MMM-yyyy}").Width(120);
+
+            columns.Bound(c => c.FDBP_No).Width(120);
+
+            columns.Bound(c => c.TradeCardInPutDate).Format("{0:dd-MMM-yyyy}").Width(120);
+
+            columns.Bound(c => c.DocDespatchDate).Format("{0:dd-MMM-yyyy}").Width(120);
+
+            columns.Bound(c => c.Courier).Width(120);
+
+            columns.Bound(c => c.BankNegoDate).Format("{0:dd-MMM-yyyy}").Width(120);
+
+            columns.Bound(c => c.PaymentReceiveDate).Format("{0:dd-MMM-yyyy}").Width(120);
+
+            columns.Bound(c => c.PortOfLoading).Width(120);
+
+            columns.Bound(c => c.FinalDestination).Width(120);
+
+            columns.Bound(c => c.CountryName).Width(120);
+        })
+        .ColumnContextMenu()
+        .Filterable()
+        .Resizable(x => x.Columns(true))
+        .Scrollable(x => x.Height("auto"))
+        .Pageable(x => x.PageSize(10))
+        .Selectable()
+    )
+
+</div>
+
+<div class="col-sm-12">
+
+    <h1>Shipment Details</h1>
+
+    @( Html.Telerik().Grid<ScopoERP.Store.ViewModel.ShipmentViewModel>()
+    .Name("ShipmentGrid")
+    .DataKeys(dataKeys => dataKeys.Add(k => k.ShipmentID))
+    .DataBinding(dataBinding => dataBinding.Ajax().Select("GetAllShipment", "ExportInvoice"))
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.PONo).Width(150);
+        columns.Bound(c => c.OrderQuantity).Width(150);
+        columns.Bound(c => c.ChalanNo).Width(150);
+        columns.Bound(c => c.ChalanQuantity).Width(150);
+        columns.Bound(c => c.ChalanDate).Format("{0:dd-MMM-yy}").Width(150);
+        columns.Bound(c => c.InvoiceNo).Width(180);
+        columns.Bound(c => c.InvoiceFOB).Width(150);
+        columns.Bound(c => c.Destination).Width(150);
+    })
+    .Resizable(r => r.Columns(true))
+    .Filterable()
+    .Pageable(p => p.PageSize(10))
+    .Selectable()
+    .Sortable()
+    .Scrollable(x => x.Height("auto"))
+    )
+
+</div>

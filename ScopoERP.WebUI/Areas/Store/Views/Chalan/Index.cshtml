@@ -1,0 +1,74 @@
+﻿@{
+    ViewBag.Title = "Chalan";
+}
+
+<div class="col-sm-12">
+
+    <p>
+        @Html.ActionLink("Create New Chalan", "Create", "Chalan", null, new { @class = "btn btn-lg btn-primary" })
+    </p>
+
+    @using Telerik.Web.Mvc.UI
+
+    @( Html.Telerik().Grid<ScopoERP.Store.ViewModel.ChalanViewModel>()
+    .Name("ChalanGrid")
+    .ToolBar(commands => commands.Custom().Text("Export").Action("ChalanExport", "Chalan"))
+    .DataKeys(dataKeys => dataKeys.Add(k => k.ChalanID))
+    .DataBinding(dataBinding => dataBinding.Ajax().Select("GetAllChalan", "Chalan"))
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.ChalanID).ClientTemplate(
+            Html.ActionLink("Edit", "Edit", new { id = "<#= ChalanID #>" }, new { @class = "t-button" }).ToHtmlString()
+        )
+        .Width(80).Title("").Filterable(false);
+
+        columns.Bound(c => c.ChalanNo).Width(100);
+        columns.Bound(c => c.ChalanDate).Format("{0:dd-MMM-yyyy}").Width(100);
+        columns.Bound(c => c.VehicleNo).Width(150);
+        columns.Bound(c => c.DriverName).Width(150);
+        columns.Bound(c => c.MobileNo).Width(150);
+        columns.Bound(c => c.ShippedBy).Width(100);
+        columns.Bound(c => c.SealNo).Width(150);
+    })
+    .Resizable(r => r.Columns(true))
+    .Filterable()
+    .Pageable(p => p.PageSize(10))
+    .Selectable()
+    .Sortable()
+    .Scrollable(x => x.Height("auto"))
+    )
+
+</div>
+
+<div class="col-sm-12">
+
+    <h1>Shipment Details</h1>
+
+    @( Html.Telerik().Grid<ScopoERP.Store.ViewModel.ShipmentViewModel>()
+    .Name("ShipmentGrid")
+    .ToolBar(commands => commands.Custom().Text("Export").Action("ShipmentExport", "Chalan"))
+    .DataKeys(dataKeys => dataKeys.Add(k => k.ShipmentID))
+    .DataBinding(dataBinding => dataBinding.Ajax().Select("GetAllShipment", "Chalan"))
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.PONo).Width(150);
+        columns.Bound(c => c.OrderQuantity).Width(150);
+        columns.Bound(c => c.ChalanNo).Width(150);
+        columns.Bound(c => c.ChalanQuantity).Width(150);
+        columns.Bound(c => c.ChalanDate).Format("{0:dd-MMM-yyyy}").Width(150);
+        columns.Bound(c => c.CBM).Width(150);
+        columns.Bound(c => c.CartoonQuantity).Width(150);
+        columns.Bound(c => c.FactoryName).Width(150);
+        columns.Bound(c => c.InvoiceNo).Width(180);
+        columns.Bound(c => c.InvoiceFOB).Width(150);
+        columns.Bound(c => c.Destination).Width(150);
+    })
+    .Resizable(r => r.Columns(true))
+    .Filterable()
+    .Pageable(p => p.PageSize(10))
+    .Selectable()
+    .Sortable()
+    .Scrollable(x => x.Height("auto"))
+    )
+
+</div>

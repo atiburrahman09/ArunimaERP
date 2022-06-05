@@ -1,0 +1,128 @@
+﻿@{
+    ViewBag.Title = "Purchase Requisition - Create";
+}
+
+<div class="col-sm-12" ng-app="purchaseRequisition" ng-controller="purchaseRequisitionCtrl" ng-init="init()">
+    <toaster-container toaster-options="{ 'close-button':true}"></toaster-container>
+    <section class="panel">
+        <header class="panel-heading">
+            Purchase Requisition
+        </header>
+        <div class="panel-body">
+            <form class="form-horizontal">
+
+                <input type="hidden" ng-init="PurchaseRequisitionID = @ViewBag.PurchaseRequisitionID" />
+
+                <div class="form-group">
+                    <label class="col-xs-2 control-label left-label">Requisition No</label>
+                    <div class="col-xs-3">
+                        <input type="text" ng-model="purchaseRequisition.RequisitionNo" class="form-control" readonly />
+                    </div>
+
+                    <label class="col-xs-2 control-label left-label">Requisition Date</label>
+                    <div class="col-xs-3">
+                        <input type="text" ng-model="purchaseRequisition.RequisitionDate" class="form-control default-date-picker" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-2 control-label left-label">Department</label>
+                    <div class="col-xs-3">
+                        <select ng-model="purchaseRequisition.DepartmentID" ng-options="dept.ValueInt as dept.Text for dept in departmentList" class="form-control"></select>
+                    </div>
+
+                    <label class="col-xs-2 control-label left-label">Remarks</label>
+                    <div class="col-xs-3">
+                        <input type="text" ng-model="purchaseRequisition.Remarks" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-2 control-label left-label">Sector</label>
+                    <div class="col-xs-3">
+                        <select ng-model="purchaseRequisition.Sector" class="form-control">
+                            <option value="All">All</option>
+                            <option value="Arunima">Arunima</option>
+                            <option value="Arunima(Common)">Arunima(Common)</option>
+                            <option value="DMC">DMC</option>
+                            <option value="DMC(Common)">DMC(Common)</option>
+                            <option value="Arunima Knitwear">Arunima Knitwear</option>
+                        </select>
+                    </div>
+
+                    @*<label class="col-xs-2 control-label left-label">Supplier</label>
+                    <div class="col-xs-3">
+                        <select ng-model="purchaseRequisition.SupplierID" ng-options="supplier.ValueInt as supplier.Text for supplier in supplierList" class="combo-box"></select>
+                    </div>*@
+
+                    <div class="col-xs-1">
+                        <input type="button" class="btn btn-round btn-block btn-success" value="+" ng-click="addItem()" />
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="form-group">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped condensed">
+                            <thead>
+                                <tr>
+                                    <th>SL</th>
+                                    <th class="col-md-4">Item</th>
+                                    <th class="col-md-2">Quantity</th>
+                                    <th class="col-md-1">Unit</th>
+                                    <th class="col-md-2">Unit Price</th>
+                                    <th class="col-md-2">Total Price</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in purchaseRequisition.RequisitionDetails">
+                                    <td><center>{{$index + 1}}</center></td>
+                                    <td><input type="text" ng-model="item.ProductDescription" class="form-control" /></td>
+                                    <td><input type="text" ng-model="item.Quantity" class="form-control" /></td>
+                                    <td>
+                                        <select ng-model="item.UnitID" ng-options="unit.ValueInt as unit.Text for unit in unitList" class="form-control"></select>
+                                    </td>
+                                    <td><input type="text" ng-model="item.UnitPrice" class="form-control" /></td>
+                                    <td><input type="text" value="{{item.Quantity * item.UnitPrice}}" class="form-control" readonly /></td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger" ng-click="deleteRow($index)">
+                                            <span class="glyphicon glyphicon-trash"></span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>Total: {{getTotalAmount()}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="form-group">
+                    <div class="col-lg-offset-8 col-lg-2">
+                        <input type="reset" class="btn btn-block btn-default" value="Reset" />
+                    </div>
+                    <div class="col-lg-2">
+                        <input type="submit" class="btn btn-block btn-primary" ng-click="savePurchaseRequisition()" value="Save" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</div>
+
+@Html.Partial("_angular")
+
+<script src="~/Areas/Accounts/Scripts/services/purchaseRequisitionService.js"></script>
+<script src="~/Scripts/app/main.js"></script>
+<script src="~/Areas/Accounts/Scripts/controllers/purchaseRequisitionCtrl.js"></script>
+<script src="~/Areas/Accounts/Scripts/app.js"></script>

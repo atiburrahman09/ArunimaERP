@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "BL";
+}
+
+<div class="col-sm-12">
+
+    <p>
+        @Html.ActionLink("Create New BL", "Create", "BL", null, new { @class = "btn btn-lg btn-primary" })
+    </p>
+
+    @using Telerik.Web.Mvc.UI
+
+    @( Html.Telerik().Grid<ScopoERP.Commercial.ViewModel.BLViewModel>()
+    .Name("BLGrid")
+    .DataKeys(dataKeys => dataKeys.Add(k => k.BLID))
+    .DataBinding(dataBinding => dataBinding.Ajax().Select("GetAllBL", "BL"))
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.BLID).ClientTemplate(
+            Html.ActionLink("Edit", "Edit", new { id = "<#= BLID #>" }, new { @class = "t-button" })
+            + " " +
+            Html.ActionLink("Add BL Details", "AddBLDetails", new { id = "<#= BLID #>" }, new { @class = "t-button", @data_dialog_id = "blDetailsDialog", @id = "blDetailsDialogCall" })
+            .ToHtmlString()
+            
+        )
+        .Width(195).Title("").Filterable(false);
+
+        columns.Bound(c => c.BackToBackLCNo).Width(150);
+        columns.Bound(c => c.BLNo).Width(150);
+        columns.Bound(c => c.BLDate).Format("{0:dd-MMM-yyyy}").Width(100);
+        columns.Bound(c => c.MaturityDate).Format("{0:dd-MMM-yyyy}").Width(100);
+        columns.Bound(c => c.InvoiceNo).Width(200);
+        columns.Bound(c => c.InvoiceDate).Format("{0:dd-MMM-yyyy}").Width(100);
+        columns.Bound(c => c.CopyDocumentReceivedDate).Format("{0:dd-MMM-yyyy}").Width(100);
+        columns.Bound(c => c.OriginalDocumentReceivedDate).Format("{0:dd-MMM-yyyy}").Width(100);
+        columns.Bound(c => c.DocumentSentToCNF).Format("{0:dd-MMM-yyyy}").Width(100);
+        columns.Bound(c => c.GoodsDeliveryDateByCNF).Format("{0:dd-MMM-yyyy}").Width(100);
+        columns.Bound(c => c.GoodsInHouseDate).Format("{0:dd-MMM-yyyy}").Width(100);
+        columns.Bound(c => c.AcceptanceValue).Width(100);
+        columns.Bound(c => c.AcceptanceDate).Format("{0:dd-MMM-yyyy}").Width(100);
+    })
+    .Resizable(r => r.Columns(true))
+    .Filterable()
+    .Pageable(p => p.PageSize(10))
+    .Selectable()
+    .Sortable()
+    .Scrollable(x=>x.Height("auto"))
+    )
+
+</div>

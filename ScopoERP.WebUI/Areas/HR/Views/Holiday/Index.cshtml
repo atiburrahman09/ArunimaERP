@@ -1,0 +1,59 @@
+﻿@{
+    ViewBag.Title = "Holiday";
+}
+
+<div class="col-sm-12">
+
+    <p>
+        @Html.ActionLink("Create New Holiday", "Create", "Holiday", null, new { @class = "btn btn-lg btn-primary" })
+    </p>
+
+    <div id="datagrid">
+
+    </div>
+
+    <script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#datagrid").kendoGrid({
+            sortable: true,
+            pageable: true,
+            filterable: true,
+            resizable: true,
+            selectable: true,
+            dataSource: {
+                transport: {
+                    read: "/HR/Holiday/GetAllHoliday",
+                    dataType: "json"
+                },
+                pageSize: 10,
+                schema: {
+                    data: "data",
+                    total: "total"
+                },
+                serverPaging: true
+            },
+            columns: [
+                    {
+                        filed: "HolidayID", title: "", sortable: false, width: 75,
+                        template:
+                                '<a href="@Url.Action("Edit")/#=HolidayID#", class = "holidayEditDialogCall k-button", data_dialog_id = "holidayDialog">'
+                                    + '<i class="fa fa-edit fa-lg"></i><span> </span>'
+                              + '</a>'
+                    },
+                    {
+                        field: "FromDate", title: "From Date", sortable: true, width: 150,
+                        template: "#= kendo.toString(kendo.parseDate(FromDate, 'yyyy-MM-dd'), 'dd-MMM-yyyy') #"
+                    },
+                    {
+                        field: "ToDate", title: "To Date", sortable: true, width: 150,
+                        template: "#= kendo.toString(kendo.parseDate(ToDate, 'yyyy-MM-dd'), 'dd-MMM-yyyy') #"
+                    },
+                    { field: "Reason", title: "Reason", sortable: true, width: 650 }
+            ]
+        });
+    });
+
+    </script>
+
+</div>

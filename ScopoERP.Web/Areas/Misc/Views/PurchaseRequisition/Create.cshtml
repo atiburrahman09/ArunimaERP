@@ -1,0 +1,128 @@
+﻿@{
+    ViewBag.Title = "Purchase Requisition - Create";
+}
+
+<div class="row" ng-app="scopoApp" ng-controller="purchaseRequisitionCtrl" ng-init="init(@ViewBag.PurchaseRequisitionID)">
+    <div class="col-md-12">
+        <form name="requisitionForm" class="form-horizontal" ng-submit="savePurchaseRequisition()" novalidate>
+            <div class="card">
+                <div class="card-body">
+                    @if (ViewBag.PurchaseRequisitionID != null)
+                    {
+                        <input type="hidden" ng-init="PurchaseRequisitionID = @ViewBag.PurchaseRequisitionID" />
+                    }
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label left-label">Requisition No</label>
+                        <div class="col-sm-8">
+                            <input type="text" ng-model="purchaseRequisition.RequisitionNo" class="form-control" readonly />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label left-label">Requisition Date</label>
+                        <div class="col-sm-8">
+                            <input id="RequisitionDate" type="text"
+                                   class="form-control datepicker"
+                                   ng-model="purchaseRequisition.RequisitionDate"
+                                   ng-blur="bindDate('RequisitionDate', 'purchaseRequisition')"
+                                   placeholder="Enter Requisition Date" required />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label left-label">Department</label>
+                        <div class="col-sm-8">
+                            <select ng-model="purchaseRequisition.DepartmentID" ng-options="dept.ValueInt as dept.Text for dept in departmentList" class="form-control select2" required></select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label left-label">Sector</label>
+                        <div class="col-sm-8">
+                            <select ng-model="purchaseRequisition.Sector" class="form-control" required>
+                                <option value="All">All</option>
+                                <option value="Arunima">Arunima</option>
+                                <option value="Arunima(Common)">Arunima(Common)</option>
+                                <option value="DMC">DMC</option>
+                                <option value="DMC(Common)">DMC(Common)</option>
+                                <option value="Arunima Knitwear">Arunima Knitwear</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label left-label">Remarks</label>
+                        <div class="col-sm-8">
+                            <input type="text" ng-model="purchaseRequisition.Remarks" class="form-control" />
+                        </div>
+                    </div>
+
+                </div>          
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group row col-sm-1">                        
+                        <button type="button" class="btn btn-round btn-success" ng-click="addItem()">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped condensed">
+                            <thead>
+                                <tr>
+                                    <th>SL</th>
+                                    <th>Item</th>
+                                    <th>Quantity</th>
+                                    <th>Unit</th>
+                                    <th>Unit Price</th>
+                                    <th>Total Price</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in purchaseRequisition.RequisitionDetails">
+                                    <td><center>{{$index + 1}}</center></td>
+                                    <td><input type="text" ng-model="item.ProductDescription" class="form-control" required /></td>
+                                    <td><input type="text" ng-model="item.Quantity" class="form-control" required /></td>
+                                    <td>
+                                        <select ng-model="item.UnitID" ng-options="unit.ValueInt as unit.Text for unit in unitList" class="form-control" required></select>
+                                    </td>
+                                    <td><input type="text" ng-model="item.UnitPrice" class="form-control" required /></td>
+                                    <td><input type="text" value="{{item.Quantity * item.UnitPrice}}" class="form-control" readonly /></td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger" ng-click="deleteRow($index)">
+                                            <span class="fa fa-trash"></span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>Total: {{getTotalAmount()}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="form-group row">
+                        <div class="col-md-2">
+                            @Html.ActionLink("Cancel", "Index", null, new { @class= "btn btn-block btn-dark waves-effect waves-light" })
+                        </div>
+                        <div class="col-md-2">
+                            <input type="reset" class="btn btn-default btn-block" value="Reset" />
+                        </div>
+                        <div class="col-md-2">
+                            <input type="submit" class="btn btn-primary btn-block" value="Save" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>

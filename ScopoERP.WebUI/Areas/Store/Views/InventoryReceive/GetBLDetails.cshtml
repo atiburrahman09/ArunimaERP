@@ -1,0 +1,53 @@
+﻿@model List<ScopoERP.Store.ViewModel.ImportChalanDetailsViewModel>
+<form id="blDetailsForm" class="form-horizontal" action="javascript:void(0);">
+    <div class="table-scroll">
+        <table class="table table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th>PO No</th>
+                    <th width="400px">Item Description</th>
+                    <th>Item Color</th>
+                    <th>Item Size</th>
+                    <th>Booking Quantity</th>
+                    <th>Consumption Unit</th>
+                    <th>Receive Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int i = 0;
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.HiddenFor(model => model[i].BLDetailsID)
+                                @Html.HiddenFor(model => model[i].BLID)
+                                @Html.HiddenFor(model => model[i].BookingID)
+                                @Html.HiddenFor(model => model[i].UserID)
+                                @Html.HiddenFor(model => model[i].SetupDate)
+                                @Html.TextBoxFor(model => model[i].PONo, new { @class = "form-control", @readonly = "" })
+                            </td>
+                            <td width="400px">@Html.TextBoxFor(model => model[i].ItemDescription, new { @class = "form-control", @readonly = "" })</td>
+                            <td>@Html.TextBoxFor(model => model[i].ItemColor, new { @class = "form-control", @readonly = "" })</td>
+                            <td>@Html.TextBoxFor(model => model[i].ItemSize, new { @class = "form-control", @readonly = "" })</td>
+                            <td>@Html.TextBoxFor(model => model[i].BookingQuantity, new { @class = "form-control", @readonly = "" })</td>
+                            <td>@Html.TextBoxFor(model => model[i].ConsumpsionUnit, new { @class = "form-control", @readonly = "" })</td>
+                            <td>@Html.TextBoxFor(model => model[i].InvoiceQuantity, new { @class = "form-control" })</td>
+                        </tr>
+                        i++;
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="form-group"></div>
+    <div class="form-group">
+        <div class="col-lg-offset-7 col-lg-2">
+            @*<button class="btn btn-block btn-default btn-cancel">Cancel</button>*@
+        </div>
+        <div class="col-md-3">
+            <input id="blDetailsFormSubmit" type="submit" class="btn btn-block btn-primary" value="Save" />
+        </div>
+    </div>
+</form>
+

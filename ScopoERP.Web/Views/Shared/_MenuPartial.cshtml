@@ -1,0 +1,124 @@
+﻿<aside class="left-sidebar">
+    <!-- Sidebar scroll-->
+    <div class="scroll-sidebar">
+        <!-- Sidebar navigation-->
+        <nav class="sidebar-nav">
+            <ul id="sidebarnav">
+                <li>
+                    <a href="/"><i class="mdi mdi-gauge"></i><span class="hide-menu">Home </span></a>
+                </li>
+                @if (User.IsInRole("Admin"))
+                {
+                    <li>
+                        <a class="has-arrow" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Admin </span></a>
+                        <ul aria-expanded="false" class="collapse">
+                            <li><a href="/Common/Division/Index">Division</a></li>
+                            <li><a href="/Common/SampleType/Index">Sample Type</a></li>
+                            <li><a href="/Common/Factory/Index">Factory</a></li>
+                            <li><a href="/Common/Season/Index">Season</a></li>
+                            <li><a href="/Common/Stackholders/Index">Stackholder</a></li>
+                            <li><a href="/Merchandising/ItemCategory/Index">ItemCategory</a></li>
+                            <li><a href="/Merchandising/Item/Index">Item</a></li>
+                            <li><a href="/Account/Users">Manage Users</a></li>
+                            <li><a href="/Common/JobClose/Index">Job Closing</a></li>
+                        </ul>
+                    </li>
+                }
+                @if (User.IsInRole("Merchant"))
+                {
+                    <li><a href="/Merchandising/Styles/">Styles</a></li>
+                    <li><a href="/Merchandising/PurchaseOrder/">PurchaseOrder</a></li>
+                    <li><a href="/Merchandising/Booking/">Booking</a></li>
+                    <li><a href="/Merchandising/Requisition/">Requisition</a></li>
+                    <li><a href="/Merchandising/SubContract/">SubContract</a></li>
+                    <li><a href="/Merchandising/Sample/Index">Sample</a></li>
+            <!--Testing purpose. Need to Move it under Admin-->
+                    <li><a href="/Merchandising/Timeline/Index">Time & Action</a></li>
+                    <li><a href="/Merchandising/PurchaseOrder/Split">PurchaseOrder Split</a></li>
+                }
+                @if (User.IsInRole("Production"))
+                {
+                    <li><a href="/Production/MachineCategory/Index">Machine Category</a></li>
+                    <li><a href="/Production/Machine/Index">Machine</a></li>
+                    @*<li><a href="/Production/ProductionFloor/Index">Production Floor</a></li>*@
+                    @*<li><a href="/Production/ProductionPlan/Index">Production Plan</a></li>*@
+                    <li><a href="/Production/SewingPlan">Sewing Plan</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle text-menu" data-toggle="dropdown" aria-expanded="false">Incentive <span class="caret"></span></a>
+                        <ul class="dropdown-menu text-menu-items" role="menu">
+                            <li><a href="/Production/StyleConfigure/Index">Style Configure</a></li>
+                            <li><a href="/Production/Cutting/Index">Cutting</a></li>
+                            <li><a href="/Production/Coupon/Index">Coupon</a></li>
+                            <li><a href="/Production/Coupon/CouponEntry">Ghum Sheet</a></li>
+                            <li><a href="/Production/TrainingCurve/Index">Training Curve</a></li>
+                            <li><a href="/Production/EmployeeCapability/Index">Employee Capability</a></li>
+                            <li><a href="/Production/TrainingCurve/EmployeeRate">Employee Rate</a></li>
+                            <li><a href="/Common/Settings/">Settings</a></li>
+                        </ul>
+                    </li>
+
+                }
+                @if (User.IsInRole("Commercial"))
+                {
+                    <li><a href="/Commercial/BackToBackLC/">Back To Back LC</a></li>
+                    <li><a href="/Commercial/BL/">Import Invoice (BL)</a></li>
+                    <li><a href="/Commercial/ExportInvoice/">Export Invoice</a></li>
+                    <li><a href="/Commercial/BankForwarding/">Bank Forwarding</a></li>
+                    <li>
+                        <a class="has-arrow" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">LC </span></a>
+                        <ul aria-expanded="false" class="collapse">
+                            <li><a href="/Commercial/Job/Index">LC/Contract/Job</a></li>
+                            <li><a href="/Commercial/Bank/Index">Bank</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/Commercial/BankPrcTracking/">Bank Prc Tracking</a></li>
+                    @*<li><a href="~/Report/Report/CommercialInvoiceReport"><span>Commercial Invoice report</span></a></li>*@
+
+
+
+                }
+                @if (User.IsInRole("Shipment"))
+                {
+                    <li><a href="/Store/Chalan/Index">Export - Chalan</a></li>
+                }
+                @if (User.IsInRole("Inventory"))
+                {
+                    <li><a href="/Store/Inventory/">Inventory Receive</a></li>
+                    <li><a href="/Store/Inventory/InventoryIssue">Inventory Issue</a></li>
+
+
+                }
+                @if (User.IsInRole("Dpr-Entry"))
+                {
+                    <li><a href="/Production/ProductionStatus/Index">Production Status</a></li>
+                   
+                    <li><a href="/Store/RawMaterialReq/Index">Raw Material Req</a></li>
+                }
+                @if (User.IsInRole("AdvancedCM"))
+                {
+                    <li><a href="/Misc/ChartOfAccounts/Index">Chart Of Accounts</a></li>
+                    <li><a href="/Misc/Budgets/Index">Budgets</a></li>
+                    <li><a href="/Misc/Expenses/Index">Expenses</a></li>
+                    <li><a href="/Misc/PurchaseRequisition/Index">Purchase Requisition</a></li>
+                    <li><a href="/Misc/PurchaseRequisitionInstallment/Index">Purchase Requisition Installment</a></li>
+                    <li><a href="/Misc/AdvancedCM/Index">Advanced CM</a></li>
+                }
+                @if (User.IsInRole("finance"))
+                {
+                    <li><a href="/Finance/RealizationAccount/Index">Realization Account</a></li>
+                    <li><a href="/Finance/Realization/Index">Realization</a></li>
+                }
+                <li class="two-column">
+                    <a class="has-arrow " href="#" aria-expanded="false">
+                        <i class="mdi mdi-bullseye"></i><span class="hide-menu">Reports</span>
+                    </a>
+                    <ul aria-expanded="false" class="collapse" style="overflow:auto;">
+                        @Html.Partial("_ReportMenuPartial")
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <!-- End Sidebar navigation -->
+    </div>
+    <!-- End Sidebar scroll-->
+</aside>

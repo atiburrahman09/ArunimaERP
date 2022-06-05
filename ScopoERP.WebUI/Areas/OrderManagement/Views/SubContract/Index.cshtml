@@ -1,0 +1,123 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<div class="col-sm-12" ng-app="subContract" ng-controller="subContractCtrl" ng-init="init()">
+    <toaster-container toaster-options="{ 'close-button':true}"></toaster-container>
+    <section class="panel">
+        <header class="panel-heading">
+            Sub Contract Details
+        </header>
+        <div class="panel-body">
+            <form class="form-horizontal">
+
+                <input type="hidden" ng-init="PurchaseOrderID = @ViewBag.PurchaseOrderID" />
+
+                <div class="form-group">
+                    <label class="control-label left-label col-xs-2">PO No</label>
+                    <div class="col-xs-3">
+                        <input type="text" ng-model="puchaseOrderDetails.PurchaseOrderNo" class="form-control" readonly />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label left-label col-xs-2">FOB</label>
+                    <div class="col-xs-2">
+                        <input type="text" ng-model="puchaseOrderDetails.FOB" class="form-control" readonly />
+                    </div>
+
+                    <label class="control-label col-xs-2">Agreed CM</label>
+                    <div class="col-xs-2">
+                        <input type="text" ng-model="puchaseOrderDetails.AgreedCM" class="form-control" readonly />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label left-label col-xs-2">Order Quantity</label>
+                    <div class="col-xs-2">
+                        <input type="text" ng-model="puchaseOrderDetails.OrderQuantity" class="form-control" readonly />
+                    </div>
+
+                    <label class="control-label col-xs-2">Exit Date</label>
+                    <div class="col-xs-2">
+                        <input type="text" ng-model="puchaseOrderDetails.ExitDate" class="form-control" readonly />
+                    </div>
+
+                    <div class="col-xs-offset-2 col-xs-2">
+                        <input type="button" class="btn btn-block btn-success" value="Add New" ng-click="addNew()" />
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="form-group">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped condensed">
+                            <thead>
+                                <tr style="background-color:#DDD">
+                                    <th>#</th>
+                                    <th>SubContract No</th>
+                                    <th>SubContract Quantity</th>
+                                    <th>SubContract Exit Date</th>
+                                    <th>SubContract Rate</th>
+                                    <th>Commercial Percentage</th>
+                                    <th>Factory</th>
+                                    <th>Remarks</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in subContractList">
+                                    <td>
+                                        <button type="button" class="btn btn-danger" ng-click="deleteRow($index)">
+                                            <span class="glyphicon glyphicon-trash"></span>
+                                        </button>
+                                        <input type="hidden" ng-model="item.SubContractID" />
+                                        <input type="hidden" ng-model="item.PurchaseOrderID" />
+                                    </td>
+                                    <td>
+                                        <input type="text" ng-model="item.SubContractNo" class="form-control" readonly />
+                                    </td>
+                                    <td>
+                                        <input type="text" ng-model="item.SubContractQuantity" class="form-control" />
+                                    </td>
+                                    <td>
+                                        <input type="text" ng-model="item.SubContractExitDate" class="form-control default-date-picker" />
+                                    </td>
+                                    <td>
+                                        <input type="text" ng-model="item.SubContractRate" class="form-control" />
+                                    </td>
+                                    <td>
+                                        <input type="text" ng-model="item.CommercialPercentage" class="form-control" />
+                                    </td>
+                                    <td>
+                                        <select ng-model="item.FactoryID" ng-options="factory.Value as factory.Text for factory in factoryList" class="form-control"></select>
+                                    </td>
+                                    <td>
+                                        <input type="text" ng-model="item.Remarks" class="form-control" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-xs-offset-8 col-xs-2">
+                            <input type="reset" class="btn btn-block btn-default" value="Reset" />
+                        </div>
+
+                        <div class="col-xs-2">
+                            <input type="button" class="btn btn-block btn-primary" value="Save" ng-click="save()" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</div>
+
+@Html.Partial("_angular")
+
+<script src="~/Areas/OrderManagement/Scripts/services/subContractService.js"></script>
+<script src="~/Scripts/app/main.js"></script>
+<script src="~/Areas/OrderManagement/Scripts/controllers/subContractCtrl.js"></script>
+<script src="~/Areas/OrderManagement/Scripts/app.js"></script>

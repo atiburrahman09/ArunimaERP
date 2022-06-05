@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Title = "Style";
+}
+
+<div class="col-sm-12">
+
+    <p>
+        @Html.ActionLink("Create New Style", "Create", "Style", null, new { @class = "btn btn-lg btn-primary" })
+    </p>
+
+    @using Telerik.Web.Mvc.UI
+
+    @( Html.Telerik().Grid<ScopoERP.OrderManagement.ViewModel.StyleViewModel>()
+    .Name("StyleGrid")
+    .DataKeys(dataKeys => dataKeys.Add(k => k.StyleID))
+                    .DataBinding(dataBinding => dataBinding.Ajax().Select("GetAllStyle", "Style"))
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.StyleID).ClientTemplate(
+            Html.ActionLink("Edit", "Edit", new { id = "<#= StyleID #>" }, new { @class = "t-button" }).ToHtmlString()
+        )
+        .Width(80).Title("").Filterable(false);
+
+        columns.Bound(c => c.StyleNo).Width(150);
+        
+        columns.Bound(c => c.BuyerName).Width(200);
+        columns.Bound(c => c.CustomerName).Width(200);
+        columns.Bound(c => c.DivisionName).Width(150);
+        
+        columns.Bound(c => c.StyleDescription).Width(300);
+        columns.Bound(c => c.Febrication).Width(200);
+        columns.Bound(c => c.Capacity).Width(80);
+        columns.Bound(c => c.SAM).Width(80);
+        columns.Bound(c => c.BodyStyle).Width(300);
+        columns.Bound(c => c.Item).Width(300);
+        
+    })
+    .Resizable(r => r.Columns(true))
+    .Filterable()
+    .Pageable(p => p.PageSize(10))
+    .Selectable()
+    .Sortable()
+    .Scrollable(x => x.Height("auto"))
+    )
+</div>

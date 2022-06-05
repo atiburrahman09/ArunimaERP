@@ -1,0 +1,62 @@
+﻿@{
+    ViewBag.Title = "Costsheet Details";
+}
+
+<div class="col-md-12">
+    <section class="panel">
+        <header class="panel-heading">Search Criteria</header>
+        <div class="panel-body">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-1 control-label left-label">Style No</label>
+                    <div class="col-sm-3">
+                        @Html.DropDownList("StyleID", ViewBag.styleList as SelectList, "Select Style", new { @class = "combo-box" })
+                    </div>
+
+                    <label class="col-sm-1 control-label left-label">Costsheet No</label>
+                    <div class="col-sm-3">
+                        @Html.DropDownList("CostsheetNo", Enumerable.Empty<SelectListItem>(), "", new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="costsheetDetails" ng-app="costSheet" ng-controller="costSheetCtrl"></div>
+</div>
+
+@Html.Partial("_angular")
+
+<script src="~/Scripts/angular/angular-fixed-header-table.js"></script>
+<script src="~/Areas/MaterialManagement/Scripts/services/costSheetService.js"></script>
+<script src="~/Scripts/app/main.js"></script>
+<script src="~/Areas/MaterialManagement/Scripts/controllers/costSheetCtrl.js"></script>
+<script src="~/Areas/MaterialManagement/Scripts/app.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#StyleID').on('change', function () {
+            $.getJSON('/Costsheets/GetCostSheetByStyle', { styleID: $(this).val() }, function (res) {
+                var costsheetNo = $('#CostsheetNo');
+
+                costsheetNo.empty();
+                costsheetNo.append($('<option/>', {
+                    value: "",
+                    text: ""
+                }));
+                $.each(res, function (index, itemData) {
+                    costsheetNo.append($('<option/>', {
+                        value: itemData.Value,
+                        text: itemData.Text
+                    }));
+                });
+            })
+        });
+
+        $('#CostsheetNo').on('change', function () {
+            $.get('/Costsheets/Details', { costsheetNo: $(this).val() }, function (res) {
+                $('#costsheetDetails').html(res);
+            })
+        });
+    })
+</script>

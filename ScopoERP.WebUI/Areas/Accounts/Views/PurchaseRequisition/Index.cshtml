@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewBag.Title = "Purchase Requisition";
+}
+
+<div class="col-sm-12">
+
+    <p>
+        @Html.ActionLink("Add Purchase Requisition", "Create", "PurchaseRequisition", null, new { @class = "btn btn-lg btn-primary" })
+    </p>
+
+    @using Telerik.Web.Mvc.UI
+
+    @( Html.Telerik().Grid<ScopoERP.Accounts.ViewModel.PurchaseRequisitionViewModel>()
+        .Name("PurchaseRequisitionGrid")
+        .DataKeys(dataKeys => dataKeys.Add(k => k.RequisitionNo))
+        .DataBinding(dataBinding => dataBinding.Ajax().Select("GetAllPurchaseRequisition", "PurchaseRequisition"))
+        .Columns(columns =>
+        {
+            columns.Bound(c => c.PurchaseRequisitionID).ClientTemplate(
+                Html.ActionLink("Edit", "Create", new { id = "<#= PurchaseRequisitionID #>" }, new { @class = "t-button" }).ToHtmlString()
+            )
+            .Width(50).Title("").Filterable(false);
+
+            columns.Bound(c => c.RequisitionNo).Width(200);
+            columns.Bound(c => c.RequisitionDate).Format("{0:dd-MMM-yyyy}").Width(200);
+
+            columns.Bound(c => c.Sector).Width(200);
+
+            columns.Bound(c => c.RequisitionAmount).Width(200);
+            columns.Bound(c => c.InstallmentAmount).Width(200);
+            columns.Bound(c => c.InstallmentDate).Format("{0:dd-MMM-yyyy}").Width(200);
+            columns.Bound(c => c.PayableAmount).Width(200);
+            columns.Bound(c => c.PayableDate).Format("{0:dd-MMM-yyyy}").Width(200);
+        })
+        .ColumnContextMenu()
+        .Resizable(r => r.Columns(true))
+        .Reorderable(r => r.Columns(true))
+        .KeyboardNavigation()
+        .Filterable()
+        .Pageable(p => p.PageSize(10))
+        .Selectable()
+        .Sortable()
+    )
+
+</div>

@@ -1,0 +1,344 @@
+﻿@model ScopoERP.Commercial.ViewModel.ExportInvoiceViewModel
+@{
+    ViewBag.Title = "Create Invoice";
+}
+
+<div class="col-sm-12">
+    <section class="panel">
+        <header class="panel-heading">
+            Create New Export Invoice
+        </header>
+        <div class="panel-body">
+
+            @using (Html.BeginForm("Create", "ExportInvoice", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary(true)
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">Job No</label>
+                    <div class="col-lg-3">
+                        @Html.DropDownListFor(model => model.JobID, ViewBag.Job as SelectList, "", new { @class = "combo-box" })
+                        @Html.ValidationMessageFor(model => model.JobID)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">Invoice No</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.InvoiceNo, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.InvoiceNo)
+                    </div>
+
+                    <label class="col-lg-2 col-sm-2 control-label">Invoice Date</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.InvoiceDate, new { @class = "form-control default-date-picker" })
+                        @Html.ValidationMessageFor(model => model.InvoiceDate)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">Booking Ex-Factory Date</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.BookingExFactoryDate, new { @class = "form-control default-date-picker" })
+                        @Html.ValidationMessageFor(model => model.BookingExFactoryDate)
+                    </div>
+
+                    <label class="col-lg-2 col-sm-2 control-label">Ex-Factory Date</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.ExFactoryDate, new { @class = "form-control default-date-picker" })
+                        @Html.ValidationMessageFor(model => model.ExFactoryDate)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">EXP</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.EXP, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.EXP)
+                    </div>
+
+                    <label class="col-lg-2 col-sm-2 control-label">EXP Date</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.EXPDate, new { @class = "form-control default-date-picker" })
+                        @Html.ValidationMessageFor(model => model.EXPDate)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">IC Date</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.ICDate, new { @class = "form-control default-date-picker" })
+                        @Html.ValidationMessageFor(model => model.ICDate)
+                    </div>
+
+                    <label class="col-lg-2 col-sm-2 control-label">On Board Date</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.OnBoardDate, new { @class = "form-control default-date-picker" })
+                        @Html.ValidationMessageFor(model => model.OnBoardDate)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">Shipping Bill</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.ShippingBill, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ShippingBill)
+                    </div>
+
+                    <label class="col-lg-2 col-sm-2 control-label">Shipping Bill Date</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.ShippingBillDate, new { @class = "form-control default-date-picker" })
+                        @Html.ValidationMessageFor(model => model.ShippingBillDate)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">BL</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.BL, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.BL)
+                    </div>
+
+                    <label class="col-lg-2 col-sm-2 control-label">BL Realease Date</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.BLRealeaseDate, new { @class = "form-control default-date-picker" })
+                        @Html.ValidationMessageFor(model => model.BLRealeaseDate)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">BL To Be Endorsed To</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.BLToBeEndorsedTo, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.BLToBeEndorsedTo)
+                    </div>
+
+                    <label class="col-lg-2 col-sm-2 control-label">CO Date</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.CODate, new { @class = "form-control default-date-picker" })
+                        @Html.ValidationMessageFor(model => model.CODate)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">FCR</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.FCR, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.FCR)
+                    </div>
+
+                    <label class="col-lg-2 col-sm-2 control-label">FCR Date</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.FCRDate, new { @class = "form-control default-date-picker" })
+                        @Html.ValidationMessageFor(model => model.FCRDate)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">FDBP No</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.FDBP_No, new { @class = "form-control", @readonly = "true" })
+                        @Html.ValidationMessageFor(model => model.FDBP_No)
+                    </div>
+
+                    <label class="col-lg-2 col-sm-2 control-label">Trade Card Input Date</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.TradeCardInPutDate, new { @class = "form-control default-date-picker" })
+                        @Html.ValidationMessageFor(model => model.TradeCardInPutDate)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">Doc Despatch Date</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.DocDespatchDate, new { @class = "form-control default-date-picker" })
+                        @Html.ValidationMessageFor(model => model.DocDespatchDate)
+                    </div>
+
+                    <label class="col-lg-2 col-sm-2 control-label">Courier</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.Courier, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Courier)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">Bank Nego Date</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.BankNegoDate, new { @class = "form-control default-date-picker" })
+                        @Html.ValidationMessageFor(model => model.BankNegoDate)
+                    </div>
+
+                    <label class="col-lg-2 col-sm-2 control-label">Payment Receive Date</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.PaymentReceiveDate, new { @class = "form-control", @readonly = "true" })
+                        @Html.ValidationMessageFor(model => model.PaymentReceiveDate)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">Port Of Loading</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.PortOfLoading, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.PortOfLoading)
+                    </div>
+
+                    <label class="col-lg-2 col-sm-2 control-label">Final Destination</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.FinalDestination, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.FinalDestination)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">Invoice File</label>
+                    <div class="col-lg-3">
+                        <input type="file" name="InvoiceFile" />
+                    </div>
+
+                    <label class="col-lg-2 col-sm-2 control-label">Country Name</label>
+                    <div class="col-lg-3">
+                        @Html.TextBoxFor(model => model.CountryName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.CountryName)
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="form-group">
+
+                    <label class="col-lg-2 col-sm-2 control-label">PO No</label>
+                    <div class="col-lg-3">
+                        @Html.DropDownList("PurchaseOrderID", Enumerable.Empty<SelectListItem>(), "", new { @class = "combo-box" })
+                    </div>
+
+                    <div class="col-lg-1">
+                        <button type="button" class="btn btn-success btn-add">Add</button>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-lg-offset-2 col-lg-8">
+                        <table class="table table-bordered" id="shipment-table">
+                            <thead>
+                                <tr>
+                                    <th>PO No</th>
+                                    <th>Shipment Quantity</th>
+                                    <th>Shipped FOB</th>
+                                    <th>Invoice FOB</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="form-group">
+                    <div class="col-lg-offset-5 col-lg-2">
+                        @Html.ActionLink("Cancel", "Index", "ExportInvoice", null, new { @class = "btn btn-block btn-default" })
+                    </div>
+                    <div class="col-lg-3">
+                        <input type="submit" class="btn btn-block btn-primary" value="Save" />
+                    </div>
+                </div>
+
+            }
+
+        </div>
+    </section>
+</div>
+
+<script type="text/javascript">
+    var formIndexing = function () {
+        for (var i = 0; i < $('#shipment-table tbody tr').length; i++) {
+            $('#shipment-table tbody').children().eq(i).children().children()
+            .each(function () {
+                if (this.name) {
+                    this.name = this.name.replace(/\[(\d+)\]/, function (str, p1) {
+                        return '[' + i + ']';
+                    });
+                }
+            });
+        }
+    };
+
+    $(document).ready(function () {
+
+        $("#JobID").on('change', function () {
+
+            var jobID = $(this).val();
+            var purchaseOrderID = $('#PurchaseOrderID');
+
+            $.get("/Commercial/ExportInvoice/GetPurchaseOrderByJob", { jobID: jobID },
+                function (data) {
+
+                    purchaseOrderID.empty();
+                    purchaseOrderID.append($('<option/>', {
+                        value: "",
+                        text: ""
+                    }));
+                    $.each(data, function (index, itemData) {
+                        purchaseOrderID.append($('<option/>', {
+                            value: itemData.Value,
+                            text: itemData.Text
+                        }));
+                    })
+                });
+        });
+
+        $(".btn-add").on('click', function () {
+            var purchaseOrderID = $('#PurchaseOrderID');
+            var poNo = $("#PurchaseOrderID option:selected").text();
+            var tableVale = "";
+            var checkPIExistsInTable = false;
+
+            if (purchaseOrderID.val()) {
+                $('#shipment-table tbody tr .purchaseOrderIDRow').each(function () {
+                    if ($(this).val() == purchaseOrderID.val()) {
+                        checkPIExistsInTable = true;
+                    }
+                });
+                if (checkPIExistsInTable) {
+                    alertify.alert("This Purchase Order is already in the grid");
+                    return;
+                }
+                $.ajax({
+                    url: '/Commercial/ExportInvoice/GetShipmentByPurchaseOrder',
+                    data: { purchaseOrderID: purchaseOrderID.val() },
+                    success: function (res) {
+                        tableVale = "<tr><td>";
+                        tableVale += "<input class='purchaseOrderIDRow' type='hidden' name='ShipmentList[0].PurchaseOrderID' value='" + purchaseOrderID.val() + "' />";
+                        tableVale += "<input class='purchaseOrderIDRow' type='hidden' name='ShipmentList[0].ShipmentID' value='" + res.ShipmentID + "' />";
+                        tableVale += "<input type='text' class='form-control' name='ShipmentList[0].PONo' value='" + poNo + "' disabled='' />";
+                        tableVale += "</td>";
+                        tableVale += "<td><input type='text' class='form-control' name='ShipmentList[0].ChalanQuantity' value='" + res.ChalanQuantity + "' disabled='' /></td>";
+                        tableVale += "<td><input type='text' class='form-control' name='ShipmentList[0].ShippedFOB' value='" + res.ShippedFOB + "' disabled='' /></td>";
+                        tableVale += "<td><input type='text' class='form-control' name='ShipmentList[0].InvoiceFOB' /></td>";
+                        tableVale += "<td><a href='javascript:void(0);' id='btnRemove'><i class='fa fa-trash-o fa-2x'></i></a></td>";
+                        tableVale += "</tr>";
+
+                        $('#shipment-table tbody').append(tableVale);
+                    }
+                }).promise().done(function () {
+                    formIndexing();
+                });
+            } else {
+                alertify.alert("Please select Purchase Order");
+            }
+        });
+
+        $('#btnRemove').live('click', function () {
+            $(this).parent().parent().remove();
+            formIndexing();
+        });
+    })
+
+</script>
+
+
+

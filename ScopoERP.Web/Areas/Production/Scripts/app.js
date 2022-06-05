@@ -1,0 +1,1 @@
+﻿angular.module('app.styleConfigure', ['app.controllers'])

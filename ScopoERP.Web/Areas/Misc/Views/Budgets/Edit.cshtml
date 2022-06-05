@@ -1,0 +1,52 @@
+﻿@model ScopoERP.Accounts.ViewModel.BudgetViewModel
+
+@{
+    ViewBag.Title = "Update Budget";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            @using (Html.BeginForm("Edit", "Budgets", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                <div class="card-body">
+                    @Html.HiddenFor(model => model.BudgetID)
+
+                    <div class="form-group row">
+                        <label class="col-md-4">Account No</label>
+                        <div class="col-md-8">
+                            @Html.DropDownListFor(model => model.ChartOfAccountID, ViewBag.accounts as SelectList, "", new { @class = "form-control select2" })
+                            @Html.ValidationMessageFor(model => model.AccountNo)
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-4">Month</label>
+                        <div class="col-md-8">
+                            @Html.DropDownListFor(model => model.Month, ViewBag.months as SelectList, "", new { @class = "form-control select2" })
+                            @Html.ValidationMessageFor(model => model.Month)
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-4">Budget Amount</label>
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.BudgetAmount, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.BudgetAmount)
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="form-group row">
+                        <div class="col-md-2">
+                            @Html.ActionLink("Cancel", "Index", "ChartOfAccounts", null, new { @class = "btn btn-block btn-dark waves-effect waves-light" })
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-success btn-block waves-effect waves-light"> Save</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

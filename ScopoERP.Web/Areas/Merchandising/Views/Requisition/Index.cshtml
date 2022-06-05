@@ -1,0 +1,123 @@
+﻿@{
+    ViewBag.Title = "Requisition";
+}
+
+<div class="row" ng-app="scopoApp" ng-controller="requisitionCtrl" ng-init="init()" ng-cloak>
+    <div class="col-md-12">
+        <div class="card">        
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-5">
+                        <select class="form-control select2" ng-model="selectedJob" ng-change="onJobChange(selectedJob)">
+                            <option value="">Select Job</option>
+                            <option ng-repeat="job in jobList" value="{{job.Value}}">{{job.Text}}</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-5">
+                        <select class="form-control select2" ng-model="selectedRequisition" ng-change="onRequisitionChange(selectedRequisition)">
+                            <option value="">Select Requisition</option>
+                            <option ng-repeat="req in requisitionList" value="{{req}}">{{req.RequisitionNo}}</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <button class="btn btn-success btn-block waves-effect waves-light" ng-click="newClicked()">Create New</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <form name="requisitionForm" class="form-horizontal" novalidate>
+            <div class="card card-solid">
+                <div class="card-body">
+                    @*<div class="form-group row">
+                        <label class="col-sm-3">Supplier </label>
+                        <div class="col-sm-9">
+                            <select ng-options="s.SupplierID as s.SupplierName for s in supplierList"
+                                    ng-model="req.SupplierID" class="form-control" required>
+                                <option value="">Select Supplier</option>
+                            </select>
+                        </div>
+                    </div>*@
+
+                    <div class="form-group row">
+                        <label class="col-sm-3">Requisition No</label>
+                        <div class="col-sm-3">
+                            <input class="form-control" type="text" ng-model="req.RequisitionNo" readonly />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-3">Requisition Serial</label>
+                        <div class="col-sm-3">
+                            <input class="form-control" type="text" ng-model="req.RequisitionSerial" required />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-3">Requisition Date</label>
+                        <div class="col-sm-3">
+                            <input id="RequisitionDate" type="text"
+                                   class="form-control datepicker"
+                                   ng-model="req.RequisitionDate"
+                                   placeholder="Enter Requisition Date" required />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-3"></div>
+                        <div class="col-sm-9 table-responsive">
+                            <table class="table table-striped table-responsive" id="table">
+                                <thead>
+                                    <tr>
+                                        <th style="min-width:400px">PI No</th>
+                                        <th style="min-width:400px">PI Value</th>
+                                        <th></th>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <select ng-options="piDropDownList.indexOf(pi) as pi.PINo for pi in piDropDownList"
+                                                    ng-model="selectedPIListIndex" class="form-control select2">
+                                                <option value="">Select PI</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <button id="addPiRow" type="button" class="btn btn-sm btn-primary btn-flat pull-right" ng-click="mapPIwithReq()">
+                                                <span class="glyphicon glyphicon-plus"></span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="pi in req.PIList| filter:searchPI">
+                                        <td>
+                                            <input class="form-control" type="text" ng-model="pi.PINo" readonly />
+                                        </td>
+                                        <td>
+                                            <input class="form-control" type="text" ng-model="pi.PIValue" readonly />
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-sm btn-warning pull-right" ng-click="removePi($index)">
+                                                <span class="glyphicon glyphicon-remove"></span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="pull-right">
+                        <button type="reset" ng-click="newClicked()" class="btn btn-danger btn-sm btn-flat bg-orange"><i class="fa fa-close "></i> Reset</button>
+                        <button ng-click="saveClicked()" class="btn btn-success btn-sm btn-flat bg-green"><i class="fa fa-save "></i> Save</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

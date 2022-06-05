@@ -1,0 +1,128 @@
+﻿@{
+    ViewBag.Title = "WIP";
+}
+
+<div class="col-sm-12">
+
+    @using Telerik.Web.Mvc.UI
+
+    @(Html.Telerik().Grid<ScopoERP.Reports.ViewModel.WIPViewModel>()
+    .Name("PoGrid")
+    .ToolBar(commands => commands
+            .Custom()
+                .HtmlAttributes(new { id = "exportLink" })
+                .Text("Export WIP Report")
+                .Action("WIPExport", "Report", new { column = "~", orderBy = "~", filter = "~" }))
+
+    .DataKeys(datakeys => datakeys.Add(k => k.PoNo))
+    .DataBinding(dataBinding => dataBinding.Ajax().Select("GetWIP", "Report"))
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.BuyerName).Width(300);
+        columns.Bound(c => c.CustomerName).Width(200);
+        columns.Bound(c => c.AccountName).Width(120).Title("Merchandiser");
+
+        columns.Bound(c => c.JobNo).Width(150).Title("Job");
+        columns.Bound(c => c.ContractNo).Width(200).Title("Contract");
+
+        columns.Bound(c => c.DevisionName).Width(150);
+        columns.Bound(c => c.StyleNo).Width(150);
+        columns.Bound(c => c.StyleDescription).Width(200);
+        columns.Bound(c => c.Febrication).Width(200);
+        columns.Bound(c => c.BodyStyle).Width(250);
+        columns.Bound(c => c.Item).Width(250);
+        columns.Bound(c => c.Capacity).Width(85);
+
+        columns.Bound(c => c.PoNo).Width(150);
+        columns.Bound(c => c.Remarks).Width(110);
+        columns.Bound(c => c.OrderQuantity).Width(110)
+            .Aggregate(a => a.Sum())
+            .ClientGroupFooterTemplate("Total: <#= Sum #>")
+            .ClientFooterTemplate("Total: <#= Sum #>");
+        columns.Bound(c => c.ExitDate).Format("{0:dd-MMM-yy}").Width(100);
+        columns.Bound(c => c.FactoryName).Width(150);
+        columns.Bound(c => c.SeasonName).Width(100);
+
+        columns.Bound(c => c.ActualCM).Width(85);
+        columns.Bound(c => c.AgreedCm).Width(85);
+        columns.Bound(c => c.TotalAgreedCM).Width(85);
+        columns.Bound(c => c.Fob).Width(50);
+        columns.Bound(c => c.TotalFob).Width(100);
+        columns.Bound(c => c.SubContractRate).Width(100);
+        columns.Bound(c => c.FactoryCM).Width(100);
+
+        columns.Bound(c => c.CurrentStatus).Width(80);
+
+        columns.Bound(c => c.TotalCutting).Width(100);
+        columns.Bound(c => c.TotalSewing).Width(100);
+        columns.Bound(c => c.BalanceSewing).Width(100);
+
+        columns.Bound(c => c.TotalShipMent).Width(100);
+        columns.Bound(c => c.BalanceShipQty).Width(100);
+        columns.Bound(c => c.TotalShippedValue).Width(100);
+
+        // columns.Bound(c => c.RmReadyDate).Format("{0:dd-MMM-yy}").Width(100);
+        // columns.Bound(c => c.DeliveryDate).Format("{0:dd-MMM-yy}").Width(100);
+        // columns.Bound(c => c.PoExitMonth).Width(85);
+        // columns.Bound(c => c.PoExitWeek).Width(85);
+        // columns.Bound(c => c.ProductionStartDate).Format("{0:dd-MMM-yy}").Width(100);
+        // columns.Bound(c => c.Production_L_Time).Width(80);
+        // columns.Bound(c => c.ProductionDays).Width(80);
+        // columns.Bound(c => c.SubRate).Width(100);
+        // columns.Bound(c => c.SubQuantity).Width(100);
+    })
+    .ColumnContextMenu()
+    .Filterable()
+    .Sortable()
+    .Scrollable(x => x.Height("auto"))
+    .Resizable(x => x.Columns(true))
+    .Reorderable(x => x.Columns(true))
+    .Pageable(x => x.PageSize(10))
+    .ClientEvents(events => events.OnDataBound("onDataBound"))
+    )
+
+</div>
+
+<script type="text/javascript">
+
+    var $exportLink = $('#exportLink');
+    var href = $exportLink.attr('href');
+
+    function onDataBound() {
+        var grid = $(this).data('tGrid');
+
+        href = href.replace(/column=([^&]*)/, 'column=' + unCheckedList);
+        href = href.replace(/orderBy=([^&]*)/, 'orderBy=' + (grid.orderBy || '~'));
+        href = href.replace(/filter=(.*)/, 'filter=' + (grid.filterBy || '~'));
+        $exportLink.attr('href', href);
+    }
+
+    var unCheckedList = new Array();
+
+    $(document).ready(function () {
+
+        $(document).delegate('#PoGrid_contextMenu [type=checkbox]', 'click', function () {
+            $('#PoGrid_contextMenu').css({
+                'background-color': 'red !important'
+            });
+
+            var index = $(this).data("field");
+            var column = $("#PoGrid").data("tGrid").columns[index];
+            if (!$(this).is(':checked')) {
+                if ($.inArray(column.member, unCheckedList) == -1)
+                    unCheckedList.push(column.member);
+            }
+            else {
+                $.each(unCheckedList, function (key, value) {
+                    if (value == column.member) {
+                        unCheckedList.splice(key, 1);
+                    }
+                });
+            }
+
+            href = href.replace(/column=([^&]*)/, 'column=' + unCheckedList);
+            $exportLink.attr('href', href);
+        })
+    });
+
+</script>

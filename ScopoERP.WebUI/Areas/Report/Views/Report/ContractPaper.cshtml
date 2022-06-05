@@ -1,0 +1,122 @@
+﻿@model ScopoERP.Reports.ViewModel.ReportFilteringViewModel
+
+@{
+    ViewBag.Title = "Contract Paper";
+}
+
+<div class="col-sm-offset-3 col-sm-6">
+    <section class="panel">
+        <header class="panel-heading">
+            Search Criteria
+        </header>
+        <div class="panel-body">
+
+            @using (Html.BeginForm("ContractPaper", "Report", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary(true)
+                @Html.HiddenFor(model => model.ContractNo)
+
+                <div class="form-group">
+                    <label class="col-lg-4 col-sm-4 control-label">Contract No</label>
+                    <div class="col-lg-8">
+                        @Html.DropDownListFor(model => model.JobID, ViewBag.Contract as SelectList, "", new { @class = "combo-box" })
+                        @Html.ValidationMessageFor(model => model.JobID)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-4 col-sm-4 control-label">Contract Date</label>
+                    <div class="col-lg-8">
+                        @Html.TextBoxFor(model => model.ContractDate, new { @class = "form-control default-date-picker" })
+                        @Html.ValidationMessageFor(model => model.ContractDate)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-4 col-sm-4 control-label">Amendment No</label>
+                    <div class="col-lg-8">
+                        @Html.TextBoxFor(model => model.AmendmentNo, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.AmendmentNo)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-4 col-sm-4 control-label">Amendment Date</label>
+                    <div class="col-lg-8">
+                        @Html.TextBoxFor(model => model.AmendmentDate, new { @class = "form-control default-date-picker" })
+                        @Html.ValidationMessageFor(model => model.AmendmentDate)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-4 col-sm-4 control-label">Previous Quantity</label>
+                    <div class="col-lg-8">
+                        @Html.TextBoxFor(model => model.PreviousQuantity, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.PreviousQuantity)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-4 col-sm-4 control-label">Previous Value</label>
+                    <div class="col-lg-8">
+                        @Html.TextBoxFor(model => model.PreviousValue, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.PreviousValue)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-4 col-sm-4 control-label">Destination</label>
+                    <div class="col-lg-8">
+                        @Html.TextAreaFor(model => model.Destination, new { @class = "form-control", @Style="height:100px!important" })
+                        @Html.ValidationMessageFor(model => model.Destination)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-4 col-sm-4 control-label">Destination Changed Text</label>
+                    <div class="col-lg-8">
+                        @Html.TextAreaFor(model => model.DestinationChangedText, new { @class = "form-control", @Style = "height:50px!important" })
+                        @Html.ValidationMessageFor(model => model.DestinationChangedText)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-4 col-sm-4 control-label">Template</label>
+                    <div class="col-lg-8">
+                        <select class="form-control" name="Decision">
+                            <option value="1">VF-DMC-ASWL</option>
+                            <option value="2">VF-DMC</option>
+                            <option value="3">GAP-DMC</option>
+                            <option value="4">GAP-DMC-ASWL</option>
+                            <option value="5">GAP-ASWL</option>
+                        </select>
+                    </div>
+                </div>
+
+                
+                
+                <hr />
+
+                <div class="form-group">
+                    <div class="col-lg-offset-4 col-lg-4">
+                        <input type="reset" class="btn btn-block btn-default" />
+                    </div>
+                    <div class="col-lg-4">
+                        <input type="submit" class="btn btn-block btn-primary" value="Preview" />
+                    </div>
+                </div>
+            }
+
+        </div>
+    </section>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#JobID').change(function () {
+
+            $('#ContractNo').val($('#JobID option:selected').text());
+        });
+    })
+</script>

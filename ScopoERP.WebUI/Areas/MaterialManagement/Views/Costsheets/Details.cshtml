@@ -1,0 +1,139 @@
+﻿<section class="panel" ng-init="init()">
+    <header class=" panel-heading">
+    Details</header>
+    <div class="panel-body">
+        <form class="form-horizontal">
+
+            <toaster-container toaster-options="{ 'close-button':true}"></toaster-container>
+
+            <input type="hidden" ng-init="costSheetNo = '@ViewBag.CostSheetNo' " />
+
+            <div class="form-group table-responsive" style="overflow-x:scroll">
+                <table class="table table-bordered table-striped" style="height:280px" fixed-header>
+                    <thead style="background-color:#DDD">
+                        <tr>
+                            <th style="min-width:50px">#</th>
+                            <th style="min-width:150px">Item Category</th>
+                            <th style="min-width:300px">Item</th>
+                            <th style="min-width:100px">Consumption</th>
+                            <th style="min-width:100px">Unit</th>
+                            <th style="min-width:90px">Convert</th>
+                            <th style="min-width:100px">Unit</th>
+                            <th style="min-width:50px">Wastage</th>
+                            <th style="min-width:100px">Unit Price</th>
+                            <th style="min-width:150px">Total Raw Materials</th>
+                            <th style="min-width:150px">Total Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in costSheetList | filter:searchContent">
+                            <td style="min-width:50px">
+                                <a href="#" class="btn btn-sm btn-danger">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                </a>
+                            </td>
+
+                            <td style="min-width:150px">
+                                <select ng-model="item.ItemCategoryID"
+                                        ng-options="itemCategory.ValueInt as itemCategory.Text for itemCategory in itemCategoryList"
+                                        class="form-control"></select>
+                            </td>
+
+                            <td style="min-width:300px">
+                                <select class="form-control">
+                                    <option>- Item -</option>
+                                    <option>Item</option>
+                                    <option>Item</option>
+                                    <option>Item</option>
+                                    <option>Item</option>
+                                </select>
+                            </td>
+
+                            <td style="min-width:100px">
+                                <input type="text" ng-model="item.Consumption" class="form-control" />
+                            </td>
+
+                            <td style="min-width:100px">
+                                <select ng-model="item.ConsumptionUnitID"
+                                        ng-options="unit.ValueInt as unit.Text for unit in consumptionUnitList"
+                                        class="form-control"></select>
+                            </td>
+
+                            <td style="min-width:90px">
+                                <input type="text" ng-model="item.ConversionQuantity" class="form-control" />
+                            </td>
+
+                            <td style="min-width:100px">
+                                <select ng-model="item.ConversionUnitID"
+                                        ng-options="unit.ValueInt as unit.Text for unit in consumptionUnitList"
+                                        class="form-control"></select>
+                            </td>
+
+                            <td style="min-width:50px">
+                                <input type="text" ng-model="item.Wastage" class="form-control" />
+                            </td>
+
+                            <td style="min-width:100px">
+                                <input type="text" ng-model="item.UnitPrice" title="Unit Price" class="form-control" />
+                            </td>
+
+                            <td style="min-width:150px">
+                                <input type="text" class="form-control" readonly />
+                            </td>
+
+                            <td style="min-width:145px">
+                                <input type="text" class="form-control" readonly />
+                            </td>
+                        </tr>
+                    </tbody>
+
+                    <tfoot style="background-color:#DDD">
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                100000.00
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-3">
+                    <select class="form-control">
+                        <option>- Select CostSheet -</option>
+                        <option>CostSheet</option>
+                    </select>
+                </div>
+
+                <div class="col-xs-2">
+                    <a href="#" class="btn btn-sm btn-success">
+                        <i class="fa fa-copy"></i>
+                    </a>
+                </div>
+
+                <div class="col-xs-4">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" ng-model="searchContent">
+                        <span class="input-group-addon">
+                            <i class="fa fa-search"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-xs-3">
+                    <input type="button" class="btn btn-block btn-primary" value="Save Changes" />
+                </div>
+            </div>
+        </form>
+    </div>
+</section>

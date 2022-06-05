@@ -1,0 +1,59 @@
+﻿@model ScopoERP.OrderManagement.ViewModel.FundingViewModel
+
+@{
+    ViewBag.Title = "Create Funding";
+}
+
+<div class="col-sm-12">
+    <section class="panel">
+        <header class="panel-heading">
+            Create New Funding
+        </header>
+        <div class="panel-body">
+
+            @using (Ajax.BeginForm("Create", "Funding", new AjaxOptions 
+            {
+                HttpMethod = "POST",
+                UpdateTargetId = "fundingDialog",
+                OnBegin = "onBeginRequest()",
+                OnSuccess = "onSuccess(data, 'Funding')"
+            }, new { @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary(true)
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">Job No</label>
+                    <div class="col-lg-4">
+                        @Html.DropDownListFor(model => model.JobID, ViewBag.Job as SelectList, "", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.JobID)
+                    </div>
+
+                    <label class="col-lg-2 col-sm-2 control-label">Supplier</label>
+                    <div class="col-lg-4">
+                        @Html.DropDownListFor(model => model.SupplierID, ViewBag.Supplier as SelectList, "", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.SupplierID)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 col-sm-2 control-label">Amount</label>
+                    <div class="col-lg-4">
+                        @Html.TextBoxFor(model => model.Amount, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Amount)
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="form-group">
+                    <div class="col-lg-offset-8 col-lg-2">
+                        <button class="btn btn-block btn-default btn-cancel">Cancel</button>
+                    </div>
+                    <div class="col-lg-2">
+                        <input type="submit" class="btn btn-block btn-primary" value="Save" />
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+</div>
